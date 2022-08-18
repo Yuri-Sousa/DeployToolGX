@@ -1,0 +1,19 @@
+ALTER TABLE gam.AppMenuOption ADD AppMnuOptResource VARCHAR(2048)
+ALTER TABLE gam.AppMenuOption ADD GX_AUX VARCHAR(2048) DEFAULT ''
+ALTER TABLE gam.AppMenuOption ALTER COLUMN GX_AUX DROP DEFAULT
+UPDATE gam.AppMenuOption SET GX_AUX = RTRIM(AppMnuOptRelPrmPar)
+ALTER TABLE gam.AppMenuOption DROP AppMnuOptRelPrmPar
+ALTER TABLE gam.AppMenuOption RENAME COLUMN GX_AUX to AppMnuOptRelPrmPar
+
+ALTER TABLE gam.UserAtt ADD UserAttToken CHAR(40)
+
+CREATE TABLE gam.UserRepositoryProp (UserGUID CHAR(40) NOT NULL , RepId integer NOT NULL , UserRepPropId CHAR(60) NOT NULL , UserRepPropToken CHAR(40) NOT NULL , UserRepPropValue VARCHAR(400) , PRIMARY KEY(UserGUID, RepId, UserRepPropId, UserRepPropToken))
+
+CREATE TABLE gam.SessionLog (RepId integer NOT NULL , SesToken CHAR(120) NOT NULL , SesLogGuid CHAR(40) NOT NULL , SesLogDateTime timestamp without time zone NOT NULL , SesLogType CHAR(30) NOT NULL , SesLogDetail TEXT , PRIMARY KEY(RepId, SesToken, SesLogGuid))
+
+CREATE TABLE gam.LoginTmp (LoginTmpTokenState CHAR(60) NOT NULL , LoginTmpDateTime timestamp without time zone NOT NULL , LoginTmpData VARCHAR(5000) NOT NULL , PRIMARY KEY(LoginTmpTokenState))
+
+CREATE INDEX UEMAIL ON gam."User" (UserEMail )
+CREATE INDEX UACTIVATIONKEY ON gam."User" (UserActKey )
+
+UPDATE gam.SysPar SET SysParVal='4.0.3' WHERE SysParId=( 'GAMVersion')

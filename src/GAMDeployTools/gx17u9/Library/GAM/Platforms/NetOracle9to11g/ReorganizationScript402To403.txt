@@ -1,0 +1,15 @@
+ALTER TABLE AppMenuOption ADD (AppMnuOptResource  NVARCHAR2(2000) )
+ALTER TABLE AppMenuOption MODIFY AppMnuOptRelPrmPar  NVARCHAR2(2000)
+
+ALTER TABLE UserAtt ADD (UserAttToken  NCHAR(40) )
+
+CREATE TABLE UserRepositoryProp (UserGUID  NCHAR(40) NOT NULL , RepId  NUMERIC(9) NOT NULL , UserRepPropId  NCHAR(60) NOT NULL , UserRepPropToken  NCHAR(40) NOT NULL , UserRepPropValue  NVARCHAR2(400) , PRIMARY KEY(UserGUID, RepId, UserRepPropId, UserRepPropToken))
+
+CREATE TABLE SessionLog (RepId  NUMERIC(9) NOT NULL , SesToken  NCHAR(120) NOT NULL , SesLogGuid  NCHAR(40) NOT NULL , SesLogDateTime  DATE NOT NULL , SesLogType  NCHAR(30) NOT NULL , SesLogDetail  NCLOB , PRIMARY KEY(RepId, SesToken, SesLogGuid))
+
+CREATE TABLE LoginTmp (LoginTmpTokenState  NCHAR(60) NOT NULL , LoginTmpDateTime  DATE NOT NULL , LoginTmpData  NVARCHAR2(2000) NOT NULL , PRIMARY KEY(LoginTmpTokenState))
+
+CREATE INDEX UEMAIL ON "User" (UserEMail )
+CREATE INDEX UACTIVATIONKEY ON "User" (UserActKey )
+
+UPDATE SysPar SET SysParVal='4.0.3' WHERE SysParId=N'GAMVersion'

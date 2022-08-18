@@ -1,0 +1,38 @@
+ALTER TABLE gam.RoleAppTypePrmProp MODIFY RoleAppTypePrmPropValue lvarchar(2048)
+
+ALTER TABLE gam.AppMenuProp MODIFY APPMnuPropValue lvarchar(2048)
+
+ALTER TABLE gam.AppMenuOptionProp MODIFY AppMnuOptPropValue lvarchar(2048)
+
+ALTER TABLE gam.RoleProp MODIFY RolePropValue lvarchar(2048)
+
+ALTER TABLE gam.ApplicationProp MODIFY AppPropValue lvarchar(2048)
+
+ALTER TABLE gam.RepositoryProp MODIFY RepPropVal lvarchar(2048)
+
+ALTER TABLE gam.User ADD (UserTOTPSecretKey varchar(120) , UserTOTPEnable BOOLEAN , UserRecPwdKeyLastDate DateTime Year to Day , UserRecPwdKeyMonthNumber SMALLINT , UserRecPwdKeyDailyNumber SMALLINT )
+
+ALTER TABLE gam.UserAtt MODIFY UserAttVal lvarchar(2048)
+
+ALTER TABLE gam.UserAttMultiValue MODIFY UserAttMVVal lvarchar(2048)
+
+ALTER TABLE gam.AuthenticationTypeProp MODIFY AutTypePropValue lvarchar(2048)
+
+ALTER TABLE gam.AppPermissionProp MODIFY AppPrmPropValue lvarchar(2048)
+
+ALTER TABLE gam.RoleAppPrmProp MODIFY RoleAppPrmPropValue lvarchar(2048)
+
+ALTER TABLE gam.UserAppPrmProp MODIFY UserAppPrmPropValue lvarchar(2048)
+
+ALTER TABLE gam.SecurityPolicyProp MODIFY SecPolPropValue lvarchar(2048)
+
+ALTER TABLE gam.UserMemAppRoleProp MODIFY UserMemAppRolePropValue lvarchar(2048)
+
+ALTER TABLE gam.UserMemRoleProp MODIFY UserMemRolePropValue lvarchar(2048)
+
+ALTER TABLE gam.EventSuscriptionProp MODIFY EveSusPropValue lvarchar(2048)
+
+ALTER TABLE gam.UserRepositoryProp MODIFY UserRepPropValue lvarchar(2048)
+
+CREATE TABLE gam.UserProp (UserGUID CHAR(40) NOT NULL , UserPropID CHAR(60) NOT NULL , UserPropToken CHAR(40) NOT NULL , UserPropValue lvarchar(2048) , PRIMARY KEY(UserGUID, UserPropID, UserPropToken))
+

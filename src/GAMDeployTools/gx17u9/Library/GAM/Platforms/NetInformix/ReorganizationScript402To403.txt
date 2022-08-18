@@ -1,0 +1,21 @@
+CREATE TABLE gam.GXA0132 (RepId  INT NOT NULL , AppId  DECIMAL( 12) NOT NULL , AppMnuId  DECIMAL( 12) NOT NULL , AppMnuOptId  DECIMAL( 12) NOT NULL , AppMnuOptGUID  CHAR(40) NOT NULL , AppMnuOptName  CHAR(254) , AppMnuOptDsc  CHAR(254) , AppMnuOptCreDate  DateTime Year to Second , AppMnuOptCreUser  varchar(250,60) , AppMnuOptUpdDate  DateTime Year to Second , AppMnuOptUpdUser  varchar(250,60) , AppMnuOptOrder  INT NOT NULL , AppMnuOptType  CHAR(1) NOT NULL , AppMnuOptRelAppId  DECIMAL( 12) , AppMnuOptRelPrmPar  lvarchar(2048) , AppMnuOptRelMnuId  DECIMAL( 12) , AppMnuOptRelPrmGUID  CHAR(40) , AppMnuOptResource  lvarchar(2048) )
+Run conversion program for table AppMenuOption
+DROP TABLE gam.AppMenuOption
+RENAME TABLE gam.GXA0132 TO AppMenuOption
+ALTER TABLE gam.AppMenuOption ADD CONSTRAINT PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuOptId)
+CREATE INDEX gam.IAPPMENUOPTION2 ON gam.AppMenuOption (RepId ,AppMnuOptRelAppId ,AppMnuOptRelMnuId )
+CREATE INDEX gam.IAPPMENUOPTION3 ON gam.AppMenuOption (RepId ,AppMnuOptRelAppId ,AppMnuOptRelPrmGUID )
+CREATE INDEX gam.UAPPMENUOPTION ON gam.AppMenuOption (RepId ,AppId ,AppMnuId ,AppMnuOptOrder )
+
+ALTER TABLE gam.UserAtt ADD (UserAttToken  CHAR(40) )
+
+CREATE TABLE gam.UserRepositoryProp (UserGUID  CHAR(40) NOT NULL , RepId  INT NOT NULL , UserRepPropId  CHAR(60) NOT NULL , UserRepPropToken  CHAR(40) NOT NULL , UserRepPropValue  lvarchar(400) , PRIMARY KEY(UserGUID, RepId, UserRepPropId, UserRepPropToken))
+
+CREATE TABLE gam.SessionLog (RepId  INT NOT NULL , SesToken  CHAR(120) NOT NULL , SesLogGuid  CHAR(40) NOT NULL , SesLogDateTime  DateTime Year to Second NOT NULL , SesLogType  CHAR(30) NOT NULL , SesLogDetail  TEXT , PRIMARY KEY(RepId, SesToken, SesLogGuid))
+
+CREATE TABLE gam.LoginTmp (LoginTmpTokenState  CHAR(60) NOT NULL , LoginTmpDateTime  DateTime Year to Second NOT NULL , LoginTmpData  lvarchar(5000) NOT NULL , PRIMARY KEY(LoginTmpTokenState))
+
+CREATE INDEX gam.UEMAIL ON gam.User (UserEMail )
+CREATE INDEX gam.UACTIVATIONKEY ON gam.User (UserActKey )
+
+UPDATE gam.SysPar SET SysParVal='4.0.3' WHERE SysParId='GAMVersion'

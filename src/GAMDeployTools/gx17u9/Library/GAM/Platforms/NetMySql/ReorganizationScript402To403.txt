@@ -1,0 +1,15 @@
+ALTER TABLE `AppMenuOption` ADD (`AppMnuOptResource`  national varchar(2048) )
+ALTER TABLE `AppMenuOption` MODIFY COLUMN `AppMnuOptRelPrmPar`  national varchar(2048)
+
+ALTER TABLE `UserAtt` ADD (`UserAttToken`  national char(40) )
+
+CREATE TABLE `UserRepositoryProp` (`UserGUID`  national char(40) NOT NULL , `RepId`  int NOT NULL , `UserRepPropId`  national char(60) NOT NULL , `UserRepPropToken`  national char(40) NOT NULL , `UserRepPropValue`  national varchar(400) , PRIMARY KEY(`UserGUID`, `RepId`, `UserRepPropId`, `UserRepPropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `SessionLog` (`RepId`  int NOT NULL , `SesToken`  national char(120) NOT NULL , `SesLogGuid`  national char(40) NOT NULL , `SesLogDateTime`  datetime NOT NULL , `SesLogType`  national char(30) NOT NULL , `SesLogDetail`  TEXT CHARACTER SET utf8 , PRIMARY KEY(`RepId`, `SesToken`, `SesLogGuid`))  ENGINE=InnoDB
+
+CREATE TABLE `LoginTmp` (`LoginTmpTokenState`  national char(60) NOT NULL , `LoginTmpDateTime`  datetime NOT NULL , `LoginTmpData`  national varchar(5000) NOT NULL , PRIMARY KEY(`LoginTmpTokenState`))  ENGINE=InnoDB
+
+CREATE INDEX `UEMAIL` ON `User` (`UserEMail` )
+CREATE INDEX `UACTIVATIONKEY` ON `User` (`UserActKey` )
+
+UPDATE SysPar SET SysParVal=`4.0.3` WHERE SysParId=`GAMVersion`

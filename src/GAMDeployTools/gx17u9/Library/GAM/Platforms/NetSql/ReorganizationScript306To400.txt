@@ -1,0 +1,35 @@
+ALTER TABLE gam.[Session] ALTER COLUMN [SesOauthScope]  nvarchar(2048) NULL
+ALTER TABLE gam.[Session] ALTER COLUMN [SesLastURL]  nvarchar(2048) NOT NULL
+ALTER TABLE gam.[Session] ALTER COLUMN [SesURL]  nvarchar(2048) NOT NULL
+
+ALTER TABLE gam.[SessionHistory] ALTER COLUMN [SesHisOauthScope]  nvarchar(2048) NULL
+ALTER TABLE gam.[SessionHistory] ALTER COLUMN [SesHisLastURL]  nvarchar(2048) NOT NULL
+ALTER TABLE gam.[SessionHistory] ALTER COLUMN [SesHisURL]  nvarchar(2048) NOT NULL
+
+CREATE TABLE gam.[GXA0110] ([RepId]  int NOT NULL , [AudId]  int NOT NULL , [AudSesRepId]  int NOT NULL , [AudSesToken]  nchar(120) NOT NULL , [AudDate]  datetime NOT NULL , [AudActId]  decimal( 12) NOT NULL , [AudPgmName]  nchar(254) NOT NULL , [AudActKey1]  decimal( 12) NULL , [AudActKey2]  decimal( 12) NULL , [AudActKey3]  decimal( 12) NULL , [AudActKey4]  decimal( 12) NULL , [AudActPreDet]  nvarchar(2048) NULL , [AudActCurDet]  nvarchar(2048) NULL , [AudActionKeyGUID1]  nchar(40) NULL , [AudActionKeyGUID2]  nchar(40) NULL , [AudActionKeyChar1]  nchar(254) NULL , PRIMARY KEY([RepId], [AudId]))
+Run conversion program for table Auditory
+DROP TABLE gam.[Auditory]
+sp_rename 'gam.[GXA0110]', 'Auditory'
+CREATE NONCLUSTERED INDEX [IAUDITORY1] ON gam.[Auditory] ([AudActId] )
+
+ALTER TABLE gam.[Application] ALTER COLUMN [AppCliLocalLoginURL]  nvarchar(2048) NULL
+ALTER TABLE gam.[Application] ALTER COLUMN [AppCliSiteDomain]  nvarchar(2048) NULL
+ALTER TABLE gam.[Application] ALTER COLUMN [AppCliSiteURL]  nvarchar(2048) NULL
+ALTER TABLE gam.[Application] ALTER COLUMN [AppCliImageURL]  nvarchar(2048) NULL
+
+CREATE TABLE gam.[GXA0142] ([UserGUID]  nchar(40) NOT NULL , [UserNameSpace]  nchar(60) NOT NULL , [UserAutTypeName]  nchar(60) NOT NULL , [UserName]  nvarchar(100) NOT NULL , [UserEMail]  nvarchar(100) NOT NULL , [UserExtId]  nvarchar(100) NULL , [UserPwd]  nchar(254) NOT NULL , [UserFirstName]  nchar(60) NULL , [UserLastName]  nchar(60) NULL , [UserBirthday]  datetime NULL , [UserGender]  nchar(1) NOT NULL , [UserPhone]  nchar(254) NULL , [UserAddress]  nchar(254) NULL , [UserAddress2]  nchar(254) NULL , [UserCity]  nchar(254) NULL , [UserState]  nchar(254) NULL , [CountryId]  nchar(9) NULL , [UserPostCode]  nchar(60) NULL , [UserLng]  nchar(3) NULL , [UserTimeZone]  nchar(60) NULL , [UserPhoto]  VARBINARY(MAX) NULL , [UserPhoto_GXI]  varchar(2048) NULL , [UserNotRcvInf]  BIT NOT NULL , [UserIsBlk]  BIT NOT NULL , [UserBlkLastDate]  datetime NULL , [UserIsAct]  BIT NOT NULL , [UserActKey]  nchar(254) NULL , [UserActDate]  datetime NULL , [UserNotChgPwd]  BIT NOT NULL , [UserChgPwdNexLog]  BIT NOT NULL , [UserPwdNevExp]  BIT NOT NULL , [UserRecPwdKey]  nchar(254) NULL , [UserRecPwdKeyExp]  datetime NULL , [UserDateLastChgPwd]  datetime NULL , [UserIsDlt]  BIT NOT NULL , [UserDateLastAuth]  datetime NULL , [UserCreDate]  datetime NULL , [UserCreUser]  nvarchar(250) NULL , [UserUpdDate]  datetime NULL , [UserUpdUser]  nvarchar(250) NULL , [UserURLImage]  nvarchar(2048) NULL , [UserURLProf]  nvarchar(2048) NULL , [UserDataReqComplete]  BIT NOT NULL , [UserDataReqCompleteKey]  nchar(254) NULL , [UserIsDevice]  BIT NOT NULL , [UserPwdEncryption]  nchar(3) NULL , PRIMARY KEY([UserGUID]))
+Run conversion program for table User
+DROP TABLE gam.[User]
+sp_rename 'gam.[GXA0142]', 'User'
+CREATE NONCLUSTERED INDEX [UUSERLOGIN] ON gam.[User] ([UserNameSpace] ,[UserAutTypeName] ,[UserName] ,[UserIsDlt] )
+CREATE NONCLUSTERED INDEX [IUSERCOUNTRY] ON gam.[User] ([CountryId] )
+CREATE NONCLUSTERED INDEX [UUSEREMAIL] ON gam.[User] ([UserNameSpace] ,[UserAutTypeName] ,[UserEMail] ,[UserIsDlt] )
+CREATE NONCLUSTERED INDEX [UUSEREXTID] ON gam.[User] ([UserNameSpace] ,[UserAutTypeName] ,[UserExtId] ,[UserIsDlt] )
+
+ALTER TABLE gam.[AppAuthReq] ALTER COLUMN [AppAuthReqRedirURL]  nvarchar(2048) NOT NULL
+
+CREATE TABLE gam.[RepositoryEvents] ([RepId]  int NOT NULL , [RepEveEntity]  nchar(60) NOT NULL , [RepEveAction]  nchar(20) NOT NULL , [RepEveClassName]  nchar(60) NOT NULL , [RepEveFileName]  nchar(254) NOT NULL , [RepEveMethodName]  nchar(60) NOT NULL , PRIMARY KEY([RepId], [RepEveEntity], [RepEveAction], [RepEveClassName]))
+
+CREATE NONCLUSTERED INDEX [UAPPMENUOPTION] ON gam.[AppMenuOption] ([RepId] ,[AppId] ,[AppMnuId] ,[AppMnuOptOrder] )
+
+UPDATE gam.[SysPar] SET [SysParVal]='4.0.0' WHERE [SysParId]='GAMVersion'

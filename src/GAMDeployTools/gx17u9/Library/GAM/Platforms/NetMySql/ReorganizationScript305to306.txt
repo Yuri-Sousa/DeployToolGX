@@ -1,0 +1,21 @@
+ALTER TABLE `Session` ADD (`SesOauthScope`  national varchar(1024) , `SesOauthTokenExpires`  mediumint , `SesOauthTokenMaxRenew`  smallint , `SesAutTypeName`  national char(60) , `SesExtToken2`  national varchar(1024) )
+
+ALTER TABLE `SessionHistory` ADD (`SesHisOauthScope`  national varchar(1024) , `SesHisOauthTokenExpires`  mediumint , `SesHisOauthTokenMaxRenew`  smallint , `SesHisAppTokenExp`  datetime , `SesHisDeviceId`  national char(40) , `SesHisRefreshToken`  national char(40) , `SesHisAppId`  bigint , `SesHisExtToken2`  national varchar(1024) )
+
+ALTER TABLE `Application` ADD (`AppCliLocalLoginURL`  national varchar(1024) , `AppCliAllowGetUserAdditionalDa`  BOOL , `AppCliAllowGetUserRoles`  BOOL , `AppCliAllowRemoteAuth`  BOOL )
+ALTER TABLE `Application` MODIFY COLUMN `AppCliSecret`  national char(120)
+CREATE INDEX `IAPPLICATIONENV` ON `Application` (`RepId` ,`AppId` ,`AppCurEnvId` )
+
+CREATE TABLE `UserMemRoleProp` (`UserGUID`  national char(40) NOT NULL , `RepId`  int NOT NULL , `UserMemRoleRoleId`  bigint NOT NULL , `UserMemRolePropId`  national char(60) NOT NULL , `UserMemRolePropToken`  national char(40) NOT NULL , `UserMemRolePropValue`  national varchar(400) NOT NULL , PRIMARY KEY(`UserGUID`, `RepId`, `UserMemRoleRoleId`, `UserMemRolePropId`, `UserMemRolePropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `UserMemAppRoleProp` (`UserGUID`  national char(40) NOT NULL , `RepId`  int NOT NULL , `UserMemAppRoleAppId`  bigint NOT NULL , `UserMemAppRoleRoleId`  bigint NOT NULL , `UserMemAppRolePropId`  national char(60) NOT NULL , `UserMemAppRolePropToken`  national char(40) NOT NULL , `UserMemAppRolePropValue`  national varchar(400) NOT NULL , PRIMARY KEY(`UserGUID`, `RepId`, `UserMemAppRoleAppId`, `UserMemAppRoleRoleId`, `UserMemAppRolePropId`, `UserMemAppRolePropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `SecurityPolicyProp` (`RepId`  int NOT NULL , `SecPolId`  int NOT NULL , `SecPolPropId`  national char(60) NOT NULL , `SecPolPropToken`  national char(40) NOT NULL , `SecPolPropValue`  national varchar(400) NOT NULL , PRIMARY KEY(`RepId`, `SecPolId`, `SecPolPropId`, `SecPolPropToken`))  ENGINE=InnoDB
+
+CREATE INDEX `IUSERMEMAPPROLEAPP` ON `UserMemAppRole` (`RepId` ,`UserMemAppRoleAppId` )
+CREATE INDEX `IUSERMEMAPPROLEROLE` ON `UserMemAppRole` (`RepId` ,`UserMemAppRoleRoleId` )
+DROP INDEX `IUSERMEMAPPROLE1` ON `UserMemAppRole`
+
+RENAME TABLE `SessionHistoryHisLogAtt` TO `SessionHistoryLogAtt`
+
+UPDATE SysPar SET SysParVal=`3.0.6` WHERE SysParId=`GAMVersion`

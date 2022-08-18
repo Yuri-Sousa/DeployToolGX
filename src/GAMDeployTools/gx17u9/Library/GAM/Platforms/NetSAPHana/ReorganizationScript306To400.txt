@@ -1,0 +1,15 @@
+Run conversion program for table Session
+
+Run conversion program for table SessionHistory
+
+Run conversion program for table Auditory
+
+Run conversion program for table Application
+
+Run conversion program for table User
+
+Run conversion program for table AppAuthReq
+
+
+
+UPDATE gam.SysPar SET SysParVal='4.0.0' WHERE SysParId='GAMVersion'

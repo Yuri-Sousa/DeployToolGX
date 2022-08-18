@@ -1,0 +1,38 @@
+ALTER TABLE gam.[RoleAppTypePrmProp] ALTER COLUMN [RoleAppTypePrmPropValue] nvarchar(2048) NOT NULL
+
+ALTER TABLE gam.[AppMenuProp] ALTER COLUMN [APPMnuPropValue] nvarchar(2048) NULL
+
+ALTER TABLE gam.[AppMenuOptionProp] ALTER COLUMN [AppMnuOptPropValue] nvarchar(2048) NULL
+
+ALTER TABLE gam.[RoleProp] ALTER COLUMN [RolePropValue] nvarchar(2048) NULL
+
+ALTER TABLE gam.[ApplicationProp] ALTER COLUMN [AppPropValue] nvarchar(2048) NULL
+
+ALTER TABLE gam.[RepositoryProp] ALTER COLUMN [RepPropVal] nvarchar(2048) NULL
+
+ALTER TABLE gam.[User] ADD [UserTOTPSecretKey] nvarchar(120) NULL , [UserTOTPEnable] BIT NULL , [UserRecPwdKeyLastDate] datetime NULL , [UserRecPwdKeyMonthNumber] smallint NULL , [UserRecPwdKeyDailyNumber] smallint NULL
+
+ALTER TABLE gam.[UserAtt] ALTER COLUMN [UserAttVal] nvarchar(2048) NULL
+
+ALTER TABLE gam.[UserAttMultiValue] ALTER COLUMN [UserAttMVVal] nvarchar(2048) NULL
+
+ALTER TABLE gam.[AuthenticationTypeProp] ALTER COLUMN [AutTypePropValue] nvarchar(2048) NULL
+
+ALTER TABLE gam.[AppPermissionProp] ALTER COLUMN [AppPrmPropValue] nvarchar(2048) NOT NULL
+
+ALTER TABLE gam.[RoleAppPrmProp] ALTER COLUMN [RoleAppPrmPropValue] nvarchar(2048) NOT NULL
+
+ALTER TABLE gam.[UserAppPrmProp] ALTER COLUMN [UserAppPrmPropValue] nvarchar(2048) NULL
+
+ALTER TABLE gam.[SecurityPolicyProp] ALTER COLUMN [SecPolPropValue] nvarchar(2048) NOT NULL
+
+ALTER TABLE gam.[UserMemAppRoleProp] ALTER COLUMN [UserMemAppRolePropValue] nvarchar(2048) NOT NULL
+
+ALTER TABLE gam.[UserMemRoleProp] ALTER COLUMN [UserMemRolePropValue] nvarchar(2048) NOT NULL
+
+ALTER TABLE gam.[EventSuscriptionProp] ALTER COLUMN [EveSusPropValue] nvarchar(2048) NULL
+
+ALTER TABLE gam.[UserRepositoryProp] ALTER COLUMN [UserRepPropValue] nvarchar(2048) NULL
+
+CREATE TABLE gam.[UserProp] ([UserGUID] nchar(40) NOT NULL , [UserPropID] nchar(60) NOT NULL , [UserPropToken] nchar(40) NOT NULL , [UserPropValue] nvarchar(2048) NULL , PRIMARY KEY([UserGUID], [UserPropID], [UserPropToken]))
+

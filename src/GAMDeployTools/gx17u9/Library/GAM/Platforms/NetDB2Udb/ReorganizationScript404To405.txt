@@ -1,0 +1,36 @@
+ALTER TABLE gam.Repository ALTER COLUMN RepUserSessionCacheTimeout SET DATA TYPE NUMERIC(8)
+ALTER TABLE gam.Repository ALTER COLUMN RepUserTimeToUnblock SET DATA TYPE NUMERIC(8)
+ALTER TABLE gam.Repository ALTER COLUMN RepUserRecPwdKeyTimeOut SET DATA TYPE NUMERIC(8)
+ALTER TABLE gam.Repository ALTER COLUMN RepUserActTimeOut SET DATA TYPE NUMERIC(8)
+
+ALTER TABLE gam.Session ADD SesEndedByOtherLogin NUMERIC(1)  ADD SesOTPExpire TIMESTAMP  ADD SesOTP VARGRAPHIC(250)  ADD SesIdToken VARGRAPHIC(4000)
+DROP INDEX gam.ISESSION1
+DROP INDEX gam.ISESSION
+CREATE INDEX gam.ISESOPESYS ON gam.Session (OpeSysId )
+CREATE INDEX gam.ISESUSER ON gam.Session (UserGUID ,RepId )
+CREATE INDEX gam.USESTOKEN ON gam.Session (SesToken )
+CREATE INDEX gam.USESREPPARENTTOKENUSERSTS ON gam.Session (RepId ,SesExtToken ,UserGUID ,SesSts )
+CREATE INDEX gam.USESREFRESHTOKEN ON gam.Session (RepId ,SesType ,SesSts ,SesAppId ,SesRefreshToken )
+CREATE INDEX gam.USESUSERAPPPARENT ON gam.Session (UserGUID ,SesAppId ,SesExtToken )
+CREATE INDEX gam.USESPARENTTOKENUSERSTS ON gam.Session (SesExtToken ,UserGUID ,SesSts )
+CREATE INDEX gam.USESSIONUSEROTPCODE ON gam.Session (RepId ,SesAppId ,SesAutTypeName ,UserGUID ,SesSts ,SesOTP ,SesDate DESC)
+
+ALTER TABLE gam.SecurityPolicy ALTER COLUMN SecPolFrecMinChangePwd SET DATA TYPE NUMERIC(8)
+ALTER TABLE gam.SecurityPolicy ALTER COLUMN SecPolOauthTokenExpire SET DATA TYPE NUMERIC(8)
+ALTER TABLE gam.SecurityPolicy ALTER COLUMN SecPolSesTimeOut SET DATA TYPE NUMERIC(8)
+
+ALTER TABLE gam.SessionHistory ADD SesHisEndedByOtherLogin NUMERIC(1)  ADD SesHisIdToken VARGRAPHIC(4000)
+
+ALTER TABLE gam.User ADD UserLastFailedLoginAttempt TIMESTAMP  ADD UserFailedLoginAttempts NUMERIC(3)  ADD UserOTPFailedAttempts NUMERIC(3)  ADD UserOTPLastDateRequestCode DATE  ADD UserOTPDailyNumberCodes NUMERIC(4)  ADD UserOTPLastLockedDate TIMESTAMP  ADD UserOTPNumberLocked NUMERIC(3)  ADD UserEnableTwoFactorAuth NUMERIC(1)
+
+CREATE TABLE gam.GXA0191 (RepId NUMERIC(9) NOT NULL , SesToken GRAPHIC(120) NOT NULL , SesLogGuid GRAPHIC(40) NOT NULL , SesLogDateTime TIMESTAMP NOT NULL , SesLogType GRAPHIC(30) NOT NULL , SesLogDetail DBCLOB(16384) )
+Run conversion program for table SessionLog
+DROP TABLE gam.SessionLog
+RENAME TABLE gam.GXA0191 TO SessionLog
+ALTER TABLE gam.SessionLog ADD PRIMARY KEY(RepId, SesToken, SesLogGuid)
+
+CREATE TABLE gam.SysConnectionConfig (SysConnCfgKey GRAPHIC(40) NOT NULL , SysConnCfgRep GRAPHIC(40) NOT NULL , SysConnCfgName VARGRAPHIC(120) NOT NULL , SysConnCfgUser VARGRAPHIC(100) , SysConnCfgPwd VARGRAPHIC(254) NOT NULL , SysConnCfgJson DBCLOB(2097152) , PRIMARY KEY(SysConnCfgKey, SysConnCfgRep, SysConnCfgName))
+
+DROP INDEX gam.UEVENTSUSCRIPTION
+CREATE INDEX gam.UEVENTSUSCRIPTION ON gam.EventSuscription (RepId ,EveSusEntity ,EveSusStatus ,EveSusDsc )
+

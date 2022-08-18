@@ -1,0 +1,37 @@
+ALTER TABLE gam.Session ALTER COLUMN SesOauthScope TYPE VARCHAR(2048)
+ALTER TABLE gam.Session ALTER COLUMN SesLastURL TYPE VARCHAR(2048)
+ALTER TABLE gam.Session ALTER COLUMN SesURL TYPE VARCHAR(2048)
+
+ALTER TABLE gam.SessionHistory ALTER COLUMN SesHisOauthScope TYPE VARCHAR(2048)
+ALTER TABLE gam.SessionHistory ALTER COLUMN SesHisLastURL TYPE VARCHAR(2048)
+ALTER TABLE gam.SessionHistory ALTER COLUMN SesHisURL TYPE VARCHAR(2048)
+
+CREATE TABLE gam.GXA0110 (RepId integer NOT NULL , AudId integer NOT NULL , AudSesRepId integer NOT NULL , AudSesToken CHAR(120) NOT NULL , AudDate timestamp without time zone NOT NULL , AudActId bigint NOT NULL , AudPgmName CHAR(254) NOT NULL , AudActKey1 bigint , AudActKey2 bigint , AudActKey3 bigint , AudActKey4 bigint , AudActPreDet VARCHAR(2048) , AudActCurDet VARCHAR(2048) , AudActionKeyGUID1 CHAR(40) , AudActionKeyGUID2 CHAR(40) , AudActionKeyChar1 CHAR(254) )
+Run conversion program for table Auditory
+DROP TABLE gam.Auditory CASCADE
+ALTER TABLE gam.GXA0110 RENAME TO Auditory
+ALTER TABLE gam.Auditory ADD CONSTRAINT Auditory_pkey PRIMARY KEY(RepId, AudId)
+CREATE INDEX IAUDITORY1 ON gam.Auditory (AudActId )
+
+ALTER TABLE gam.Application ALTER COLUMN AppCliLocalLoginURL TYPE VARCHAR(2048)
+ALTER TABLE gam.Application ALTER COLUMN AppCliSiteDomain TYPE VARCHAR(2048)
+ALTER TABLE gam.Application ALTER COLUMN AppCliSiteURL TYPE VARCHAR(2048)
+ALTER TABLE gam.Application ALTER COLUMN AppCliImageURL TYPE VARCHAR(2048)
+
+CREATE TABLE gam.GXA0142 (UserGUID CHAR(40) NOT NULL , UserNameSpace CHAR(60) NOT NULL , UserAutTypeName CHAR(60) NOT NULL , UserName VARCHAR(100) NOT NULL , UserEMail VARCHAR(100) NOT NULL , UserExtId VARCHAR(100) , UserPwd CHAR(254) NOT NULL , UserFirstName CHAR(60) , UserLastName CHAR(60) , UserBirthday date , UserGender CHAR(1) NOT NULL , UserPhone CHAR(254) , UserAddress CHAR(254) , UserAddress2 CHAR(254) , UserCity CHAR(254) , UserState CHAR(254) , CountryId CHAR(9) , UserPostCode CHAR(60) , UserLng CHAR(3) , UserTimeZone CHAR(60) , UserPhoto BYTEA , UserPhoto_GXI VARCHAR(2048) , UserNotRcvInf BOOLEAN NOT NULL , UserIsBlk BOOLEAN NOT NULL , UserBlkLastDate timestamp without time zone , UserIsAct BOOLEAN NOT NULL , UserActKey CHAR(254) , UserActDate timestamp without time zone , UserNotChgPwd BOOLEAN NOT NULL , UserChgPwdNexLog BOOLEAN NOT NULL , UserPwdNevExp BOOLEAN NOT NULL , UserRecPwdKey CHAR(254) , UserRecPwdKeyExp timestamp without time zone , UserDateLastChgPwd timestamp without time zone , UserIsDlt BOOLEAN NOT NULL , UserDateLastAuth timestamp without time zone , UserCreDate timestamp without time zone , UserCreUser VARCHAR(250) , UserUpdDate timestamp without time zone , UserUpdUser VARCHAR(250) , UserURLImage VARCHAR(2048) , UserURLProf VARCHAR(2048) , UserDataReqComplete BOOLEAN NOT NULL , UserDataReqCompleteKey CHAR(254) , UserIsDevice BOOLEAN NOT NULL , UserPwdEncryption CHAR(3) )
+Run conversion program for table User
+DROP TABLE gam."User" CASCADE
+ALTER TABLE gam.GXA0142 RENAME TO "User"
+ALTER TABLE gam."User" ADD CONSTRAINT User_pkey PRIMARY KEY(UserGUID)
+CREATE INDEX UUSERLOGIN ON gam."User" (UserNameSpace ,UserAutTypeName ,UserName ,UserIsDlt )
+CREATE INDEX IUSERCOUNTRY ON gam."User" (CountryId )
+CREATE INDEX UUSEREMAIL ON gam."User" (UserNameSpace ,UserAutTypeName ,UserEMail ,UserIsDlt )
+CREATE INDEX UUSEREXTID ON gam."User" (UserNameSpace ,UserAutTypeName ,UserExtId ,UserIsDlt )
+
+ALTER TABLE gam.AppAuthReq ALTER COLUMN AppAuthReqRedirURL TYPE VARCHAR(2048)
+
+CREATE TABLE gam.RepositoryEvents (RepId integer NOT NULL , RepEveEntity CHAR(60) NOT NULL , RepEveAction CHAR(20) NOT NULL , RepEveClassName CHAR(60) NOT NULL , RepEveFileName CHAR(254) NOT NULL , RepEveMethodName CHAR(60) NOT NULL , PRIMARY KEY(RepId, RepEveEntity, RepEveAction, RepEveClassName))
+
+CREATE INDEX UAPPMENUOPTION ON gam.AppMenuOption (RepId ,AppId ,AppMnuId ,AppMnuOptOrder )
+
+UPDATE gam.SysPar SET SysParVal='4.0.0' WHERE SysParId=( 'GAMVersion')

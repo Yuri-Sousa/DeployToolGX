@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReorgsDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<CreateDBInfo>
+		<Descriptions />
+		<Version>4.0.6</Version>
+		<Name>reorganization</Name>
+	</CreateDBInfo>
+	<VersionInfo>
+		<CheckVersionProgram>agamgetversion.exe</CheckVersionProgram>
+	</VersionInfo>
+	<UpgradeReorgsInfo>
+		<UpgradeReorgInfo>
+			<Descriptions />
+			<FromVersion>3.0.1</FromVersion>
+			<ToVersion>3.0.2</ToVersion>
+			<Programs>
+				<Program>
+					<Descriptions />
+					<Type>StructureReorg</Type>
+					<Name>GAMReorg301To302</Name>
+					<Package>artech.security.api</Package>
+				</Program>
+			</Programs>
+		</UpgradeReorgInfo>
+		<UpgradeReorgInfo>
+			<Descriptions />
+			<FromVersion>3.0.2</FromVersion>
+			<ToVersion>3.0.3</ToVersion>
+			<Programs>
+				<Program>
+					<Descriptions />
+					<Type>StructureReorg</Type>
+					<Name>GAMReorg302To303</Name>
+					<Package>artech.security.api</Package>
+				</Program>
+			</Programs>
+		</UpgradeReorgInfo>		
+		<UpgradeReorgInfo>
+			<Descriptions />
+			<FromVersion>3.0.3</FromVersion>
+			<ToVersion>3.0.4</ToVersion>
+			<Programs>
+				<Program>
+					<Descriptions />
+					<Type>StructureReorg</Type>
+					<Name>GAMReorg303To304</Name>
+					<Package>artech.security.api</Package>
+				</Program>
+			</Programs>
+		</UpgradeReorgInfo>	
+		<UpgradeReorgInfo>
+			<Descriptions />
+			<FromVersion>3.0.4</FromVersion>
+			<ToVersion>3.0.5</ToVersion>
+			<Programs>
+				<Program>
+					<Descriptions />
+					<Type>StructureReorg</Type>
+					<Name>GAMReorg304To305</Name>
+					<Package>artech.security.api</Package>
+				</Program>
+			</Programs>
+		</UpgradeReorgInfo>
+		<UpgradeReorgInfo>
+			<Descriptions />
+			<FromVersion>3.0.5</FromVersion>
+			<ToVersion>3.0.6</ToVersion>
+			<Programs>
+				<Program>
+					<Descriptions />
+					<Type>StructureReorg</Type>
+					<Name>GAMReorg305To306</Name>
+					<Package>artech.security.api</Package>
+				</Program>
+			</Programs>
+		</UpgradeReorgInfo>
+		<UpgradeReorgInfo>
+			<Descriptions />
+			<FromVersion>3.0.6</FromVersion>
+			<ToVersion>4.0.0</ToVersion>
+			<Programs>
+				<Program>
+					<Descriptions />
+					<Type>StructureReorg</Type>
+					<Name>GAMReorg306To400</Name>
+					<Package>artech.security.api</Package>
+				</Program>
+			</Programs>
+		</UpgradeReorgInfo>		
+		<UpgradeReorgInfo>
+			<Descriptions />
+			<FromVersion>4.0.0</FromVersion>
+			<ToVersion>4.0.1</ToVersion>			
+		</UpgradeReorgInfo>
+		<UpgradeReorgInfo>
+			<Descriptions />
+			<FromVersion>4.0.1</FromVersion>
+			<ToVersion>4.0.2</ToVersion>
+			<Programs>
+				<Program>
+					<Descriptions />
+					<Type>StructureReorg</Type>
+					<Name>GAMReorg401To402</Name>
+					<Package>artech.security.api</Package>
+				</Program>
+			</Programs>
+		</UpgradeReorgInfo>		
+		<UpgradeReorgInfo>
+			<Descriptions />
+			<FromVersion>4.0.2</FromVersion>
+			<ToVersion>4.0.3</ToVersion>
+			<Programs>
+				<Program>
+					<Descriptions />
+					<Type>StructureReorg</Type>
+					<Name>GAMReorg402To403</Name>
+					<Package>artech.security.api</Package>
+				</Program>
+			</Programs>
+		</UpgradeReorgInfo>
+		<UpgradeReorgInfo>
+			<Descriptions />
+			<FromVersion>4.0.3</FromVersion>
+			<ToVersion>4.0.4</ToVersion>
+			<Programs>
+				<Program>
+					<Descriptions />
+					<Type>StructureReorg</Type>
+					<Name>GAMReorg403To404</Name>
+					<Package>artech.security.api</Package>
+				</Program>
+			</Programs>
+		</UpgradeReorgInfo>
+		<UpgradeReorgInfo>
+			<Descriptions />
+			<FromVersion>4.0.4</FromVersion>
+			<ToVersion>4.0.5</ToVersion>
+			<Programs>
+				<Program>
+					<Descriptions />
+					<Type>StructureReorg</Type>
+					<Name>GAMReorg404To405</Name>
+					<Package>artech.security.api</Package>
+				</Program>
+			</Programs>
+		</UpgradeReorgInfo>
+		<UpgradeReorgInfo>
+			<Descriptions />
+			<FromVersion>4.0.5</FromVersion>
+			<ToVersion>4.0.6</ToVersion>
+			<Programs>
+				<Program>
+					<Descriptions />
+					<Type>StructureReorg</Type>
+					<Name>GAMReorg405To406</Name>
+					<Package>artech.security.api</Package>
+				</Program>
+			</Programs>
+		</UpgradeReorgInfo>
+	</UpgradeReorgsInfo>
+</ReorgsDescriptor>

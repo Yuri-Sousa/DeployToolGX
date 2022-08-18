@@ -1,0 +1,7 @@
+ALTER TABLE gam.Session ADD SesJson TEXT , ADD SesExtTokenRefresh VARCHAR(2000) , ADD SesExtTokenExpires timestamp without time zone , ADD SesExtToken3 TEXT
+
+ALTER TABLE gam.SessionHistory ADD SesHisJson TEXT , ADD SesHisAutTypeName CHAR(60) , ADD SesHisExtTokenRefresh VARCHAR(2000) , ADD SesHisExtTokenExpires timestamp without time zone , ADD SesHisExtToken3 TEXT
+
+CREATE TABLE gam.SessionHistoryLog (RepId integer NOT NULL , SesHisToken CHAR(120) NOT NULL , SesHisLogGuid CHAR(40) NOT NULL , SesHisLogDateTime timestamp without time zone NOT NULL , SesHisLogType CHAR(30) NOT NULL , SesHisLogDetail TEXT , PRIMARY KEY(RepId, SesHisToken, SesHisLogGuid))
+
+UPDATE gam.SysPar SET SysParVal='4.0.4' WHERE SysParId=( 'GAMVersion')

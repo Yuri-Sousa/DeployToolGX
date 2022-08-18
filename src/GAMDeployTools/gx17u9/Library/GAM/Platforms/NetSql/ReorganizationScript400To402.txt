@@ -1,0 +1,10 @@
+CREATE TABLE gam.[GXA0189] ([RepId]  int NOT NULL , [EveSusId]  nchar(40) NOT NULL , [EveSusPropId]  nchar(60) NOT NULL , [EveSusPropToken]  nchar(40) NOT NULL , [EveSusPropValue]  nvarchar(400) NULL )
+Run conversion program for table EventSuscriptionProp
+sp_rename 'gam.[GXA0189]', 'EventSuscriptionProp'
+ALTER TABLE gam.[EventSuscriptionProp] ADD PRIMARY KEY([RepId], [EveSusId], [EveSusPropId], [EveSusPropToken])
+
+CREATE TABLE gam.[EventSuscription] ([RepId]  int NOT NULL , [EveSusId]  nchar(40) NOT NULL , [EveSusDsc]  nchar(254) NOT NULL , [EveSusStatus]  nchar(1) NOT NULL , [EveSusEntity]  nchar(60) NOT NULL , [EveSusAction]  nchar(20) NOT NULL , [EveSusClassName]  nchar(60) NOT NULL , [EveSusCreDate]  datetime NULL , [EveSusCreUser]  nvarchar(250) NULL , [EveSusUpdDate]  datetime NULL , [EveSusUpdUser]  nvarchar(250) NULL , [EveSusFileName]  nchar(254) NOT NULL , [EveSusMethodName]  nchar(60) NOT NULL , PRIMARY KEY([RepId], [EveSusId]))
+CREATE NONCLUSTERED INDEX [UEVENTSUSCRIPTION] ON gam.[EventSuscription] ([RepId] ,[EveSusEntity] ,[EveSusAction] ,[EveSusClassName] ,[EveSusMethodName] )
+
+DROP TABLE gam.[RepositoryEvents]
+

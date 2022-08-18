@@ -1,0 +1,37 @@
+ALTER TABLE "Session" MODIFY SesOauthScope  NVARCHAR2(2000)
+ALTER TABLE "Session" MODIFY SesLastURL  NVARCHAR2(2000)
+ALTER TABLE "Session" MODIFY SesURL  NVARCHAR2(2000)
+
+ALTER TABLE SessionHistory MODIFY SesHisOauthScope  NVARCHAR2(2000)
+ALTER TABLE SessionHistory MODIFY SesHisLastURL  NVARCHAR2(2000)
+ALTER TABLE SessionHistory MODIFY SesHisURL  NVARCHAR2(2000)
+
+CREATE TABLE GXA0110 (RepId  NUMERIC(9) NOT NULL , AudId  NUMERIC(9) NOT NULL , AudSesRepId  NUMERIC(9) NOT NULL , AudSesToken  NCHAR(120) NOT NULL , AudDate  DATE NOT NULL , AudActId  NUMERIC(12) NOT NULL , AudPgmName  NCHAR(254) NOT NULL , AudActKey1  NUMERIC(12) , AudActKey2  NUMERIC(12) , AudActKey3  NUMERIC(12) , AudActKey4  NUMERIC(12) , AudActPreDet  NVARCHAR2(2000) , AudActCurDet  NVARCHAR2(2000) , AudActionKeyGUID1  NCHAR(40) , AudActionKeyGUID2  NCHAR(40) , AudActionKeyChar1  NCHAR(254) )
+Run conversion program for table Auditory
+DROP TABLE Auditory CASCADE CONSTRAINTS
+ALTER TABLE GXA0110 RENAME TO Auditory
+ALTER TABLE Auditory ADD PRIMARY KEY(RepId, AudId)
+CREATE INDEX IAUDITORY1 ON Auditory (AudActId )
+
+ALTER TABLE Application MODIFY AppCliLocalLoginURL  NVARCHAR2(2000)
+ALTER TABLE Application MODIFY AppCliSiteDomain  NVARCHAR2(2000)
+ALTER TABLE Application MODIFY AppCliSiteURL  NVARCHAR2(2000)
+ALTER TABLE Application MODIFY AppCliImageURL  NVARCHAR2(2000)
+
+CREATE TABLE GXA0142 (UserGUID  NCHAR(40) NOT NULL , UserNameSpace  NCHAR(60) NOT NULL , UserAutTypeName  NCHAR(60) NOT NULL , UserName  NVARCHAR2(100) NOT NULL , UserEMail  NVARCHAR2(100) NOT NULL , UserExtId  NVARCHAR2(100) , UserPwd  NCHAR(254) NOT NULL , UserFirstName  NCHAR(60) , UserLastName  NCHAR(60) , UserBirthday  DATE , UserGender  NCHAR(1) NOT NULL , UserPhone  NCHAR(254) , UserAddress  NCHAR(254) , UserAddress2  NCHAR(254) , UserCity  NCHAR(254) , UserState  NCHAR(254) , CountryId  NCHAR(9) , UserPostCode  NCHAR(60) , UserLng  NCHAR(3) , UserTimeZone  NCHAR(60) , UserPhoto  BLOB , UserPhoto_GXI  VARCHAR2(2000) , UserNotRcvInf  NUMERIC(1) NOT NULL , UserIsBlk  NUMERIC(1) NOT NULL , UserBlkLastDate  DATE , UserIsAct  NUMERIC(1) NOT NULL , UserActKey  NCHAR(254) , UserActDate  DATE , UserNotChgPwd  NUMERIC(1) NOT NULL , UserChgPwdNexLog  NUMERIC(1) NOT NULL , UserPwdNevExp  NUMERIC(1) NOT NULL , UserRecPwdKey  NCHAR(254) , UserRecPwdKeyExp  DATE , UserDateLastChgPwd  DATE , UserIsDlt  NUMERIC(1) NOT NULL , UserDateLastAuth  DATE , UserCreDate  DATE , UserCreUser  NVARCHAR2(250) , UserUpdDate  DATE , UserUpdUser  NVARCHAR2(250) , UserURLImage  NVARCHAR2(2000) , UserURLProf  NVARCHAR2(2000) , UserDataReqComplete  NUMERIC(1) NOT NULL , UserDataReqCompleteKey  NCHAR(254) , UserIsDevice  NUMERIC(1) NOT NULL , UserPwdEncryption  NCHAR(3) )
+Run conversion program for table User
+DROP TABLE "User" CASCADE CONSTRAINTS
+ALTER TABLE GXA0142 RENAME TO "User"
+ALTER TABLE "User" ADD PRIMARY KEY(UserGUID)
+CREATE INDEX UUSERLOGIN ON "User" (UserNameSpace ,UserAutTypeName ,UserName ,UserIsDlt )
+CREATE INDEX IUSERCOUNTRY ON "User" (CountryId )
+CREATE INDEX UUSEREMAIL ON "User" (UserNameSpace ,UserAutTypeName ,UserEMail ,UserIsDlt )
+CREATE INDEX UUSEREXTID ON "User" (UserNameSpace ,UserAutTypeName ,UserExtId ,UserIsDlt )
+
+ALTER TABLE AppAuthReq MODIFY AppAuthReqRedirURL  NVARCHAR2(2000)
+
+CREATE TABLE RepositoryEvents (RepId  NUMERIC(9) NOT NULL , RepEveEntity  NCHAR(60) NOT NULL , RepEveAction  NCHAR(20) NOT NULL , RepEveClassName  NCHAR(60) NOT NULL , RepEveFileName  NCHAR(254) NOT NULL , RepEveMethodName  NCHAR(60) NOT NULL , PRIMARY KEY(RepId, RepEveEntity, RepEveAction, RepEveClassName))
+
+CREATE INDEX UAPPMENUOPTION ON AppMenuOption (RepId ,AppId ,AppMnuId ,AppMnuOptOrder )
+
+UPDATE SysPar SET SysParVal='4.0.0' WHERE SysParId=N'GAMVersion'

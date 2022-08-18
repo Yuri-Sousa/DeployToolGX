@@ -1,0 +1,13 @@
+ALTER TABLE gam.Session ADD SesJson  DBCLOB(32768)  ADD SesExtTokenRefresh  VARGRAPHIC(2000)  ADD SesExtTokenExpires  TIMESTAMP  ADD SesExtToken3  DBCLOB(8192)
+
+ALTER TABLE gam.SessionHistory ADD SesHisJson  DBCLOB(32768)  ADD SesHisAutTypeName  GRAPHIC(60)  ADD SesHisExtTokenRefresh  VARGRAPHIC(2000)  ADD SesHisExtTokenExpires  TIMESTAMP  ADD SesHisExtToken3  DBCLOB(8192)
+
+CREATE TABLE gam.GXA0191 (RepId  NUMERIC(9) NOT NULL , SesToken  GRAPHIC(120) NOT NULL , SesLogGuid  GRAPHIC(40) NOT NULL , SesLogDateTime  TIMESTAMP NOT NULL , SesLogType  GRAPHIC(30) NOT NULL , SesLogDetail  DBCLOB(32768) )
+Run conversion program for table SessionLog
+DROP TABLE gam.SessionLog
+RENAME TABLE gam.GXA0191 TO SessionLog
+ALTER TABLE gam.SessionLog ADD PRIMARY KEY(RepId, SesToken, SesLogGuid)
+
+CREATE TABLE gam.SessionHistoryLog (RepId  NUMERIC(9) NOT NULL , SesHisToken  GRAPHIC(120) NOT NULL , SesHisLogGuid  GRAPHIC(40) NOT NULL , SesHisLogDateTime  TIMESTAMP NOT NULL , SesHisLogType  GRAPHIC(30) NOT NULL , SesHisLogDetail  DBCLOB(32768) , PRIMARY KEY(RepId, SesHisToken, SesHisLogGuid))
+
+UPDATE SysPar SET SysParVal='4.0.4' WHERE SysParId='GAMVersion'

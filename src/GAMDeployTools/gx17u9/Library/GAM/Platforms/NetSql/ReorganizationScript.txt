@@ -1,0 +1,238 @@
+CREATE TABLE gam.[UserProp] ([UserGUID] nchar(40) NOT NULL , [UserPropID] nchar(60) NOT NULL , [UserPropToken] nchar(40) NOT NULL , [UserPropValue] nvarchar(2048) NULL , PRIMARY KEY([UserGUID], [UserPropID], [UserPropToken]))
+
+CREATE TABLE gam.[SysConnectionConfig] ([SysConnCfgKey] nchar(40) NOT NULL , [SysConnCfgRep] nchar(40) NOT NULL , [SysConnCfgName] nvarchar(120) NOT NULL , [SysConnCfgUser] nvarchar(100) NULL , [SysConnCfgPwd] nchar(254) NOT NULL , [SysConnCfgJson] NVARCHAR(MAX) NULL , PRIMARY KEY([SysConnCfgKey], [SysConnCfgRep], [SysConnCfgName]))
+
+CREATE TABLE gam.[SessionHistoryLog] ([RepId] int NOT NULL , [SesHisToken] nchar(120) NOT NULL , [SesHisLogGuid] nchar(40) NOT NULL , [SesHisLogDateTime] datetime NOT NULL , [SesHisLogType] nchar(30) NOT NULL , [SesHisLogDetail] NVARCHAR(MAX) NULL , PRIMARY KEY([RepId], [SesHisToken], [SesHisLogGuid]))
+
+CREATE TABLE gam.[UserRepositoryProp] ([UserGUID] nchar(40) NOT NULL , [RepId] int NOT NULL , [UserRepPropId] nchar(60) NOT NULL , [UserRepPropToken] nchar(40) NOT NULL , [UserRepPropValue] nvarchar(2048) NULL , PRIMARY KEY([UserGUID], [RepId], [UserRepPropId], [UserRepPropToken]))
+
+CREATE TABLE gam.[SessionLog] ([RepId] int NOT NULL , [SesToken] nchar(120) NOT NULL , [SesLogGuid] nchar(40) NOT NULL , [SesLogDateTime] datetime NOT NULL , [SesLogType] nchar(30) NOT NULL , [SesLogDetail] NVARCHAR(MAX) NULL , PRIMARY KEY([RepId], [SesToken], [SesLogGuid]))
+
+CREATE TABLE gam.[LoginTmp] ([LoginTmpTokenState] nchar(60) NOT NULL , [LoginTmpDateTime] datetime NOT NULL , [LoginTmpData] nvarchar(4000) NOT NULL , PRIMARY KEY([LoginTmpTokenState]))
+
+CREATE TABLE gam.[EventSuscriptionProp] ([RepId] int NOT NULL , [EveSusId] nchar(40) NOT NULL , [EveSusPropId] nchar(60) NOT NULL , [EveSusPropToken] nchar(40) NOT NULL , [EveSusPropValue] nvarchar(2048) NULL , PRIMARY KEY([RepId], [EveSusId], [EveSusPropId], [EveSusPropToken]))
+
+CREATE TABLE gam.[EventSuscription] ([RepId] int NOT NULL , [EveSusId] nchar(40) NOT NULL , [EveSusDsc] nchar(254) NOT NULL , [EveSusStatus] nchar(1) NOT NULL , [EveSusEntity] nchar(60) NOT NULL , [EveSusAction] nchar(20) NOT NULL , [EveSusClassName] nchar(60) NOT NULL , [EveSusCreDate] datetime NULL , [EveSusCreUser] nvarchar(250) NULL , [EveSusUpdDate] datetime NULL , [EveSusUpdUser] nvarchar(250) NULL , [EveSusFileName] nchar(254) NOT NULL , [EveSusMethodName] nchar(60) NOT NULL , PRIMARY KEY([RepId], [EveSusId]))
+CREATE NONCLUSTERED INDEX [UEVENTSUSCRIPTION] ON gam.[EventSuscription] ([RepId] ,[EveSusEntity] ,[EveSusStatus] ,[EveSusDsc] )
+
+CREATE TABLE gam.[UserMemRoleProp] ([UserGUID] nchar(40) NOT NULL , [RepId] int NOT NULL , [UserMemRoleRoleId] decimal( 12) NOT NULL , [UserMemRolePropId] nchar(60) NOT NULL , [UserMemRolePropToken] nchar(40) NOT NULL , [UserMemRolePropValue] nvarchar(2048) NOT NULL , PRIMARY KEY([UserGUID], [RepId], [UserMemRoleRoleId], [UserMemRolePropId], [UserMemRolePropToken]))
+
+CREATE TABLE gam.[UserMemAppRoleProp] ([UserGUID] nchar(40) NOT NULL , [RepId] int NOT NULL , [UserMemAppRoleAppId] decimal( 12) NOT NULL , [UserMemAppRoleRoleId] decimal( 12) NOT NULL , [UserMemAppRolePropId] nchar(60) NOT NULL , [UserMemAppRolePropToken] nchar(40) NOT NULL , [UserMemAppRolePropValue] nvarchar(2048) NOT NULL , PRIMARY KEY([UserGUID], [RepId], [UserMemAppRoleAppId], [UserMemAppRoleRoleId], [UserMemAppRolePropId], [UserMemAppRolePropToken]))
+
+CREATE TABLE gam.[SecurityPolicyProp] ([RepId] int NOT NULL , [SecPolId] int NOT NULL , [SecPolPropId] nchar(60) NOT NULL , [SecPolPropToken] nchar(40) NOT NULL , [SecPolPropValue] nvarchar(2048) NOT NULL , PRIMARY KEY([RepId], [SecPolId], [SecPolPropId], [SecPolPropToken]))
+
+CREATE TABLE gam.[RepositoryConnAdd] ([RepId] int NOT NULL , [RepConName] nchar(120) NOT NULL , [RepConSrvCon] nchar(60) NOT NULL , PRIMARY KEY([RepId], [RepConName], [RepConSrvCon]))
+
+CREATE TABLE gam.[RepositoryConnection] ([RepId] int NOT NULL , [RepConName] nchar(120) NOT NULL , [RepConUser] nchar(100) NOT NULL , [RepConPwd] nchar(254) NOT NULL , [RepConLng] nchar(3) NOT NULL , [RepConType] nchar(30) NOT NULL , [RepConKey] nchar(32) NOT NULL , [RepConChaExpire] int NOT NULL , [RepConSrvSpecify] BIT NOT NULL , [RepConChaSrv] nchar(60) NULL , [RepConChaDate] datetime NULL , [RepConCha] nchar(254) NULL , [RepConCreDate] datetime NOT NULL , [RepConCreUser] nvarchar(250) NOT NULL , [RepConUpdDate] datetime NOT NULL , [RepConUpdUser] nvarchar(250) NOT NULL , PRIMARY KEY([RepId], [RepConName]))
+CREATE UNIQUE NONCLUSTERED INDEX [UREPOSITORYCONNUSER] ON gam.[RepositoryConnection] ([RepId] ,[RepConUser] )
+
+CREATE TABLE gam.[UserAppPrmProp] ([RepId] int NOT NULL , [UserGUID] nchar(40) NOT NULL , [AppId] decimal( 12) NOT NULL , [AppPrmGUID] nchar(40) NOT NULL , [UserAppPrmToken] nchar(254) NOT NULL , [UserAppPrmPropId] nchar(60) NOT NULL , [UserAppPrmPropToken] nchar(40) NOT NULL , [UserAppPrmPropValue] nvarchar(2048) NULL , [UserAppPrmPropCreDate] datetime NULL , [UserAppPrmPropCreUser] nvarchar(250) NULL , [UserAppPrmPropUpdDate] datetime NULL , [UserAppPrmPropUpdUser] nvarchar(250) NULL , PRIMARY KEY([RepId], [UserGUID], [AppId], [AppPrmGUID], [UserAppPrmToken], [UserAppPrmPropId], [UserAppPrmPropToken]))
+
+CREATE TABLE gam.[UserAppPrm] ([RepId] int NOT NULL , [UserGUID] nchar(40) NOT NULL , [AppId] decimal( 12) NOT NULL , [AppPrmGUID] nchar(40) NOT NULL , [UserAppPrmToken] nchar(254) NOT NULL , [UserAppPrmType] nchar(1) NOT NULL , [UserAppPrmInh] BIT NOT NULL , [UserAppPrmCreDate] datetime NULL , [UserAppPrmCreUser] nvarchar(250) NULL , [UserAppPrmUpdDate] datetime NULL , [UserAppPrmUpdUser] nvarchar(250) NULL , [AppPrmName] nchar(254) NOT NULL , PRIMARY KEY([RepId], [UserGUID], [AppId], [AppPrmGUID], [UserAppPrmToken]))
+CREATE NONCLUSTERED INDEX [IUSERAPPPRM1] ON gam.[UserAppPrm] ([RepId] ,[AppId] ,[AppPrmGUID] )
+CREATE NONCLUSTERED INDEX [IUSERAPPPRM2] ON gam.[UserAppPrm] ([UserGUID] ,[RepId] )
+
+CREATE TABLE gam.[UserMemAppRoleRest] ([UserGUID] nchar(40) NOT NULL , [RepId] int NOT NULL , [UserMemAppRoleAppId] decimal( 12) NOT NULL , [UserMemAppRoleRoleId] decimal( 12) NOT NULL , [UserMemAppRoleRestToken] nchar(40) NOT NULL , PRIMARY KEY([UserGUID], [RepId], [UserMemAppRoleAppId], [UserMemAppRoleRoleId], [UserMemAppRoleRestToken]))
+
+CREATE TABLE gam.[AppRoleRest] ([RepId] int NOT NULL , [AppRoleAppId] decimal( 12) NOT NULL , [AppRoleRoleId] decimal( 12) NOT NULL , [AppRoleRestToken] nchar(40) NOT NULL , PRIMARY KEY([RepId], [AppRoleAppId], [AppRoleRoleId], [AppRoleRestToken]))
+
+CREATE TABLE gam.[OauthGrantUserApp] ([RepId] int NOT NULL , [OGUserAppCode] nchar(120) NOT NULL , [AppId] decimal( 12) NOT NULL , [UserGUID] nchar(40) NOT NULL , [OGUserAppSesToken] nchar(120) NULL , [OGUserAppRefreshToken] nchar(40) NULL , [OGUserAppGrantDate] datetime NULL , [OGUserAppRevokedDate] datetime NULL , [OGUserAppCreDate] datetime NULL , [OGUserAppCreUser] nvarchar(250) NULL , [OGUserAppUpdDate] datetime NULL , [OGUserAppUpdUser] nvarchar(250) NULL , [AppPrmGUID] nchar(40) NOT NULL , [OGUserAppExpire] datetime NULL , [OGUserAppStatus] nchar(1) NOT NULL , PRIMARY KEY([RepId], [OGUserAppCode]))
+CREATE NONCLUSTERED INDEX [IOAUTHGRANTUSERAPP1] ON gam.[OauthGrantUserApp] ([UserGUID] ,[RepId] )
+CREATE NONCLUSTERED INDEX [IOAUTHGRANTUSERAPP2] ON gam.[OauthGrantUserApp] ([RepId] ,[AppId] ,[AppPrmGUID] )
+CREATE NONCLUSTERED INDEX [UOAUTHGRANTUSERAPPTOKEN] ON gam.[OauthGrantUserApp] ([RepId] ,[OGUserAppSesToken] )
+CREATE NONCLUSTERED INDEX [UOAUTHGRANTUSERAPP] ON gam.[OauthGrantUserApp] ([RepId] ,[UserGUID] ,[AppId] ,[OGUserAppStatus] )
+
+CREATE TABLE gam.[RoleAppPrmProp] ([RepId] int NOT NULL , [RoleId] decimal( 12) NOT NULL , [AppId] decimal( 12) NOT NULL , [AppPrmGUID] nchar(40) NOT NULL , [RoleAppPrmToken] nchar(254) NOT NULL , [RoleAppPrmPropId] nchar(60) NOT NULL , [RoleAppPrmPropToken] nchar(40) NOT NULL , [RoleAppPrmPropValue] nvarchar(2048) NOT NULL , [RoleAppPrmPropCreDate] datetime NOT NULL , [RoleAppPrmPropCreUser] nvarchar(250) NOT NULL , [RoleAppPrmPropUpdDate] datetime NOT NULL , [RoleAppPrmPropUpdUser] nvarchar(250) NOT NULL , PRIMARY KEY([RepId], [RoleId], [AppId], [AppPrmGUID], [RoleAppPrmToken], [RoleAppPrmPropId], [RoleAppPrmPropToken]))
+
+CREATE TABLE gam.[AppAuthReq] ([RepId] int NOT NULL , [AppAuthReqId] nchar(254) NOT NULL , [AppAuthReqRedirURL] nvarchar(2048) NOT NULL , [AppAuthReqResponseType] nchar(5) NOT NULL , [AppAuthReqAuthorized] datetime NULL , [AppAuthReqRevoked] datetime NULL , [AppId] decimal( 12) NOT NULL , [AppPrmGUID] nchar(40) NOT NULL , [AppAuthReqCreated] datetime NOT NULL , [AppAuthReqUserAppPrmCode] nchar(80) NULL , [AppAuthReqSesToken] nchar(120) NULL , PRIMARY KEY([RepId], [AppAuthReqId]))
+CREATE NONCLUSTERED INDEX [IAPPAUTHREQ1] ON gam.[AppAuthReq] ([RepId] ,[AppId] ,[AppPrmGUID] )
+
+CREATE TABLE gam.[AppPermissionProp] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppPrmGUID] nchar(40) NOT NULL , [AppPrmPropId] nchar(60) NOT NULL , [AppPrmPropToken] nchar(40) NOT NULL , [AppPrmPropValue] nvarchar(2048) NOT NULL , [AppPrmPropCreDate] datetime NULL , [AppPrmPropCreUser] nvarchar(250) NULL , [AppPrmPropUpdDate] datetime NULL , [AppPrmPropUpdUser] nvarchar(250) NULL , PRIMARY KEY([RepId], [AppId], [AppPrmGUID], [AppPrmPropId], [AppPrmPropToken]))
+
+CREATE TABLE gam.[AppPrmTokenTypeEle] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppPrmTokenTypeGUID] nchar(40) NOT NULL , [AppPrmTokenEleName] nchar(60) NOT NULL , [AppPrmTokenEleDsc] nchar(254) NOT NULL , [AppPrmTokenEleWSHost] nchar(254) NOT NULL , [AppPrmTokenELWSName] nchar(254) NOT NULL , [AppPrmTokenEleOrder] int NOT NULL , PRIMARY KEY([RepId], [AppId], [AppPrmTokenTypeGUID], [AppPrmTokenEleName]))
+CREATE NONCLUSTERED INDEX [UAPPPRMTOKENTYPEELE] ON gam.[AppPrmTokenTypeEle] ([RepId] ,[AppId] ,[AppPrmTokenTypeGUID] ,[AppPrmTokenEleOrder] )
+
+CREATE TABLE gam.[RoleAppPrm] ([RepId] int NOT NULL , [RoleId] decimal( 12) NOT NULL , [AppId] decimal( 12) NOT NULL , [AppPrmGUID] nchar(40) NOT NULL , [RoleAppPrmToken] nchar(254) NOT NULL , [RoleAppPrmType] nchar(1) NOT NULL , [RoleAppPrmInh] BIT NOT NULL , [RoleAppPrmCreDate] datetime NULL , [RoleAppPrmCreUser] nvarchar(250) NULL , [RoleAppPrmUpdDate] datetime NULL , [RoleAppPrmUpdUser] nvarchar(250) NULL , [AppPrmName] nchar(254) NOT NULL , PRIMARY KEY([RepId], [RoleId], [AppId], [AppPrmGUID], [RoleAppPrmToken]))
+CREATE NONCLUSTERED INDEX [IROLEAPPPRM3] ON gam.[RoleAppPrm] ([RepId] ,[AppId] ,[AppPrmGUID] )
+
+CREATE TABLE gam.[AppPermissionLng] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppPrmGUID] nchar(40) NOT NULL , [AppPrmLngId] nchar(3) NOT NULL , [AppPrmDscLng] nchar(254) NOT NULL , [AppPrmNameLng] nchar(254) NOT NULL , PRIMARY KEY([RepId], [AppId], [AppPrmGUID], [AppPrmLngId]))
+
+CREATE TABLE gam.[AppPermission] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppPrmGUID] nchar(40) NOT NULL , [AppPrmName] nchar(254) NOT NULL , [AppPrmDsc] nchar(254) NULL , [AppPrmPgmName] nchar(254) NULL , [AppPrmDefType] nchar(1) NOT NULL , [AppPrmTokenTypeGUID] nchar(40) NULL , [AppPrmCreDate] datetime NULL , [AppPrmCreUser] nvarchar(250) NULL , [AppPrmUpdDate] datetime NULL , [AppPrmUpdUser] nvarchar(250) NULL , [AppPrmCurEnvId] decimal( 12) NULL , [AppPrmPgmPar] nchar(254) NULL , [AppPrmIsGXAuto] BIT NOT NULL , PRIMARY KEY([RepId], [AppId], [AppPrmGUID]))
+CREATE UNIQUE NONCLUSTERED INDEX [UAPPPERMISSIONNAME] ON gam.[AppPermission] ([RepId] ,[AppId] ,[AppPrmName] )
+CREATE NONCLUSTERED INDEX [IAPPPERMISSION1] ON gam.[AppPermission] ([RepId] ,[AppId] ,[AppPrmTokenTypeGUID] )
+CREATE NONCLUSTERED INDEX [IAPPPERMISSION2] ON gam.[AppPermission] ([RepId] ,[AppId] ,[AppPrmCurEnvId] )
+
+CREATE TABLE gam.[AppPrmTokenTypeLng] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppPrmTokenTypeGUID] nchar(40) NOT NULL , [AppPrmTokenTypeLngId] nchar(3) NOT NULL , [AppPrmTokenTypeNameLng] nchar(254) NOT NULL , [AppPrmTokenTypeDscLng] nchar(254) NULL , PRIMARY KEY([RepId], [AppId], [AppPrmTokenTypeGUID], [AppPrmTokenTypeLngId]))
+
+CREATE TABLE gam.[AppPrmTokenType] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppPrmTokenTypeGUID] nchar(40) NOT NULL , [AppPrmTokenTypeName] nchar(254) NOT NULL , [AppPrmTokenTypeDsc] nchar(254) NULL , [AppPrmTokenTypeCreDate] datetime NULL , [AppPrmTokenTypeCreUser] nvarchar(250) NULL , [AppPrmTokenTypeUpdDate] datetime NULL , [AppPrmTokenTypeUpdUser] nvarchar(250) NULL , PRIMARY KEY([RepId], [AppId], [AppPrmTokenTypeGUID]))
+
+CREATE TABLE gam.[RepositoryCountry] ([RepId] int NOT NULL , [CountryId] nchar(9) NOT NULL , [RepCountryCreDate] datetime NULL , [RepCountryCreUser] nvarchar(250) NULL , [RepCountryUpdDate] datetime NULL , [RepCountryUpdUser] nvarchar(250) NULL , PRIMARY KEY([RepId], [CountryId]))
+CREATE NONCLUSTERED INDEX [IREPOSITORYCOUNTRY1] ON gam.[RepositoryCountry] ([CountryId] )
+
+CREATE TABLE gam.[RepQuestionUserLng] ([RepId] int NOT NULL , [QstUserId] int NOT NULL , [QstUserLngId] nchar(3) NOT NULL , [QstUserNameLng] nchar(254) NULL , [QstUserDscLng] nchar(254) NULL , PRIMARY KEY([RepId], [QstUserId], [QstUserLngId]))
+
+CREATE TABLE gam.[RepQuestionUser] ([RepId] int NOT NULL , [QstUserId] int NOT NULL , [QstUserName] nchar(254) NULL , [QstUserDsc] nchar(254) NULL , [QstUserCreDate] datetime NOT NULL , [QstUserCreUser] nvarchar(250) NOT NULL , [QstUserUpdDate] datetime NOT NULL , [QstUserUpdUser] nvarchar(250) NOT NULL , [QstUserGUID] nchar(40) NOT NULL , PRIMARY KEY([RepId], [QstUserId]))
+CREATE UNIQUE NONCLUSTERED INDEX [UREPQSTUSERGUID] ON gam.[RepQuestionUser] ([RepId] ,[QstUserGUID] )
+
+CREATE TABLE gam.[AuthenticationTypeProp] ([RepId] int NOT NULL , [AutTypeName] nchar(60) NOT NULL , [AutTypePropId] nchar(60) NOT NULL , [AutTypePropToken] nchar(40) NOT NULL , [AutTypePropValue] nvarchar(2048) NULL , PRIMARY KEY([RepId], [AutTypeName], [AutTypePropId], [AutTypePropToken]))
+
+CREATE TABLE gam.[AuthenticationTypeLng] ([RepId] int NOT NULL , [AutTypeName] nchar(60) NOT NULL , [AutTypeLngId] nchar(3) NOT NULL , [AutTypeNameLng] nchar(254) NULL , [AutTypeDscLng] nchar(254) NULL , PRIMARY KEY([RepId], [AutTypeName], [AutTypeLngId]))
+
+CREATE TABLE gam.[CountryLng] ([CountryId] nchar(9) NOT NULL , [CountryLngId] nchar(3) NOT NULL , [CountryNameLng] nchar(120) NOT NULL , PRIMARY KEY([CountryId], [CountryLngId]))
+
+CREATE TABLE gam.[Country] ([CountryId] nchar(9) NOT NULL , [CountryName] nchar(120) NOT NULL , [Country_iso_3] nchar(3) NOT NULL , [CountryCreDate] datetime NULL , [CountryCreUser] nvarchar(250) NULL , [CountryUpdDate] datetime NULL , [CountryUpdUser] nvarchar(250) NULL , PRIMARY KEY([CountryId]))
+
+CREATE TABLE gam.[UserMemRole] ([UserGUID] nchar(40) NOT NULL , [RepId] int NOT NULL , [UserMemRoleRoleId] decimal( 12) NOT NULL , [UserMemRoleCreDate] datetime NULL , [UserMemRoleCreUser] nvarchar(250) NULL , [UserMemRoleUpdDate] datetime NULL , [UserMemRoleUpdUser] nvarchar(250) NULL , PRIMARY KEY([UserGUID], [RepId], [UserMemRoleRoleId]))
+CREATE NONCLUSTERED INDEX [IUSERMEMROLEROLE] ON gam.[UserMemRole] ([RepId] ,[UserMemRoleRoleId] )
+
+CREATE TABLE gam.[UserMemAppRole] ([UserGUID] nchar(40) NOT NULL , [RepId] int NOT NULL , [UserMemAppRoleAppId] decimal( 12) NOT NULL , [UserMemAppRoleRoleId] decimal( 12) NOT NULL , [UserMemAppRoleCreDate] datetime NULL , [UserMemAppRoleCreUser] nvarchar(250) NULL , [UserMemAppRoleUpdDate] datetime NULL , [UserMemAppRoleUpdUser] nvarchar(250) NULL , PRIMARY KEY([UserGUID], [RepId], [UserMemAppRoleAppId], [UserMemAppRoleRoleId]))
+CREATE NONCLUSTERED INDEX [IUSERMEMAPPROLEAPP] ON gam.[UserMemAppRole] ([RepId] ,[UserMemAppRoleAppId] )
+CREATE NONCLUSTERED INDEX [IUSERMEMAPPROLEROLE] ON gam.[UserMemAppRole] ([RepId] ,[UserMemAppRoleRoleId] )
+
+CREATE TABLE gam.[UserAttMultiValue] ([UserGUID] nchar(40) NOT NULL , [UserAttId] nchar(60) NOT NULL , [UserAttMVId] nchar(60) NOT NULL , [UserAttMVVal] nvarchar(2048) NULL , PRIMARY KEY([UserGUID], [UserAttId], [UserAttMVId]))
+
+CREATE TABLE gam.[UserAtt] ([UserGUID] nchar(40) NOT NULL , [UserAttId] nchar(60) NOT NULL , [UserAttIsMV] BIT NOT NULL , [UserAttVal] nvarchar(2048) NULL , [UserAttToken] nchar(40) NULL , PRIMARY KEY([UserGUID], [UserAttId]))
+
+CREATE TABLE gam.[UserRepository] ([UserGUID] nchar(40) NOT NULL , [RepId] int NOT NULL , [UserRepSecPolId] int NULL , [UserRepMainRoleId] decimal( 12) NULL , [UserRepCreDate] datetime NULL , [UserRepCreUser] nvarchar(250) NULL , [UserRepUpdDate] datetime NULL , [UserRepUpdUser] nvarchar(250) NULL , [UserRepRecPwdAns] nchar(254) NULL , [UserRepQstUserId] int NULL , PRIMARY KEY([UserGUID], [RepId]))
+CREATE NONCLUSTERED INDEX [IUSERREPOSITORY1] ON gam.[UserRepository] ([RepId] ,[UserRepSecPolId] )
+CREATE NONCLUSTERED INDEX [IUSERREPOSITORY2] ON gam.[UserRepository] ([RepId] ,[UserRepMainRoleId] )
+CREATE NONCLUSTERED INDEX [IUSERREPOSITORY] ON gam.[UserRepository] ([RepId] ,[UserRepQstUserId] )
+
+CREATE TABLE gam.[UserHisPwd] ([UserGUID] nchar(40) NOT NULL , [UserHisPwdDate] datetime NOT NULL , [UserHisPwdPwd] nchar(254) NOT NULL , PRIMARY KEY([UserGUID], [UserHisPwdDate]))
+CREATE NONCLUSTERED INDEX [UUSERHISPWD] ON gam.[UserHisPwd] ([UserGUID] ,[UserHisPwdDate] DESC)
+
+CREATE TABLE gam.[User] ([UserGUID] nchar(40) NOT NULL , [UserNameSpace] nchar(60) NOT NULL , [UserAutTypeName] nchar(60) NOT NULL , [UserName] nvarchar(100) NOT NULL , [UserEMail] nvarchar(100) NOT NULL , [UserExtId] nvarchar(100) NULL , [UserPwd] nchar(254) NOT NULL , [UserFirstName] nchar(60) NULL , [UserLastName] nchar(60) NULL , [UserBirthday] datetime NULL , [UserGender] nchar(1) NOT NULL , [UserPhone] nchar(254) NULL , [UserAddress] nchar(254) NULL , [UserAddress2] nchar(254) NULL , [UserCity] nchar(254) NULL , [UserState] nchar(254) NULL , [CountryId] nchar(9) NULL , [UserPostCode] nchar(60) NULL , [UserLng] nchar(3) NULL , [UserTimeZone] nchar(60) NULL , [UserPhoto] VARBINARY(MAX) NULL , [UserPhoto_GXI] varchar(2048) NULL , [UserNotRcvInf] BIT NOT NULL , [UserIsBlk] BIT NOT NULL , [UserBlkLastDate] datetime NULL , [UserIsAct] BIT NOT NULL , [UserActKey] nchar(254) NULL , [UserActDate] datetime NULL , [UserNotChgPwd] BIT NOT NULL , [UserChgPwdNexLog] BIT NOT NULL , [UserPwdNevExp] BIT NOT NULL , [UserRecPwdKey] nchar(254) NULL , [UserRecPwdKeyExp] datetime NULL , [UserDateLastChgPwd] datetime NULL , [UserIsDlt] BIT NOT NULL , [UserDateLastAuth] datetime NULL , [UserCreDate] datetime NULL , [UserCreUser] nvarchar(250) NULL , [UserUpdDate] datetime NULL , [UserUpdUser] nvarchar(250) NULL , [UserURLImage] nvarchar(2048) NULL , [UserURLProf] nvarchar(2048) NULL , [UserDataReqComplete] BIT NOT NULL , [UserDataReqCompleteKey] nchar(254) NULL , [UserIsDevice] BIT NOT NULL , [UserPwdEncryption] nchar(3) NULL , [UserEnableTwoFactorAuth] BIT NULL , [UserOTPNumberLocked] smallint NULL , [UserOTPLastLockedDate] datetime NULL , [UserOTPDailyNumberCodes] smallint NULL , [UserOTPLastDateRequestCode] datetime NULL , [UserOTPFailedAttempts] smallint NULL , [UserFailedLoginAttempts] smallint NULL , [UserLastFailedLoginAttempt] datetime NULL , [UserRecPwdKeyDailyNumber] smallint NULL , [UserRecPwdKeyMonthNumber] smallint NULL , [UserRecPwdKeyLastDate] datetime NULL , [UserTOTPEnable] BIT NULL , [UserTOTPSecretKey] nvarchar(120) NULL , PRIMARY KEY([UserGUID]))
+CREATE NONCLUSTERED INDEX [UUSERLOGIN] ON gam.[User] ([UserNameSpace] ,[UserAutTypeName] ,[UserName] ,[UserIsDlt] )
+CREATE NONCLUSTERED INDEX [IUSERCOUNTRY] ON gam.[User] ([CountryId] )
+CREATE NONCLUSTERED INDEX [UUSEREMAIL] ON gam.[User] ([UserNameSpace] ,[UserAutTypeName] ,[UserEMail] ,[UserIsDlt] )
+CREATE NONCLUSTERED INDEX [UUSEREXTID] ON gam.[User] ([UserNameSpace] ,[UserAutTypeName] ,[UserExtId] ,[UserIsDlt] )
+CREATE NONCLUSTERED INDEX [UEMAIL] ON gam.[User] ([UserEMail] )
+CREATE NONCLUSTERED INDEX [UACTIVATIONKEY] ON gam.[User] ([UserActKey] )
+
+CREATE TABLE gam.[AppEnvironmentLng] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppEnvId] decimal( 12) NOT NULL , [AppEnvLngId] nchar(3) NOT NULL , [AppEnvNameLng] nchar(120) NULL , [AppEnvDscLng] nchar(254) NULL , PRIMARY KEY([RepId], [AppId], [AppEnvId], [AppEnvLngId]))
+
+CREATE TABLE gam.[RepositoryProp] ([RepId] int NOT NULL , [RepPropId] nchar(60) NOT NULL , [RepPropToken] nchar(40) NOT NULL , [RepPropVal] nvarchar(2048) NULL , PRIMARY KEY([RepId], [RepPropId], [RepPropToken]))
+
+CREATE TABLE gam.[ApplicationProp] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppPropId] nchar(60) NOT NULL , [AppPropToken] nchar(40) NOT NULL , [AppPropValue] nvarchar(2048) NULL , PRIMARY KEY([RepId], [AppId], [AppPropId], [AppPropToken]))
+
+CREATE TABLE gam.[RoleProp] ([RepId] int NOT NULL , [RoleId] decimal( 12) NOT NULL , [RolePropId] nchar(60) NOT NULL , [RolePropToken] nchar(40) NOT NULL , [RolePropValue] nvarchar(2048) NULL , PRIMARY KEY([RepId], [RoleId], [RolePropId], [RolePropToken]))
+
+CREATE TABLE gam.[AppMenuOptionProp] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppMnuId] decimal( 12) NOT NULL , [AppMnuOptId] decimal( 12) NOT NULL , [AppMnuOptPropId] nchar(60) NOT NULL , [AppMnuOptPropToken] nchar(40) NOT NULL , [AppMnuOptPropValue] nvarchar(2048) NULL , PRIMARY KEY([RepId], [AppId], [AppMnuId], [AppMnuOptId], [AppMnuOptPropId], [AppMnuOptPropToken]))
+
+CREATE TABLE gam.[AppMenuOptionLng] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppMnuId] decimal( 12) NOT NULL , [AppMnuOptId] decimal( 12) NOT NULL , [AppMnuOptLngId] nchar(3) NOT NULL , [AppMnuOptNameLng] nchar(254) NULL , [AppMnuOptDscLng] nchar(254) NULL , PRIMARY KEY([RepId], [AppId], [AppMnuId], [AppMnuOptId], [AppMnuOptLngId]))
+
+CREATE TABLE gam.[AppMenuOption] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppMnuId] decimal( 12) NOT NULL , [AppMnuOptId] decimal( 12) NOT NULL , [AppMnuOptGUID] nchar(40) NOT NULL , [AppMnuOptName] nchar(254) NULL , [AppMnuOptDsc] nchar(254) NULL , [AppMnuOptCreDate] datetime NULL , [AppMnuOptCreUser] nvarchar(250) NULL , [AppMnuOptUpdDate] datetime NULL , [AppMnuOptUpdUser] nvarchar(250) NULL , [AppMnuOptOrder] int NOT NULL , [AppMnuOptType] nchar(1) NOT NULL , [AppMnuOptRelAppId] decimal( 12) NULL , [AppMnuOptRelPrmPar] nvarchar(2048) NULL , [AppMnuOptRelMnuId] decimal( 12) NULL , [AppMnuOptRelPrmGUID] nchar(40) NULL , [AppMnuOptResource] nvarchar(2048) NULL , PRIMARY KEY([RepId], [AppId], [AppMnuId], [AppMnuOptId]))
+CREATE NONCLUSTERED INDEX [IAPPMENUOPTION2] ON gam.[AppMenuOption] ([RepId] ,[AppMnuOptRelAppId] ,[AppMnuOptRelMnuId] )
+CREATE NONCLUSTERED INDEX [IAPPMENUOPTION3] ON gam.[AppMenuOption] ([RepId] ,[AppMnuOptRelAppId] ,[AppMnuOptRelPrmGUID] )
+CREATE NONCLUSTERED INDEX [UAPPMENUOPTION] ON gam.[AppMenuOption] ([RepId] ,[AppId] ,[AppMnuId] ,[AppMnuOptOrder] )
+
+CREATE TABLE gam.[AuditoryActionLng] ([AudActId] decimal( 12) NOT NULL , [AudActLngId] nchar(3) NOT NULL , [AudActDscLng] nchar(254) NOT NULL , PRIMARY KEY([AudActId], [AudActLngId]))
+
+CREATE TABLE gam.[AppMenuLng] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppMnuId] decimal( 12) NOT NULL , [AppMnuLngId] nchar(3) NOT NULL , [AppMnuNameLng] nchar(254) NULL , [AppMnuDscLng] nchar(254) NULL , PRIMARY KEY([RepId], [AppId], [AppMnuId], [AppMnuLngId]))
+
+CREATE TABLE gam.[SecurityPolicyLng] ([RepId] int NOT NULL , [SecPolId] int NOT NULL , [SecPolLngId] nchar(3) NOT NULL , [SecPolNameLng] nchar(254) NOT NULL , [SecPolDscLng] nchar(254) NULL , PRIMARY KEY([RepId], [SecPolId], [SecPolLngId]))
+
+CREATE TABLE gam.[RoleLng] ([RepId] int NOT NULL , [RoleId] decimal( 12) NOT NULL , [RoleLngId] nchar(3) NOT NULL , [RoleNameLng] nchar(254) NULL , [RoleDscLng] nchar(254) NULL , PRIMARY KEY([RepId], [RoleId], [RoleLngId]))
+
+CREATE TABLE gam.[RepositoryLng] ([RepId] int NOT NULL , [RepLngId] nchar(3) NOT NULL , [RepNameLng] nchar(254) NULL , [RepDscLng] nchar(254) NULL , PRIMARY KEY([RepId], [RepLngId]))
+
+CREATE TABLE gam.[ApplicationNum] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppNumId] nchar(30) NOT NULL , [AppNumLast] decimal( 12) NOT NULL , [AppNumDate] datetime NOT NULL , PRIMARY KEY([RepId], [AppId], [AppNumId]))
+
+CREATE TABLE gam.[AppPrmMemPrm] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppPrmMemPrmParent] nchar(40) NOT NULL , [AppPrmMemPrmChild] nchar(40) NOT NULL , [AppPrmMemPrmCreDate] datetime NULL , [AppPrmMemPrmCreUser] nvarchar(250) NULL , [AppPrmMemPrmUpdDate] datetime NULL , [AppPrmMemPrmUpdUser] nvarchar(250) NULL , PRIMARY KEY([RepId], [AppId], [AppPrmMemPrmParent], [AppPrmMemPrmChild]))
+CREATE NONCLUSTERED INDEX [IAPPPRMMEMPRM2] ON gam.[AppPrmMemPrm] ([RepId] ,[AppId] ,[AppPrmMemPrmChild] )
+
+CREATE TABLE gam.[AppType] ([RepId] int NOT NULL , [AppTypeId] decimal( 12) NOT NULL , [AppTypeGUID] nchar(40) NOT NULL , [AppTypeName] nchar(254) NOT NULL , [AppTypeDsc] nchar(254) NOT NULL , [AppTypeCreDate] datetime NULL , [AppTypeCreUser] nvarchar(250) NULL , [AppTypeUpdDate] datetime NULL , [AppTypeUpdUser] nvarchar(250) NULL , PRIMARY KEY([RepId], [AppTypeId]))
+
+CREATE TABLE gam.[Application] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppName] nchar(254) NULL , [AppGUID] nchar(40) NOT NULL , [AppVer] nchar(60) NOT NULL , [AppComName] nchar(254) NULL , [AppTypeId] decimal( 12) NULL , [AppParAppId] decimal( 12) NULL , [AppDsc] nchar(254) NULL , [AppCopyright] nchar(254) NULL , [AppOrder] int NOT NULL , [AppRetMnuOptWithoutPrm] BIT NOT NULL , [AppCurEnvId] decimal( 12) NULL , [AppBaseAppId] decimal( 12) NULL , [AppCreDate] datetime NULL , [AppCreUser] nvarchar(250) NULL , [AppUpdDate] datetime NULL , [AppUpdUser] nvarchar(250) NULL , [AppIsBaseApplication] BIT NOT NULL , [AppCliId] nchar(40) NULL , [AppCliSecret] nchar(120) NULL , [AppCliUserGUID] nchar(40) NULL , [AppCliImageURL] nvarchar(2048) NULL , [AppCliSiteURL] nvarchar(2048) NULL , [AppCliSiteDomain] nvarchar(2048) NULL , [AppCliRevoked] datetime NULL , [AppType] smallint NOT NULL , [AppCliEncKey] nchar(32) NOT NULL , [AppCliDefPrmGUID] nchar(40) NULL , [AppAccessReqPrm] BIT NOT NULL , [AppCliAccessUniqueByUser] BIT NOT NULL , [AppCliAutoRegAnomymousUser] BIT NOT NULL , [AppCliAllowRemoteAuth] BIT NULL , [AppCliAllowGetUserRoles] BIT NULL , [AppCliAllowGetUserAdditionalDa] BIT NULL , [AppCliLocalLoginURL] nvarchar(2048) NULL , PRIMARY KEY([RepId], [AppId]))
+CREATE UNIQUE NONCLUSTERED INDEX [UAPPLICATIONGUID] ON gam.[Application] ([RepId] ,[AppGUID] )
+CREATE UNIQUE NONCLUSTERED INDEX [UAPPLICATIONCLIID] ON gam.[Application] ([RepId] ,[AppCliId] ) WHERE [AppCliId]  IS NOT NULL
+CREATE NONCLUSTERED INDEX [IAPPLICATIONPAR] ON gam.[Application] ([RepId] ,[AppParAppId] )
+CREATE NONCLUSTERED INDEX [IAPPLICATIONBASE] ON gam.[Application] ([RepId] ,[AppBaseAppId] )
+CREATE NONCLUSTERED INDEX [IAPPLICATIONTYPE] ON gam.[Application] ([RepId] ,[AppTypeId] )
+CREATE NONCLUSTERED INDEX [UAPPLICATIONNAME] ON gam.[Application] ([RepId] ,[AppName] )
+CREATE NONCLUSTERED INDEX [IAPPLICATIONENV] ON gam.[Application] ([RepId] ,[AppId] ,[AppCurEnvId] )
+
+CREATE TABLE gam.[AppMenu] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppMnuId] decimal( 12) NOT NULL , [AppMnuGUID] nchar(40) NOT NULL , [AppMnuName] nchar(254) NULL , [AppMnuSerOpt] decimal( 12) NOT NULL , [AppMnuCreDate] datetime NOT NULL , [AppMnuCreUser] nvarchar(250) NOT NULL , [AppMnuUpdDate] datetime NOT NULL , [AppMnuUpdUser] nvarchar(250) NOT NULL , [AppMnuDsc] nchar(254) NULL , [AppMnuToken] nchar(40) NOT NULL , PRIMARY KEY([RepId], [AppId], [AppMnuId]))
+CREATE UNIQUE NONCLUSTERED INDEX [UAPPMENUGUID] ON gam.[AppMenu] ([RepId] ,[AppId] ,[AppMnuGUID] )
+CREATE UNIQUE NONCLUSTERED INDEX [UAPPMENUTOKEN] ON gam.[AppMenu] ([RepId] ,[AppId] ,[AppMnuToken] )
+
+CREATE TABLE gam.[ApplicationLng] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppLngId] nchar(3) NOT NULL , [AppNameLng] nchar(254) NOT NULL , [AppDscLng] nchar(254) NULL , PRIMARY KEY([RepId], [AppId], [AppLngId]))
+
+CREATE TABLE gam.[Auditory] ([RepId] int NOT NULL , [AudId] int NOT NULL , [AudSesRepId] int NOT NULL , [AudSesToken] nchar(120) NOT NULL , [AudDate] datetime NOT NULL , [AudActId] decimal( 12) NOT NULL , [AudPgmName] nchar(254) NOT NULL , [AudActKey1] decimal( 12) NULL , [AudActKey2] decimal( 12) NULL , [AudActKey3] decimal( 12) NULL , [AudActKey4] decimal( 12) NULL , [AudActPreDet] nvarchar(2048) NULL , [AudActCurDet] nvarchar(2048) NULL , [AudActionKeyGUID1] nchar(40) NULL , [AudActionKeyGUID2] nchar(40) NULL , [AudActionKeyChar1] nchar(254) NULL , PRIMARY KEY([RepId], [AudId]))
+CREATE NONCLUSTERED INDEX [IAUDITORY1] ON gam.[Auditory] ([AudActId] )
+
+CREATE TABLE gam.[AuditoryAction] ([AudActId] decimal( 12) NOT NULL , [AudActDsc] nchar(254) NOT NULL , PRIMARY KEY([AudActId]))
+
+CREATE TABLE gam.[AppMenuProp] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppMnuId] decimal( 12) NOT NULL , [AppMnuPropId] nchar(60) NOT NULL , [AppMnuPropToken] nchar(40) NOT NULL , [APPMnuPropValue] nvarchar(2048) NULL , PRIMARY KEY([RepId], [AppId], [AppMnuId], [AppMnuPropId], [AppMnuPropToken]))
+
+CREATE TABLE gam.[AppEnvironment] ([RepId] int NOT NULL , [AppId] decimal( 12) NOT NULL , [AppEnvId] decimal( 12) NOT NULL , [AppEnvGUID] nchar(40) NOT NULL , [AppEnvSrvHost] nchar(120) NOT NULL , [AppEnvSrvPort] int NULL , [AppEnvSrvVirDir] nchar(120) NULL , [AppEnvSrvHttps] BIT NOT NULL , [AppEnvSrvPgmPac] nchar(254) NULL , [AppEnvSrvPgmExt] nchar(60) NULL , [AppEnvOrder] int NOT NULL , [AppEnvName] nchar(120) NULL , [AppEnvCreDate] datetime NULL , [AppEnvCreUser] nvarchar(250) NULL , [AppEnvUpdDate] datetime NULL , [AppEnvUpdUser] nvarchar(250) NULL , PRIMARY KEY([RepId], [AppId], [AppEnvId]))
+
+CREATE TABLE gam.[SessionHistoryLogAtt] ([RepId] int NOT NULL , [SesHisToken] nchar(120) NOT NULL , [SesHisAttUserLog] nvarchar(250) NOT NULL , [SesHisAttQtyLog] smallint NOT NULL , PRIMARY KEY([RepId], [SesHisToken], [SesHisAttUserLog]))
+
+CREATE TABLE gam.[SessionHistory] ([RepId] int NOT NULL , [SesHisToken] nchar(120) NOT NULL , [SesHisLogin] nvarchar(250) NOT NULL , [SesHisDate] datetime NOT NULL , [SesHisSts] nchar(1) NOT NULL , [SesHisType] smallint NOT NULL , [SesHisURL] nvarchar(2048) NOT NULL , [SesHisIPAdd] nchar(60) NOT NULL , [BrwId] smallint NULL , [OpeSysId] smallint NULL , [SesHisLastAcc] datetime NOT NULL , [SesHisLastURL] nvarchar(2048) NOT NULL , [SesHisTimeOut] smallint NOT NULL , [SesHisExtToken] nchar(120) NOT NULL , [SesHisLogAtt] int NOT NULL , [SesHisLogDate] datetime NOT NULL , [SesHisSharedData] NVARCHAR(MAX) NOT NULL , [SesHisEndDate] datetime NOT NULL , [UserGUID] nchar(40) NOT NULL , [SesHisExtToken2] nvarchar(1024) NULL , [SesHisAppId] decimal( 12) NULL , [SesHisRefreshToken] nchar(40) NULL , [SesHisDeviceId] nchar(40) NULL , [SesHisAppTokenExp] datetime NULL , [SesHisOauthTokenMaxRenew] smallint NULL , [SesHisOauthTokenExpires] int NULL , [SesHisOauthScope] nvarchar(2048) NULL , [SesHisExtToken3] NVARCHAR(MAX) NULL , [SesHisExtTokenExpires] datetime NULL , [SesHisExtTokenRefresh] nvarchar(2000) NULL , [SesHisAutTypeName] nchar(60) NULL , [SesHisJson] NVARCHAR(MAX) NULL , [SesHisIdToken] nvarchar(4000) NULL , [SesHisEndedByOtherLogin] BIT NULL , PRIMARY KEY([RepId], [SesHisToken]))
+CREATE NONCLUSTERED INDEX [ISESHISTORYOS] ON gam.[SessionHistory] ([OpeSysId] )
+CREATE NONCLUSTERED INDEX [ISESHISTORYBRW] ON gam.[SessionHistory] ([BrwId] )
+CREATE NONCLUSTERED INDEX [ISESHISUSER] ON gam.[SessionHistory] ([UserGUID] ,[RepId] )
+
+CREATE TABLE gam.[OperatingSystem] ([OpeSysId] smallint NOT NULL , [OpeSysDsc] nchar(60) NOT NULL , [OpeSysVer] nchar(60) NOT NULL , [OpeSysCreDate] datetime NULL , [OpeSysCreUser] nvarchar(250) NULL , [OpeSysUpdDate] datetime NULL , [OpeSysUpdUser] nvarchar(250) NULL , PRIMARY KEY([OpeSysId]))
+
+CREATE TABLE gam.[RoleAppTypePrmProp] ([RepId] int NOT NULL , [RoleId] decimal( 12) NOT NULL , [AppTypeId] decimal( 12) NOT NULL , [AppTypePrmId] decimal( 12) NOT NULL , [RoleAppTypePrmPropId] nchar(60) NOT NULL , [RoleAppTypePrmPropValue] nvarchar(2048) NOT NULL , [RoleAppTypePrmPropCreDate] datetime NOT NULL , [RoleAppTypePrmPropCreUser] nvarchar(250) NOT NULL , [RoleAppTypePrmPropUpdDate] datetime NOT NULL , [RoleAppTypePrmPropUpdUser] nvarchar(250) NOT NULL , PRIMARY KEY([RepId], [RoleId], [AppTypeId], [AppTypePrmId], [RoleAppTypePrmPropId]))
+
+CREATE TABLE gam.[AppRole] ([RepId] int NOT NULL , [AppRoleAppId] decimal( 12) NOT NULL , [AppRoleRoleId] decimal( 12) NOT NULL , [AppRoleCreDate] datetime NULL , [AppRoleCreUser] nvarchar(250) NULL , [AppRoleUpdDate] datetime NULL , [AppRoleUpdUser] nvarchar(250) NULL , [AppRoleTokenTypeGUID] nchar(40) NULL , PRIMARY KEY([RepId], [AppRoleAppId], [AppRoleRoleId]))
+CREATE NONCLUSTERED INDEX [IAPPROLEROLE] ON gam.[AppRole] ([RepId] ,[AppRoleRoleId] )
+CREATE NONCLUSTERED INDEX [IAPPROLE1] ON gam.[AppRole] ([RepId] ,[AppRoleAppId] ,[AppRoleTokenTypeGUID] )
+
+CREATE TABLE gam.[AppTypePrmMemPrm] ([RepId] int NOT NULL , [AppTypeId] decimal( 12) NOT NULL , [AppTypePrmMemPrmParId] decimal( 12) NOT NULL , [AppTypePrmMemPrmChiId] decimal( 12) NOT NULL , [AppTypePrmMemPrmCreDate] datetime NULL , [AppTypePrmMemPrmCreUser] nvarchar(250) NULL , [AppTypePrmMemPrmUpdDate] datetime NULL , [AppTypePrmMemPrmUpdUser] nvarchar(250) NULL , PRIMARY KEY([RepId], [AppTypeId], [AppTypePrmMemPrmParId], [AppTypePrmMemPrmChiId]))
+
+CREATE TABLE gam.[AppTypePermission] ([RepId] int NOT NULL , [AppTypeId] decimal( 12) NOT NULL , [AppTypePrmId] decimal( 12) NOT NULL , [AppTypePrmGUID] nchar(40) NOT NULL , [AppTypeResId] decimal( 12) NOT NULL , [AppTypeActId] decimal( 12) NOT NULL , [AppTypePrmIsParent] BIT NOT NULL , [AppTypePrmCreDate] datetime NULL , [AppTypePrmCreUser] nvarchar(250) NULL , [AppTypePrmUpdDate] datetime NULL , [AppTypePrmUpdUser] nvarchar(250) NULL , PRIMARY KEY([RepId], [AppTypeId], [AppTypePrmId]))
+CREATE NONCLUSTERED INDEX [IAPPTYPEPERMISSION1] ON gam.[AppTypePermission] ([RepId] ,[AppTypeId] ,[AppTypeActId] )
+CREATE NONCLUSTERED INDEX [IAPPTYPEPERMISSION2] ON gam.[AppTypePermission] ([RepId] ,[AppTypeId] ,[AppTypeResId] )
+
+CREATE TABLE gam.[SecurityPolicy] ([RepId] int NOT NULL , [SecPolId] int NOT NULL , [SecPolPerChgPwd] smallint NOT NULL , [SecPolSesTimeOut] int NOT NULL , [SecPolMinLenPwd] smallint NOT NULL , [SecPolAmoCharNumericPwd] smallint NOT NULL , [SecPolAmoHisPwd] smallint NOT NULL , [SecPolName] nchar(254) NULL , [SecPolGUID] nchar(40) NOT NULL , [SecPolCreDate] datetime NULL , [SecPolCreUser] nvarchar(250) NULL , [SecPolUpdDate] datetime NULL , [SecPolUpdUser] nvarchar(250) NULL , [SecPolDsc] nchar(254) NULL , [SecPolOauthTokenExpire] int NOT NULL , [SecPolAmoCharUpperCasePwd] smallint NOT NULL , [SecPolAmoCharSpecialPwd] smallint NOT NULL , [SecPolOauthGrantExpire] int NOT NULL , [SecPolActSesPerUser] smallint NOT NULL , [SecPolOauthTokenMaxRenew] smallint NOT NULL , [SecPolFrecMinChangePwd] int NOT NULL , PRIMARY KEY([RepId], [SecPolId]))
+
+CREATE TABLE gam.[RepositoryNum] ([RepId] int NOT NULL , [RepNumId] nchar(30) NOT NULL , [RepNumLast] decimal( 12) NOT NULL , [RepNumDate] datetime NOT NULL , PRIMARY KEY([RepId], [RepNumId]))
+
+CREATE TABLE gam.[AuthenticationType] ([RepId] int NOT NULL , [AutTypeName] nchar(60) NOT NULL , [AutTypeType] nchar(30) NOT NULL , [AutTypeFunc] nchar(30) NOT NULL , [AutTypeIsEna] BIT NOT NULL , [AutTypeDsc] nchar(120) NULL , [AutTypeCreDate] datetime NOT NULL , [AutTypeCreUser] nvarchar(250) NOT NULL , [AutTypeUpdDate] datetime NOT NULL , [AutTypeUpdUser] nvarchar(250) NOT NULL , PRIMARY KEY([RepId], [AutTypeName]))
+CREATE NONCLUSTERED INDEX [UAUTTYPEDSC] ON gam.[AuthenticationType] ([RepId] ,[AutTypeDsc] )
+
+CREATE TABLE gam.[AppTypeAction] ([RepId] int NOT NULL , [AppTypeId] decimal( 12) NOT NULL , [AppTypeActId] decimal( 12) NOT NULL , [AppTypeActGUID] nchar(40) NOT NULL , [AppTypeActName] nchar(254) NOT NULL , [AppTypeActDsc] nchar(254) NULL , [AppTypeActCreDate] datetime NULL , [AppTypeActCreUser] nvarchar(250) NULL , [AppTypeActUpdDate] datetime NULL , [AppTypeActUpdUser] nvarchar(250) NULL , PRIMARY KEY([RepId], [AppTypeId], [AppTypeActId]))
+CREATE UNIQUE NONCLUSTERED INDEX [UAPPTYPEACTGUID] ON gam.[AppTypeAction] ([RepId] ,[AppTypeActGUID] )
+
+CREATE TABLE gam.[AppTypeResource] ([RepId] int NOT NULL , [AppTypeId] decimal( 12) NOT NULL , [AppTypeResId] decimal( 12) NOT NULL , [AppTypeResGUID] nchar(40) NOT NULL , [AppTypeResName] nchar(254) NOT NULL , [AppTypeResDsc] nchar(254) NULL , [AppTypeResCreDate] datetime NULL , [AppTypeResCreUser] nvarchar(250) NULL , [AppTypeResUpdDate] datetime NULL , [AppTypeResUpdUser] nvarchar(250) NULL , PRIMARY KEY([RepId], [AppTypeId], [AppTypeResId]))
+CREATE UNIQUE NONCLUSTERED INDEX [UAPPTYPERESGUID] ON gam.[AppTypeResource] ([RepId] ,[AppTypeResGUID] )
+
+CREATE TABLE gam.[RoleAppTypePrm] ([RepId] int NOT NULL , [RoleId] decimal( 12) NOT NULL , [AppTypeId] decimal( 12) NOT NULL , [AppTypePrmId] decimal( 12) NOT NULL , [RoleAppTypePrmType] nchar(1) NOT NULL , [RoleAppTypePrmInh] BIT NOT NULL , [RoleAppTypePrmAllItems] BIT NOT NULL , [RoleAppTypePrmCreDate] datetime NULL , [RoleAppTypePrmCreUser] nvarchar(250) NULL , [RoleAppTypePrmUpdDate] datetime NULL , [RoleAppTypePrmUpdUser] nvarchar(250) NULL , PRIMARY KEY([RepId], [RoleId], [AppTypeId], [AppTypePrmId]))
+CREATE NONCLUSTERED INDEX [IROLEAPPPRM14] ON gam.[RoleAppTypePrm] ([RepId] ,[AppTypeId] ,[AppTypePrmId] )
+
+CREATE TABLE gam.[SessionLogAtt] ([RepId] int NOT NULL , [SesToken] nchar(120) NOT NULL , [SesAttUserLog] nvarchar(250) NOT NULL , [SesAttQtyLog] smallint NOT NULL , PRIMARY KEY([RepId], [SesToken], [SesAttUserLog]))
+
+CREATE TABLE gam.[Session] ([RepId] int NOT NULL , [SesToken] nchar(120) NOT NULL , [SesDate] datetime NOT NULL , [SesSts] nchar(1) NOT NULL , [SesType] smallint NOT NULL , [SesURL] nvarchar(2048) NOT NULL , [SesIPAdd] nchar(60) NOT NULL , [OpeSysId] smallint NULL , [SesLastAcc] datetime NOT NULL , [SesTimeOut] smallint NOT NULL , [SesLogAtt] int NOT NULL , [SesLogDate] datetime NOT NULL , [SesSharedData] NVARCHAR(MAX) NOT NULL , [SesEndDate] datetime NOT NULL , [SesReload] BIT NOT NULL , [BrwId] smallint NULL , [SesLastURL] nvarchar(2048) NOT NULL , [SesLogin] nvarchar(250) NOT NULL , [SesExtToken] nchar(120) NOT NULL , [UserGUID] nchar(40) NULL , [SesAppTokenExp] datetime NULL , [SesRefreshToken] nchar(40) NULL , [SesAppId] decimal( 12) NULL , [SesDeviceId] nchar(40) NULL , [SesExtToken2] nvarchar(1024) NULL , [SesAutTypeName] nchar(60) NULL , [SesOauthTokenMaxRenew] smallint NULL , [SesOauthTokenExpires] int NULL , [SesOauthScope] nvarchar(2048) NULL , [SesExtToken3] NVARCHAR(MAX) NULL , [SesExtTokenExpires] datetime NULL , [SesExtTokenRefresh] nvarchar(2000) NULL , [SesJson] NVARCHAR(MAX) NULL , [SesIdToken] nvarchar(4000) NULL , [SesOTP] nvarchar(250) NULL , [SesOTPExpire] datetime NULL , [SesEndedByOtherLogin] BIT NULL , PRIMARY KEY([RepId], [SesToken]))
+CREATE NONCLUSTERED INDEX [ISESBRW] ON gam.[Session] ([BrwId] )
+CREATE NONCLUSTERED INDEX [ISESOPESYS] ON gam.[Session] ([OpeSysId] )
+CREATE NONCLUSTERED INDEX [ISESUSER] ON gam.[Session] ([UserGUID] ,[RepId] )
+CREATE NONCLUSTERED INDEX [USESTOKEN] ON gam.[Session] ([SesToken] )
+CREATE NONCLUSTERED INDEX [USESREPPARENTTOKENUSERSTS] ON gam.[Session] ([RepId] ,[SesExtToken] ,[UserGUID] ,[SesSts] )
+CREATE NONCLUSTERED INDEX [USESREFRESHTOKEN] ON gam.[Session] ([RepId] ,[SesType] ,[SesSts] ,[SesAppId] ,[SesRefreshToken] )
+CREATE NONCLUSTERED INDEX [USESUSERAPPPARENT] ON gam.[Session] ([UserGUID] ,[SesAppId] ,[SesExtToken] )
+CREATE NONCLUSTERED INDEX [USESPARENTTOKENUSERSTS] ON gam.[Session] ([SesExtToken] ,[UserGUID] ,[SesSts] )
+CREATE NONCLUSTERED INDEX [USESSIONUSEROTPCODE] ON gam.[Session] ([RepId] ,[SesAppId] ,[SesAutTypeName] ,[UserGUID] ,[SesSts] ,[SesOTP] ,[SesDate] DESC)
+
+CREATE TABLE gam.[Repository] ([RepId] int NOT NULL , [RepVer] nchar(60) NOT NULL , [RepUpg] nchar(60) NOT NULL , [RepDefAutTypeName] nchar(60) NULL , [RepUserActType] nchar(1) NOT NULL , [RepUserActTimeOut] int NOT NULL , [RepDefSecPolId] int NULL , [RepGenAud] nchar(20) NOT NULL , [RepUserRemMeTimeOut] smallint NOT NULL , [RepGenSesSta] nchar(20) NOT NULL , [RepUserChrMinLog] smallint NOT NULL , [RepGUID] nchar(40) NOT NULL , [RepCanRegUser] BIT NOT NULL , [RepUserRemMeType] nchar(6) NOT NULL , [RepGiveAnoSes] BIT NOT NULL , [RepAnoUserGUID] nchar(40) NULL , [RepDefRoleId] decimal( 12) NULL , [RepCreDate] datetime NOT NULL , [RepCreUser] nvarchar(250) NOT NULL , [RepUpdDate] datetime NOT NULL , [RepUpdUser] nvarchar(250) NOT NULL , [RepNameSpace] nchar(60) NOT NULL , [RepUserRecPwdKeyTimeOut] int NOT NULL , [RepUserReqPwd] BIT NOT NULL , [RepUserReqEmail] BIT NOT NULL , [RepUserReqFirstName] BIT NOT NULL , [RepUserReqLastName] BIT NOT NULL , [RepUserReqBir] BIT NOT NULL , [RepUserReqGen] BIT NOT NULL , [RepUserReqPhone] BIT NOT NULL , [RepUserReqAddress] BIT NOT NULL , [RepUserReqCity] BIT NOT NULL , [RepUserReqState] BIT NOT NULL , [RepUserReqCountry] BIT NOT NULL , [RepUserReqPostCode] BIT NOT NULL , [RepUserReqLng] BIT NOT NULL , [RepUserReqTimeZone] BIT NOT NULL , [RepUserReqPhoto] BIT NOT NULL , [RepUserAttLogLockUser] smallint NOT NULL , [RepUserAttLogLockSession] smallint NOT NULL , [RepDsc] nchar(254) NULL , [RepUserEmailSecAdm] nchar(254) NULL , [RepUserTimeToUnblock] int NOT NULL , [RepName] nchar(60) NOT NULL , [RepUserEmailUnique] BIT NOT NULL , [RepAllowOauthAccess] BIT NOT NULL , [RepUserIdentification] nchar(6) NOT NULL , [RepKeepSesOnlyOriIP] BIT NOT NULL , [RepUserSessionCacheTimeout] int NOT NULL , [RepAnoUserSDRoleId] decimal( 12) NULL , PRIMARY KEY([RepId]))
+CREATE UNIQUE NONCLUSTERED INDEX [UREPGIUD] ON gam.[Repository] ([RepGUID] )
+CREATE NONCLUSTERED INDEX [IREPOSITORYROLE] ON gam.[Repository] ([RepId] ,[RepDefRoleId] )
+CREATE NONCLUSTERED INDEX [IREPOSITORYATYPE] ON gam.[Repository] ([RepId] ,[RepDefAutTypeName] )
+CREATE NONCLUSTERED INDEX [IREPOSITORYSECPOL] ON gam.[Repository] ([RepId] ,[RepDefSecPolId] )
+CREATE NONCLUSTERED INDEX [IREPOSITORY] ON gam.[Repository] ([RepId] ,[RepAnoUserSDRoleId] )
+
+CREATE TABLE gam.[Browser] ([BrwId] smallint NOT NULL , [BrwDsc] nchar(60) NULL , [BrwVer] nchar(60) NULL , PRIMARY KEY([BrwId]))
+
+CREATE TABLE gam.[SysPar] ([SysParId] nchar(30) NOT NULL , [SysParVal] nchar(254) NOT NULL , PRIMARY KEY([SysParId]))
+
+CREATE TABLE gam.[RoleMemRole] ([RepId] int NOT NULL , [RoleMemRoleParent] decimal( 12) NOT NULL , [RoleMemRoleChild] decimal( 12) NOT NULL , [RoleMemRoleCreDate] datetime NULL , [RoleMemRoleCreUser] nvarchar(250) NULL , [RoleMemRoleUpdDate] datetime NULL , [RoleMemRoleUpdUser] nvarchar(250) NULL , PRIMARY KEY([RepId], [RoleMemRoleParent], [RoleMemRoleChild]))
+CREATE NONCLUSTERED INDEX [IROLEMEMROLE2] ON gam.[RoleMemRole] ([RepId] ,[RoleMemRoleChild] )
+
+CREATE TABLE gam.[Role] ([RepId] int NOT NULL , [RoleId] decimal( 12) NOT NULL , [RoleExtId] nvarchar(100) NULL , [RoleSecPolId] int NULL , [RoleGUID] nchar(40) NOT NULL , [RoleName] nchar(254) NULL , [RoleDsc] nchar(254) NULL , [RoleCreDate] datetime NULL , [RoleCreUser] nvarchar(250) NULL , [RoleUpdDate] datetime NULL , [RoleUpdUser] nvarchar(250) NULL , PRIMARY KEY([RepId], [RoleId]))
+CREATE UNIQUE NONCLUSTERED INDEX [UROLEGUID] ON gam.[Role] ([RepId] ,[RoleGUID] )
+CREATE NONCLUSTERED INDEX [UROLEEXTID] ON gam.[Role] ([RepId] ,[RoleExtId] )
+CREATE NONCLUSTERED INDEX [IROLESECPOL] ON gam.[Role] ([RepId] ,[RoleSecPolId] )
+

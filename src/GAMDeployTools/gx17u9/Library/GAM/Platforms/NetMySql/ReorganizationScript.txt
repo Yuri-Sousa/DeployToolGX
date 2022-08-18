@@ -1,0 +1,237 @@
+CREATE TABLE `UserProp` (`UserGUID` national char(40) NOT NULL , `UserPropID` national char(60) NOT NULL , `UserPropToken` national char(40) NOT NULL , `UserPropValue` national varchar(2048) , PRIMARY KEY(`UserGUID`, `UserPropID`, `UserPropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `SysConnectionConfig` (`SysConnCfgKey` national char(40) NOT NULL , `SysConnCfgRep` national char(40) NOT NULL , `SysConnCfgName` national varchar(120) NOT NULL , `SysConnCfgUser` national varchar(100) , `SysConnCfgPwd` national char(254) NOT NULL , `SysConnCfgJson` MEDIUMTEXT CHARACTER SET utf8 , PRIMARY KEY(`SysConnCfgKey`, `SysConnCfgRep`, `SysConnCfgName`))  ENGINE=InnoDB
+
+CREATE TABLE `SessionHistoryLog` (`RepId` int NOT NULL , `SesHisToken` national char(120) NOT NULL , `SesHisLogGuid` national char(40) NOT NULL , `SesHisLogDateTime` datetime NOT NULL , `SesHisLogType` national char(30) NOT NULL , `SesHisLogDetail` TEXT CHARACTER SET utf8 , PRIMARY KEY(`RepId`, `SesHisToken`, `SesHisLogGuid`))  ENGINE=InnoDB
+
+CREATE TABLE `UserRepositoryProp` (`UserGUID` national char(40) NOT NULL , `RepId` int NOT NULL , `UserRepPropId` national char(60) NOT NULL , `UserRepPropToken` national char(40) NOT NULL , `UserRepPropValue` national varchar(2048) , PRIMARY KEY(`UserGUID`, `RepId`, `UserRepPropId`, `UserRepPropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `SessionLog` (`RepId` int NOT NULL , `SesToken` national char(120) NOT NULL , `SesLogGuid` national char(40) NOT NULL , `SesLogDateTime` datetime NOT NULL , `SesLogType` national char(30) NOT NULL , `SesLogDetail` TEXT CHARACTER SET utf8 , PRIMARY KEY(`RepId`, `SesToken`, `SesLogGuid`))  ENGINE=InnoDB
+
+CREATE TABLE `LoginTmp` (`LoginTmpTokenState` national char(60) NOT NULL , `LoginTmpDateTime` datetime NOT NULL , `LoginTmpData` national varchar(5000) NOT NULL , PRIMARY KEY(`LoginTmpTokenState`))  ENGINE=InnoDB
+
+CREATE TABLE `EventSuscriptionProp` (`RepId` int NOT NULL , `EveSusId` national char(40) NOT NULL , `EveSusPropId` national char(60) NOT NULL , `EveSusPropToken` national char(40) NOT NULL , `EveSusPropValue` national varchar(2048) , PRIMARY KEY(`RepId`, `EveSusId`, `EveSusPropId`, `EveSusPropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `EventSuscription` (`RepId` int NOT NULL , `EveSusId` national char(40) NOT NULL , `EveSusDsc` national char(254) NOT NULL , `EveSusStatus` national char(1) NOT NULL , `EveSusEntity` national char(60) NOT NULL , `EveSusAction` national char(20) NOT NULL , `EveSusClassName` national char(60) NOT NULL , `EveSusCreDate` datetime , `EveSusCreUser` national varchar(250) , `EveSusUpdDate` datetime , `EveSusUpdUser` national varchar(250) , `EveSusFileName` national char(254) NOT NULL , `EveSusMethodName` national char(60) NOT NULL , PRIMARY KEY(`RepId`, `EveSusId`))  ENGINE=InnoDB
+CREATE INDEX `UEVENTSUSCRIPTION` ON `EventSuscription` (`RepId` ,`EveSusEntity` ,`EveSusStatus` ,`EveSusDsc` )
+
+CREATE TABLE `UserMemRoleProp` (`UserGUID` national char(40) NOT NULL , `RepId` int NOT NULL , `UserMemRoleRoleId` bigint NOT NULL , `UserMemRolePropId` national char(60) NOT NULL , `UserMemRolePropToken` national char(40) NOT NULL , `UserMemRolePropValue` national varchar(2048) NOT NULL , PRIMARY KEY(`UserGUID`, `RepId`, `UserMemRoleRoleId`, `UserMemRolePropId`, `UserMemRolePropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `UserMemAppRoleProp` (`UserGUID` national char(40) NOT NULL , `RepId` int NOT NULL , `UserMemAppRoleAppId` bigint NOT NULL , `UserMemAppRoleRoleId` bigint NOT NULL , `UserMemAppRolePropId` national char(60) NOT NULL , `UserMemAppRolePropToken` national char(40) NOT NULL , `UserMemAppRolePropValue` national varchar(2048) NOT NULL , PRIMARY KEY(`UserGUID`, `RepId`, `UserMemAppRoleAppId`, `UserMemAppRoleRoleId`, `UserMemAppRolePropId`, `UserMemAppRolePropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `SecurityPolicyProp` (`RepId` int NOT NULL , `SecPolId` int NOT NULL , `SecPolPropId` national char(60) NOT NULL , `SecPolPropToken` national char(40) NOT NULL , `SecPolPropValue` national varchar(2048) NOT NULL , PRIMARY KEY(`RepId`, `SecPolId`, `SecPolPropId`, `SecPolPropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `RepositoryConnAdd` (`RepId` int NOT NULL , `RepConName` national char(120) NOT NULL , `RepConSrvCon` national char(60) NOT NULL , PRIMARY KEY(`RepId`, `RepConName`, `RepConSrvCon`))  ENGINE=InnoDB
+
+CREATE TABLE `RepositoryConnection` (`RepId` int NOT NULL , `RepConName` national char(120) NOT NULL , `RepConUser` national char(100) NOT NULL , `RepConPwd` national char(254) NOT NULL , `RepConLng` national char(3) NOT NULL , `RepConType` national char(30) NOT NULL , `RepConKey` national char(32) NOT NULL , `RepConChaExpire` mediumint NOT NULL , `RepConSrvSpecify` BOOL NOT NULL , `RepConChaSrv` national char(60) , `RepConChaDate` datetime , `RepConCha` national char(254) , `RepConCreDate` datetime NOT NULL , `RepConCreUser` national varchar(250) NOT NULL , `RepConUpdDate` datetime NOT NULL , `RepConUpdUser` national varchar(250) NOT NULL , PRIMARY KEY(`RepId`, `RepConName`))  ENGINE=InnoDB
+CREATE UNIQUE INDEX `UREPOSITORYCONNUSER` ON `RepositoryConnection` (`RepId` ,`RepConUser` )
+
+CREATE TABLE `UserAppPrmProp` (`RepId` int NOT NULL , `UserGUID` national char(40) NOT NULL , `AppId` bigint NOT NULL , `AppPrmGUID` national char(40) NOT NULL , `UserAppPrmToken` national char(254) NOT NULL , `UserAppPrmPropId` national char(60) NOT NULL , `UserAppPrmPropToken` national char(40) NOT NULL , `UserAppPrmPropValue` national varchar(2048) , `UserAppPrmPropCreDate` datetime , `UserAppPrmPropCreUser` national varchar(250) , `UserAppPrmPropUpdDate` datetime , `UserAppPrmPropUpdUser` national varchar(250) , PRIMARY KEY(`RepId`, `UserGUID`, `AppId`, `AppPrmGUID`, `UserAppPrmToken`, `UserAppPrmPropId`, `UserAppPrmPropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `UserAppPrm` (`RepId` int NOT NULL , `UserGUID` national char(40) NOT NULL , `AppId` bigint NOT NULL , `AppPrmGUID` national char(40) NOT NULL , `UserAppPrmToken` national char(254) NOT NULL , `UserAppPrmType` national char(1) NOT NULL , `UserAppPrmInh` BOOL NOT NULL , `UserAppPrmCreDate` datetime , `UserAppPrmCreUser` national varchar(250) , `UserAppPrmUpdDate` datetime , `UserAppPrmUpdUser` national varchar(250) , `AppPrmName` national char(254) NOT NULL , PRIMARY KEY(`RepId`, `UserGUID`, `AppId`, `AppPrmGUID`, `UserAppPrmToken`))  ENGINE=InnoDB
+CREATE INDEX `IUSERAPPPRM1` ON `UserAppPrm` (`RepId` ,`AppId` ,`AppPrmGUID` )
+CREATE INDEX `IUSERAPPPRM2` ON `UserAppPrm` (`UserGUID` ,`RepId` )
+
+CREATE TABLE `UserMemAppRoleRest` (`UserGUID` national char(40) NOT NULL , `RepId` int NOT NULL , `UserMemAppRoleAppId` bigint NOT NULL , `UserMemAppRoleRoleId` bigint NOT NULL , `UserMemAppRoleRestToken` national char(40) NOT NULL , PRIMARY KEY(`UserGUID`, `RepId`, `UserMemAppRoleAppId`, `UserMemAppRoleRoleId`, `UserMemAppRoleRestToken`))  ENGINE=InnoDB
+
+CREATE TABLE `AppRoleRest` (`RepId` int NOT NULL , `AppRoleAppId` bigint NOT NULL , `AppRoleRoleId` bigint NOT NULL , `AppRoleRestToken` national char(40) NOT NULL , PRIMARY KEY(`RepId`, `AppRoleAppId`, `AppRoleRoleId`, `AppRoleRestToken`))  ENGINE=InnoDB
+
+CREATE TABLE `OauthGrantUserApp` (`RepId` int NOT NULL , `OGUserAppCode` national char(120) NOT NULL , `AppId` bigint NOT NULL , `UserGUID` national char(40) NOT NULL , `OGUserAppSesToken` national char(120) , `OGUserAppRefreshToken` national char(40) , `OGUserAppGrantDate` datetime , `OGUserAppRevokedDate` datetime , `OGUserAppCreDate` datetime , `OGUserAppCreUser` national varchar(250) , `OGUserAppUpdDate` datetime , `OGUserAppUpdUser` national varchar(250) , `AppPrmGUID` national char(40) NOT NULL , `OGUserAppExpire` datetime , `OGUserAppStatus` national char(1) NOT NULL , PRIMARY KEY(`RepId`, `OGUserAppCode`))  ENGINE=InnoDB
+CREATE INDEX `IOAUTHGRANTUSERAPP1` ON `OauthGrantUserApp` (`UserGUID` ,`RepId` )
+CREATE INDEX `IOAUTHGRANTUSERAPP2` ON `OauthGrantUserApp` (`RepId` ,`AppId` ,`AppPrmGUID` )
+CREATE INDEX `UOAUTHGRANTUSERAPPTOKEN` ON `OauthGrantUserApp` (`RepId` ,`OGUserAppSesToken` )
+CREATE INDEX `UOAUTHGRANTUSERAPP` ON `OauthGrantUserApp` (`RepId` ,`UserGUID` ,`AppId` ,`OGUserAppStatus` )
+
+CREATE TABLE `RoleAppPrmProp` (`RepId` int NOT NULL , `RoleId` bigint NOT NULL , `AppId` bigint NOT NULL , `AppPrmGUID` national char(40) NOT NULL , `RoleAppPrmToken` national char(254) NOT NULL , `RoleAppPrmPropId` national char(60) NOT NULL , `RoleAppPrmPropToken` national char(40) NOT NULL , `RoleAppPrmPropValue` national varchar(2048) NOT NULL , `RoleAppPrmPropCreDate` datetime NOT NULL , `RoleAppPrmPropCreUser` national varchar(250) NOT NULL , `RoleAppPrmPropUpdDate` datetime NOT NULL , `RoleAppPrmPropUpdUser` national varchar(250) NOT NULL , PRIMARY KEY(`RepId`, `RoleId`, `AppId`, `AppPrmGUID`, `RoleAppPrmToken`, `RoleAppPrmPropId`, `RoleAppPrmPropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `AppAuthReq` (`RepId` int NOT NULL , `AppAuthReqId` national char(254) NOT NULL , `AppAuthReqRedirURL` national varchar(2048) NOT NULL , `AppAuthReqResponseType` national char(5) NOT NULL , `AppAuthReqAuthorized` datetime , `AppAuthReqRevoked` datetime , `AppId` bigint NOT NULL , `AppPrmGUID` national char(40) NOT NULL , `AppAuthReqCreated` datetime NOT NULL , `AppAuthReqUserAppPrmCode` national char(80) , `AppAuthReqSesToken` national char(120) , PRIMARY KEY(`RepId`, `AppAuthReqId`))  ENGINE=InnoDB
+CREATE INDEX `IAPPAUTHREQ1` ON `AppAuthReq` (`RepId` ,`AppId` ,`AppPrmGUID` )
+
+CREATE TABLE `AppPermissionProp` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppPrmGUID` national char(40) NOT NULL , `AppPrmPropId` national char(60) NOT NULL , `AppPrmPropToken` national char(40) NOT NULL , `AppPrmPropValue` national varchar(2048) NOT NULL , `AppPrmPropCreDate` datetime , `AppPrmPropCreUser` national varchar(250) , `AppPrmPropUpdDate` datetime , `AppPrmPropUpdUser` national varchar(250) , PRIMARY KEY(`RepId`, `AppId`, `AppPrmGUID`, `AppPrmPropId`, `AppPrmPropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `AppPrmTokenTypeEle` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppPrmTokenTypeGUID` national char(40) NOT NULL , `AppPrmTokenEleName` national char(60) NOT NULL , `AppPrmTokenEleDsc` national char(254) NOT NULL , `AppPrmTokenEleWSHost` national char(254) NOT NULL , `AppPrmTokenELWSName` national char(254) NOT NULL , `AppPrmTokenEleOrder` int NOT NULL , PRIMARY KEY(`RepId`, `AppId`, `AppPrmTokenTypeGUID`, `AppPrmTokenEleName`))  ENGINE=InnoDB
+CREATE INDEX `UAPPPRMTOKENTYPEELE` ON `AppPrmTokenTypeEle` (`RepId` ,`AppId` ,`AppPrmTokenTypeGUID` ,`AppPrmTokenEleOrder` )
+
+CREATE TABLE `RoleAppPrm` (`RepId` int NOT NULL , `RoleId` bigint NOT NULL , `AppId` bigint NOT NULL , `AppPrmGUID` national char(40) NOT NULL , `RoleAppPrmToken` national char(254) NOT NULL , `RoleAppPrmType` national char(1) NOT NULL , `RoleAppPrmInh` BOOL NOT NULL , `RoleAppPrmCreDate` datetime , `RoleAppPrmCreUser` national varchar(250) , `RoleAppPrmUpdDate` datetime , `RoleAppPrmUpdUser` national varchar(250) , `AppPrmName` national char(254) NOT NULL , PRIMARY KEY(`RepId`, `RoleId`, `AppId`, `AppPrmGUID`, `RoleAppPrmToken`))  ENGINE=InnoDB
+CREATE INDEX `IROLEAPPPRM3` ON `RoleAppPrm` (`RepId` ,`AppId` ,`AppPrmGUID` )
+
+CREATE TABLE `AppPermissionLng` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppPrmGUID` national char(40) NOT NULL , `AppPrmLngId` national char(3) NOT NULL , `AppPrmDscLng` national char(254) NOT NULL , `AppPrmNameLng` national char(254) NOT NULL , PRIMARY KEY(`RepId`, `AppId`, `AppPrmGUID`, `AppPrmLngId`))  ENGINE=InnoDB
+
+CREATE TABLE `AppPermission` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppPrmGUID` national char(40) NOT NULL , `AppPrmName` national char(254) NOT NULL , `AppPrmDsc` national char(254) , `AppPrmPgmName` national char(254) , `AppPrmDefType` national char(1) NOT NULL , `AppPrmTokenTypeGUID` national char(40) , `AppPrmCreDate` datetime , `AppPrmCreUser` national varchar(250) , `AppPrmUpdDate` datetime , `AppPrmUpdUser` national varchar(250) , `AppPrmCurEnvId` bigint , `AppPrmPgmPar` national char(254) , `AppPrmIsGXAuto` BOOL NOT NULL , PRIMARY KEY(`RepId`, `AppId`, `AppPrmGUID`))  ENGINE=InnoDB
+CREATE UNIQUE INDEX `UAPPPERMISSIONNAME` ON `AppPermission` (`RepId` ,`AppId` ,`AppPrmName` )
+CREATE INDEX `IAPPPERMISSION1` ON `AppPermission` (`RepId` ,`AppId` ,`AppPrmTokenTypeGUID` )
+CREATE INDEX `IAPPPERMISSION2` ON `AppPermission` (`RepId` ,`AppId` ,`AppPrmCurEnvId` )
+
+CREATE TABLE `AppPrmTokenTypeLng` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppPrmTokenTypeGUID` national char(40) NOT NULL , `AppPrmTokenTypeLngId` national char(3) NOT NULL , `AppPrmTokenTypeNameLng` national char(254) NOT NULL , `AppPrmTokenTypeDscLng` national char(254) , PRIMARY KEY(`RepId`, `AppId`, `AppPrmTokenTypeGUID`, `AppPrmTokenTypeLngId`))  ENGINE=InnoDB
+
+CREATE TABLE `AppPrmTokenType` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppPrmTokenTypeGUID` national char(40) NOT NULL , `AppPrmTokenTypeName` national char(254) NOT NULL , `AppPrmTokenTypeDsc` national char(254) , `AppPrmTokenTypeCreDate` datetime , `AppPrmTokenTypeCreUser` national varchar(250) , `AppPrmTokenTypeUpdDate` datetime , `AppPrmTokenTypeUpdUser` national varchar(250) , PRIMARY KEY(`RepId`, `AppId`, `AppPrmTokenTypeGUID`))  ENGINE=InnoDB
+
+CREATE TABLE `RepositoryCountry` (`RepId` int NOT NULL , `CountryId` national char(9) NOT NULL , `RepCountryCreDate` datetime , `RepCountryCreUser` national varchar(250) , `RepCountryUpdDate` datetime , `RepCountryUpdUser` national varchar(250) , PRIMARY KEY(`RepId`, `CountryId`))  ENGINE=InnoDB
+CREATE INDEX `IREPOSITORYCOUNTRY1` ON `RepositoryCountry` (`CountryId` )
+
+CREATE TABLE `RepQuestionUserLng` (`RepId` int NOT NULL , `QstUserId` int NOT NULL , `QstUserLngId` national char(3) NOT NULL , `QstUserNameLng` national char(254) , `QstUserDscLng` national char(254) , PRIMARY KEY(`RepId`, `QstUserId`, `QstUserLngId`))  ENGINE=InnoDB
+
+CREATE TABLE `RepQuestionUser` (`RepId` int NOT NULL , `QstUserId` int NOT NULL , `QstUserName` national char(254) , `QstUserDsc` national char(254) , `QstUserCreDate` datetime NOT NULL , `QstUserCreUser` national varchar(250) NOT NULL , `QstUserUpdDate` datetime NOT NULL , `QstUserUpdUser` national varchar(250) NOT NULL , `QstUserGUID` national char(40) NOT NULL , PRIMARY KEY(`RepId`, `QstUserId`))  ENGINE=InnoDB
+CREATE UNIQUE INDEX `UREPQSTUSERGUID` ON `RepQuestionUser` (`RepId` ,`QstUserGUID` )
+
+CREATE TABLE `AuthenticationTypeProp` (`RepId` int NOT NULL , `AutTypeName` national char(60) NOT NULL , `AutTypePropId` national char(60) NOT NULL , `AutTypePropToken` national char(40) NOT NULL , `AutTypePropValue` national varchar(2048) , PRIMARY KEY(`RepId`, `AutTypeName`, `AutTypePropId`, `AutTypePropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `AuthenticationTypeLng` (`RepId` int NOT NULL , `AutTypeName` national char(60) NOT NULL , `AutTypeLngId` national char(3) NOT NULL , `AutTypeNameLng` national char(254) , `AutTypeDscLng` national char(254) , PRIMARY KEY(`RepId`, `AutTypeName`, `AutTypeLngId`))  ENGINE=InnoDB
+
+CREATE TABLE `CountryLng` (`CountryId` national char(9) NOT NULL , `CountryLngId` national char(3) NOT NULL , `CountryNameLng` national char(120) NOT NULL , PRIMARY KEY(`CountryId`, `CountryLngId`))  ENGINE=InnoDB
+
+CREATE TABLE `Country` (`CountryId` national char(9) NOT NULL , `CountryName` national char(120) NOT NULL , `Country_iso_3` national char(3) NOT NULL , `CountryCreDate` datetime , `CountryCreUser` national varchar(250) , `CountryUpdDate` datetime , `CountryUpdUser` national varchar(250) , PRIMARY KEY(`CountryId`))  ENGINE=InnoDB
+
+CREATE TABLE `UserMemRole` (`UserGUID` national char(40) NOT NULL , `RepId` int NOT NULL , `UserMemRoleRoleId` bigint NOT NULL , `UserMemRoleCreDate` datetime , `UserMemRoleCreUser` national varchar(250) , `UserMemRoleUpdDate` datetime , `UserMemRoleUpdUser` national varchar(250) , PRIMARY KEY(`UserGUID`, `RepId`, `UserMemRoleRoleId`))  ENGINE=InnoDB
+CREATE INDEX `IUSERMEMROLEROLE` ON `UserMemRole` (`RepId` ,`UserMemRoleRoleId` )
+
+CREATE TABLE `UserMemAppRole` (`UserGUID` national char(40) NOT NULL , `RepId` int NOT NULL , `UserMemAppRoleAppId` bigint NOT NULL , `UserMemAppRoleRoleId` bigint NOT NULL , `UserMemAppRoleCreDate` datetime , `UserMemAppRoleCreUser` national varchar(250) , `UserMemAppRoleUpdDate` datetime , `UserMemAppRoleUpdUser` national varchar(250) , PRIMARY KEY(`UserGUID`, `RepId`, `UserMemAppRoleAppId`, `UserMemAppRoleRoleId`))  ENGINE=InnoDB
+CREATE INDEX `IUSERMEMAPPROLEAPP` ON `UserMemAppRole` (`RepId` ,`UserMemAppRoleAppId` )
+CREATE INDEX `IUSERMEMAPPROLEROLE` ON `UserMemAppRole` (`RepId` ,`UserMemAppRoleRoleId` )
+
+CREATE TABLE `UserAttMultiValue` (`UserGUID` national char(40) NOT NULL , `UserAttId` national char(60) NOT NULL , `UserAttMVId` national char(60) NOT NULL , `UserAttMVVal` national varchar(2048) , PRIMARY KEY(`UserGUID`, `UserAttId`, `UserAttMVId`))  ENGINE=InnoDB
+
+CREATE TABLE `UserAtt` (`UserGUID` national char(40) NOT NULL , `UserAttId` national char(60) NOT NULL , `UserAttIsMV` BOOL NOT NULL , `UserAttVal` national varchar(2048) , `UserAttToken` national char(40) , PRIMARY KEY(`UserGUID`, `UserAttId`))  ENGINE=InnoDB
+
+CREATE TABLE `UserRepository` (`UserGUID` national char(40) NOT NULL , `RepId` int NOT NULL , `UserRepSecPolId` int , `UserRepMainRoleId` bigint , `UserRepCreDate` datetime , `UserRepCreUser` national varchar(250) , `UserRepUpdDate` datetime , `UserRepUpdUser` national varchar(250) , `UserRepRecPwdAns` national char(254) , `UserRepQstUserId` int , PRIMARY KEY(`UserGUID`, `RepId`))  ENGINE=InnoDB
+CREATE INDEX `IUSERREPOSITORY1` ON `UserRepository` (`RepId` ,`UserRepSecPolId` )
+CREATE INDEX `IUSERREPOSITORY2` ON `UserRepository` (`RepId` ,`UserRepMainRoleId` )
+CREATE INDEX `IUSERREPOSITORY` ON `UserRepository` (`RepId` ,`UserRepQstUserId` )
+
+CREATE TABLE `UserHisPwd` (`UserGUID` national char(40) NOT NULL , `UserHisPwdDate` datetime NOT NULL , `UserHisPwdPwd` national char(254) NOT NULL , PRIMARY KEY(`UserGUID`, `UserHisPwdDate`))  ENGINE=InnoDB
+
+CREATE TABLE `User` (`UserGUID` national char(40) NOT NULL , `UserNameSpace` national char(60) NOT NULL , `UserAutTypeName` national char(60) NOT NULL , `UserName` national varchar(100) NOT NULL , `UserEMail` national varchar(100) NOT NULL , `UserExtId` national varchar(100) , `UserPwd` national char(254) NOT NULL , `UserFirstName` national char(60) , `UserLastName` national char(60) , `UserBirthday` date , `UserGender` national char(1) NOT NULL , `UserPhone` national char(254) , `UserAddress` national char(254) , `UserAddress2` national char(254) , `UserCity` national char(254) , `UserState` national char(254) , `CountryId` national char(9) , `UserPostCode` national char(60) , `UserLng` national char(3) , `UserTimeZone` national char(60) , `UserPhoto` LONGBLOB , `UserPhoto_GXI` varchar(2048) , `UserNotRcvInf` BOOL NOT NULL , `UserIsBlk` BOOL NOT NULL , `UserBlkLastDate` datetime , `UserIsAct` BOOL NOT NULL , `UserActKey` national char(254) , `UserActDate` datetime , `UserNotChgPwd` BOOL NOT NULL , `UserChgPwdNexLog` BOOL NOT NULL , `UserPwdNevExp` BOOL NOT NULL , `UserRecPwdKey` national char(254) , `UserRecPwdKeyExp` datetime , `UserDateLastChgPwd` datetime , `UserIsDlt` BOOL NOT NULL , `UserDateLastAuth` datetime , `UserCreDate` datetime , `UserCreUser` national varchar(250) , `UserUpdDate` datetime , `UserUpdUser` national varchar(250) , `UserURLImage` national varchar(2048) , `UserURLProf` national varchar(2048) , `UserDataReqComplete` BOOL NOT NULL , `UserDataReqCompleteKey` national char(254) , `UserIsDevice` BOOL NOT NULL , `UserPwdEncryption` national char(3) , `UserEnableTwoFactorAuth` BOOL , `UserOTPNumberLocked` smallint , `UserOTPLastLockedDate` datetime , `UserOTPDailyNumberCodes` smallint , `UserOTPLastDateRequestCode` date , `UserOTPFailedAttempts` smallint , `UserFailedLoginAttempts` smallint , `UserLastFailedLoginAttempt` datetime , `UserRecPwdKeyDailyNumber` smallint , `UserRecPwdKeyMonthNumber` smallint , `UserRecPwdKeyLastDate` date , `UserTOTPEnable` BOOL , `UserTOTPSecretKey` national varchar(120) , PRIMARY KEY(`UserGUID`))  ENGINE=InnoDB
+CREATE INDEX `UUSERLOGIN` ON `User` (`UserNameSpace` ,`UserAutTypeName` ,`UserName` ,`UserIsDlt` )
+CREATE INDEX `IUSERCOUNTRY` ON `User` (`CountryId` )
+CREATE INDEX `UUSEREMAIL` ON `User` (`UserNameSpace` ,`UserAutTypeName` ,`UserEMail` ,`UserIsDlt` )
+CREATE INDEX `UUSEREXTID` ON `User` (`UserNameSpace` ,`UserAutTypeName` ,`UserExtId` ,`UserIsDlt` )
+CREATE INDEX `UEMAIL` ON `User` (`UserEMail` )
+CREATE INDEX `UACTIVATIONKEY` ON `User` (`UserActKey` )
+
+CREATE TABLE `AppEnvironmentLng` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppEnvId` bigint NOT NULL , `AppEnvLngId` national char(3) NOT NULL , `AppEnvNameLng` national char(120) , `AppEnvDscLng` national char(254) , PRIMARY KEY(`RepId`, `AppId`, `AppEnvId`, `AppEnvLngId`))  ENGINE=InnoDB
+
+CREATE TABLE `RepositoryProp` (`RepId` int NOT NULL , `RepPropId` national char(60) NOT NULL , `RepPropToken` national char(40) NOT NULL , `RepPropVal` national varchar(2048) , PRIMARY KEY(`RepId`, `RepPropId`, `RepPropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `ApplicationProp` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppPropId` national char(60) NOT NULL , `AppPropToken` national char(40) NOT NULL , `AppPropValue` national varchar(2048) , PRIMARY KEY(`RepId`, `AppId`, `AppPropId`, `AppPropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `RoleProp` (`RepId` int NOT NULL , `RoleId` bigint NOT NULL , `RolePropId` national char(60) NOT NULL , `RolePropToken` national char(40) NOT NULL , `RolePropValue` national varchar(2048) , PRIMARY KEY(`RepId`, `RoleId`, `RolePropId`, `RolePropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `AppMenuOptionProp` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppMnuId` bigint NOT NULL , `AppMnuOptId` bigint NOT NULL , `AppMnuOptPropId` national char(60) NOT NULL , `AppMnuOptPropToken` national char(40) NOT NULL , `AppMnuOptPropValue` national varchar(2048) , PRIMARY KEY(`RepId`, `AppId`, `AppMnuId`, `AppMnuOptId`, `AppMnuOptPropId`, `AppMnuOptPropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `AppMenuOptionLng` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppMnuId` bigint NOT NULL , `AppMnuOptId` bigint NOT NULL , `AppMnuOptLngId` national char(3) NOT NULL , `AppMnuOptNameLng` national char(254) , `AppMnuOptDscLng` national char(254) , PRIMARY KEY(`RepId`, `AppId`, `AppMnuId`, `AppMnuOptId`, `AppMnuOptLngId`))  ENGINE=InnoDB
+
+CREATE TABLE `AppMenuOption` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppMnuId` bigint NOT NULL , `AppMnuOptId` bigint NOT NULL , `AppMnuOptGUID` national char(40) NOT NULL , `AppMnuOptName` national char(254) , `AppMnuOptDsc` national char(254) , `AppMnuOptCreDate` datetime , `AppMnuOptCreUser` national varchar(250) , `AppMnuOptUpdDate` datetime , `AppMnuOptUpdUser` national varchar(250) , `AppMnuOptOrder` int NOT NULL , `AppMnuOptType` national char(1) NOT NULL , `AppMnuOptRelAppId` bigint , `AppMnuOptRelPrmPar` national varchar(2048) , `AppMnuOptRelMnuId` bigint , `AppMnuOptRelPrmGUID` national char(40) , `AppMnuOptResource` national varchar(2048) , PRIMARY KEY(`RepId`, `AppId`, `AppMnuId`, `AppMnuOptId`))  ENGINE=InnoDB
+CREATE INDEX `IAPPMENUOPTION2` ON `AppMenuOption` (`RepId` ,`AppMnuOptRelAppId` ,`AppMnuOptRelMnuId` )
+CREATE INDEX `IAPPMENUOPTION3` ON `AppMenuOption` (`RepId` ,`AppMnuOptRelAppId` ,`AppMnuOptRelPrmGUID` )
+CREATE INDEX `UAPPMENUOPTION` ON `AppMenuOption` (`RepId` ,`AppId` ,`AppMnuId` ,`AppMnuOptOrder` )
+
+CREATE TABLE `AuditoryActionLng` (`AudActId` bigint NOT NULL , `AudActLngId` national char(3) NOT NULL , `AudActDscLng` national char(254) NOT NULL , PRIMARY KEY(`AudActId`, `AudActLngId`))  ENGINE=InnoDB
+
+CREATE TABLE `AppMenuLng` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppMnuId` bigint NOT NULL , `AppMnuLngId` national char(3) NOT NULL , `AppMnuNameLng` national char(254) , `AppMnuDscLng` national char(254) , PRIMARY KEY(`RepId`, `AppId`, `AppMnuId`, `AppMnuLngId`))  ENGINE=InnoDB
+
+CREATE TABLE `SecurityPolicyLng` (`RepId` int NOT NULL , `SecPolId` int NOT NULL , `SecPolLngId` national char(3) NOT NULL , `SecPolNameLng` national char(254) NOT NULL , `SecPolDscLng` national char(254) , PRIMARY KEY(`RepId`, `SecPolId`, `SecPolLngId`))  ENGINE=InnoDB
+
+CREATE TABLE `RoleLng` (`RepId` int NOT NULL , `RoleId` bigint NOT NULL , `RoleLngId` national char(3) NOT NULL , `RoleNameLng` national char(254) , `RoleDscLng` national char(254) , PRIMARY KEY(`RepId`, `RoleId`, `RoleLngId`))  ENGINE=InnoDB
+
+CREATE TABLE `RepositoryLng` (`RepId` int NOT NULL , `RepLngId` national char(3) NOT NULL , `RepNameLng` national char(254) , `RepDscLng` national char(254) , PRIMARY KEY(`RepId`, `RepLngId`))  ENGINE=InnoDB
+
+CREATE TABLE `ApplicationNum` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppNumId` national char(30) NOT NULL , `AppNumLast` bigint NOT NULL , `AppNumDate` date NOT NULL , PRIMARY KEY(`RepId`, `AppId`, `AppNumId`))  ENGINE=InnoDB
+
+CREATE TABLE `AppPrmMemPrm` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppPrmMemPrmParent` national char(40) NOT NULL , `AppPrmMemPrmChild` national char(40) NOT NULL , `AppPrmMemPrmCreDate` datetime , `AppPrmMemPrmCreUser` national varchar(250) , `AppPrmMemPrmUpdDate` datetime , `AppPrmMemPrmUpdUser` national varchar(250) , PRIMARY KEY(`RepId`, `AppId`, `AppPrmMemPrmParent`, `AppPrmMemPrmChild`))  ENGINE=InnoDB
+CREATE INDEX `IAPPPRMMEMPRM2` ON `AppPrmMemPrm` (`RepId` ,`AppId` ,`AppPrmMemPrmChild` )
+
+CREATE TABLE `AppType` (`RepId` int NOT NULL , `AppTypeId` bigint NOT NULL , `AppTypeGUID` national char(40) NOT NULL , `AppTypeName` national char(254) NOT NULL , `AppTypeDsc` national char(254) NOT NULL , `AppTypeCreDate` datetime , `AppTypeCreUser` national varchar(250) , `AppTypeUpdDate` datetime , `AppTypeUpdUser` national varchar(250) , PRIMARY KEY(`RepId`, `AppTypeId`))  ENGINE=InnoDB
+
+CREATE TABLE `Application` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppName` national char(254) , `AppGUID` national char(40) NOT NULL , `AppVer` national char(60) NOT NULL , `AppComName` national char(254) , `AppTypeId` bigint , `AppParAppId` bigint , `AppDsc` national char(254) , `AppCopyright` national char(254) , `AppOrder` int NOT NULL , `AppRetMnuOptWithoutPrm` BOOL NOT NULL , `AppCurEnvId` bigint , `AppBaseAppId` bigint , `AppCreDate` datetime , `AppCreUser` national varchar(250) , `AppUpdDate` datetime , `AppUpdUser` national varchar(250) , `AppIsBaseApplication` BOOL NOT NULL , `AppCliId` national char(40) , `AppCliSecret` national char(120) , `AppCliUserGUID` national char(40) , `AppCliImageURL` national varchar(2048) , `AppCliSiteURL` national varchar(2048) , `AppCliSiteDomain` national varchar(2048) , `AppCliRevoked` datetime , `AppType` smallint NOT NULL , `AppCliEncKey` national char(32) NOT NULL , `AppCliDefPrmGUID` national char(40) , `AppAccessReqPrm` BOOL NOT NULL , `AppCliAccessUniqueByUser` BOOL NOT NULL , `AppCliAutoRegAnomymousUser` BOOL NOT NULL , `AppCliAllowRemoteAuth` BOOL , `AppCliAllowGetUserRoles` BOOL , `AppCliAllowGetUserAdditionalDa` BOOL , `AppCliLocalLoginURL` national varchar(2048) , PRIMARY KEY(`RepId`, `AppId`))  ENGINE=InnoDB
+CREATE UNIQUE INDEX `UAPPLICATIONGUID` ON `Application` (`RepId` ,`AppGUID` )
+CREATE UNIQUE INDEX `UAPPLICATIONCLIID` ON `Application` (`RepId` ,`AppCliId` )
+CREATE INDEX `IAPPLICATIONPAR` ON `Application` (`RepId` ,`AppParAppId` )
+CREATE INDEX `IAPPLICATIONBASE` ON `Application` (`RepId` ,`AppBaseAppId` )
+CREATE INDEX `IAPPLICATIONTYPE` ON `Application` (`RepId` ,`AppTypeId` )
+CREATE INDEX `UAPPLICATIONNAME` ON `Application` (`RepId` ,`AppName` )
+CREATE INDEX `IAPPLICATIONENV` ON `Application` (`RepId` ,`AppId` ,`AppCurEnvId` )
+
+CREATE TABLE `AppMenu` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppMnuId` bigint NOT NULL , `AppMnuGUID` national char(40) NOT NULL , `AppMnuName` national char(254) , `AppMnuSerOpt` bigint NOT NULL , `AppMnuCreDate` datetime NOT NULL , `AppMnuCreUser` national varchar(250) NOT NULL , `AppMnuUpdDate` datetime NOT NULL , `AppMnuUpdUser` national varchar(250) NOT NULL , `AppMnuDsc` national char(254) , `AppMnuToken` national char(40) NOT NULL , PRIMARY KEY(`RepId`, `AppId`, `AppMnuId`))  ENGINE=InnoDB
+CREATE UNIQUE INDEX `UAPPMENUGUID` ON `AppMenu` (`RepId` ,`AppId` ,`AppMnuGUID` )
+CREATE UNIQUE INDEX `UAPPMENUTOKEN` ON `AppMenu` (`RepId` ,`AppId` ,`AppMnuToken` )
+
+CREATE TABLE `ApplicationLng` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppLngId` national char(3) NOT NULL , `AppNameLng` national char(254) NOT NULL , `AppDscLng` national char(254) , PRIMARY KEY(`RepId`, `AppId`, `AppLngId`))  ENGINE=InnoDB
+
+CREATE TABLE `Auditory` (`RepId` int NOT NULL , `AudId` int NOT NULL , `AudSesRepId` int NOT NULL , `AudSesToken` national char(120) NOT NULL , `AudDate` datetime NOT NULL , `AudActId` bigint NOT NULL , `AudPgmName` national char(254) NOT NULL , `AudActKey1` bigint , `AudActKey2` bigint , `AudActKey3` bigint , `AudActKey4` bigint , `AudActPreDet` national varchar(2048) , `AudActCurDet` national varchar(2048) , `AudActionKeyGUID1` national char(40) , `AudActionKeyGUID2` national char(40) , `AudActionKeyChar1` national char(254) , PRIMARY KEY(`RepId`, `AudId`))  ENGINE=InnoDB
+CREATE INDEX `IAUDITORY1` ON `Auditory` (`AudActId` )
+
+CREATE TABLE `AuditoryAction` (`AudActId` bigint NOT NULL , `AudActDsc` national char(254) NOT NULL , PRIMARY KEY(`AudActId`))  ENGINE=InnoDB
+
+CREATE TABLE `AppMenuProp` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppMnuId` bigint NOT NULL , `AppMnuPropId` national char(60) NOT NULL , `AppMnuPropToken` national char(40) NOT NULL , `APPMnuPropValue` national varchar(2048) , PRIMARY KEY(`RepId`, `AppId`, `AppMnuId`, `AppMnuPropId`, `AppMnuPropToken`))  ENGINE=InnoDB
+
+CREATE TABLE `AppEnvironment` (`RepId` int NOT NULL , `AppId` bigint NOT NULL , `AppEnvId` bigint NOT NULL , `AppEnvGUID` national char(40) NOT NULL , `AppEnvSrvHost` national char(120) NOT NULL , `AppEnvSrvPort` mediumint , `AppEnvSrvVirDir` national char(120) , `AppEnvSrvHttps` BOOL NOT NULL , `AppEnvSrvPgmPac` national char(254) , `AppEnvSrvPgmExt` national char(60) , `AppEnvOrder` int NOT NULL , `AppEnvName` national char(120) , `AppEnvCreDate` datetime , `AppEnvCreUser` national varchar(250) , `AppEnvUpdDate` datetime , `AppEnvUpdUser` national varchar(250) , PRIMARY KEY(`RepId`, `AppId`, `AppEnvId`))  ENGINE=InnoDB
+
+CREATE TABLE `SessionHistoryLogAtt` (`RepId` int NOT NULL , `SesHisToken` national char(120) NOT NULL , `SesHisAttUserLog` national varchar(250) NOT NULL , `SesHisAttQtyLog` smallint NOT NULL , PRIMARY KEY(`RepId`, `SesHisToken`, `SesHisAttUserLog`))  ENGINE=InnoDB
+
+CREATE TABLE `SessionHistory` (`RepId` int NOT NULL , `SesHisToken` national char(120) NOT NULL , `SesHisLogin` national varchar(250) NOT NULL , `SesHisDate` datetime NOT NULL , `SesHisSts` national char(1) NOT NULL , `SesHisType` smallint NOT NULL , `SesHisURL` national varchar(2048) NOT NULL , `SesHisIPAdd` national char(60) NOT NULL , `BrwId` smallint , `OpeSysId` smallint , `SesHisLastAcc` datetime NOT NULL , `SesHisLastURL` national varchar(2048) NOT NULL , `SesHisTimeOut` smallint NOT NULL , `SesHisExtToken` national char(120) NOT NULL , `SesHisLogAtt` mediumint NOT NULL , `SesHisLogDate` datetime NOT NULL , `SesHisSharedData` MEDIUMTEXT CHARACTER SET utf8 NOT NULL , `SesHisEndDate` datetime NOT NULL , `UserGUID` national char(40) NOT NULL , `SesHisExtToken2` national varchar(1024) , `SesHisAppId` bigint , `SesHisRefreshToken` national char(40) , `SesHisDeviceId` national char(40) , `SesHisAppTokenExp` datetime , `SesHisOauthTokenMaxRenew` smallint , `SesHisOauthTokenExpires` mediumint , `SesHisOauthScope` national varchar(2048) , `SesHisExtToken3` TEXT CHARACTER SET utf8 , `SesHisExtTokenExpires` datetime , `SesHisExtTokenRefresh` national varchar(2000) , `SesHisAutTypeName` national char(60) , `SesHisJson` TEXT CHARACTER SET utf8 , `SesHisIdToken` national varchar(4096) , `SesHisEndedByOtherLogin` BOOL , PRIMARY KEY(`RepId`, `SesHisToken`))  ENGINE=InnoDB
+CREATE INDEX `ISESHISTORYOS` ON `SessionHistory` (`OpeSysId` )
+CREATE INDEX `ISESHISTORYBRW` ON `SessionHistory` (`BrwId` )
+CREATE INDEX `ISESHISUSER` ON `SessionHistory` (`UserGUID` ,`RepId` )
+
+CREATE TABLE `OperatingSystem` (`OpeSysId` smallint NOT NULL , `OpeSysDsc` national char(60) NOT NULL , `OpeSysVer` national char(60) NOT NULL , `OpeSysCreDate` datetime , `OpeSysCreUser` national varchar(250) , `OpeSysUpdDate` datetime , `OpeSysUpdUser` national varchar(250) , PRIMARY KEY(`OpeSysId`))  ENGINE=InnoDB
+
+CREATE TABLE `RoleAppTypePrmProp` (`RepId` int NOT NULL , `RoleId` bigint NOT NULL , `AppTypeId` bigint NOT NULL , `AppTypePrmId` bigint NOT NULL , `RoleAppTypePrmPropId` national char(60) NOT NULL , `RoleAppTypePrmPropValue` national varchar(2048) NOT NULL , `RoleAppTypePrmPropCreDate` datetime NOT NULL , `RoleAppTypePrmPropCreUser` national varchar(250) NOT NULL , `RoleAppTypePrmPropUpdDate` datetime NOT NULL , `RoleAppTypePrmPropUpdUser` national varchar(250) NOT NULL , PRIMARY KEY(`RepId`, `RoleId`, `AppTypeId`, `AppTypePrmId`, `RoleAppTypePrmPropId`))  ENGINE=InnoDB
+
+CREATE TABLE `AppRole` (`RepId` int NOT NULL , `AppRoleAppId` bigint NOT NULL , `AppRoleRoleId` bigint NOT NULL , `AppRoleCreDate` datetime , `AppRoleCreUser` national varchar(250) , `AppRoleUpdDate` datetime , `AppRoleUpdUser` national varchar(250) , `AppRoleTokenTypeGUID` national char(40) , PRIMARY KEY(`RepId`, `AppRoleAppId`, `AppRoleRoleId`))  ENGINE=InnoDB
+CREATE INDEX `IAPPROLEROLE` ON `AppRole` (`RepId` ,`AppRoleRoleId` )
+CREATE INDEX `IAPPROLE1` ON `AppRole` (`RepId` ,`AppRoleAppId` ,`AppRoleTokenTypeGUID` )
+
+CREATE TABLE `AppTypePrmMemPrm` (`RepId` int NOT NULL , `AppTypeId` bigint NOT NULL , `AppTypePrmMemPrmParId` bigint NOT NULL , `AppTypePrmMemPrmChiId` bigint NOT NULL , `AppTypePrmMemPrmCreDate` datetime , `AppTypePrmMemPrmCreUser` national varchar(250) , `AppTypePrmMemPrmUpdDate` datetime , `AppTypePrmMemPrmUpdUser` national varchar(250) , PRIMARY KEY(`RepId`, `AppTypeId`, `AppTypePrmMemPrmParId`, `AppTypePrmMemPrmChiId`))  ENGINE=InnoDB
+
+CREATE TABLE `AppTypePermission` (`RepId` int NOT NULL , `AppTypeId` bigint NOT NULL , `AppTypePrmId` bigint NOT NULL , `AppTypePrmGUID` national char(40) NOT NULL , `AppTypeResId` bigint NOT NULL , `AppTypeActId` bigint NOT NULL , `AppTypePrmIsParent` BOOL NOT NULL , `AppTypePrmCreDate` datetime , `AppTypePrmCreUser` national varchar(250) , `AppTypePrmUpdDate` datetime , `AppTypePrmUpdUser` national varchar(250) , PRIMARY KEY(`RepId`, `AppTypeId`, `AppTypePrmId`))  ENGINE=InnoDB
+CREATE INDEX `IAPPTYPEPERMISSION1` ON `AppTypePermission` (`RepId` ,`AppTypeId` ,`AppTypeActId` )
+CREATE INDEX `IAPPTYPEPERMISSION2` ON `AppTypePermission` (`RepId` ,`AppTypeId` ,`AppTypeResId` )
+
+CREATE TABLE `SecurityPolicy` (`RepId` int NOT NULL , `SecPolId` int NOT NULL , `SecPolPerChgPwd` smallint NOT NULL , `SecPolSesTimeOut` int NOT NULL , `SecPolMinLenPwd` smallint NOT NULL , `SecPolAmoCharNumericPwd` smallint NOT NULL , `SecPolAmoHisPwd` smallint NOT NULL , `SecPolName` national char(254) , `SecPolGUID` national char(40) NOT NULL , `SecPolCreDate` datetime , `SecPolCreUser` national varchar(250) , `SecPolUpdDate` datetime , `SecPolUpdUser` national varchar(250) , `SecPolDsc` national char(254) , `SecPolOauthTokenExpire` int NOT NULL , `SecPolAmoCharUpperCasePwd` smallint NOT NULL , `SecPolAmoCharSpecialPwd` smallint NOT NULL , `SecPolOauthGrantExpire` mediumint NOT NULL , `SecPolActSesPerUser` smallint NOT NULL , `SecPolOauthTokenMaxRenew` smallint NOT NULL , `SecPolFrecMinChangePwd` int NOT NULL , PRIMARY KEY(`RepId`, `SecPolId`))  ENGINE=InnoDB
+
+CREATE TABLE `RepositoryNum` (`RepId` int NOT NULL , `RepNumId` national char(30) NOT NULL , `RepNumLast` bigint NOT NULL , `RepNumDate` datetime NOT NULL , PRIMARY KEY(`RepId`, `RepNumId`))  ENGINE=InnoDB
+
+CREATE TABLE `AuthenticationType` (`RepId` int NOT NULL , `AutTypeName` national char(60) NOT NULL , `AutTypeType` national char(30) NOT NULL , `AutTypeFunc` national char(30) NOT NULL , `AutTypeIsEna` BOOL NOT NULL , `AutTypeDsc` national char(120) , `AutTypeCreDate` datetime NOT NULL , `AutTypeCreUser` national varchar(250) NOT NULL , `AutTypeUpdDate` datetime NOT NULL , `AutTypeUpdUser` national varchar(250) NOT NULL , PRIMARY KEY(`RepId`, `AutTypeName`))  ENGINE=InnoDB
+CREATE INDEX `UAUTTYPEDSC` ON `AuthenticationType` (`RepId` ,`AutTypeDsc` )
+
+CREATE TABLE `AppTypeAction` (`RepId` int NOT NULL , `AppTypeId` bigint NOT NULL , `AppTypeActId` bigint NOT NULL , `AppTypeActGUID` national char(40) NOT NULL , `AppTypeActName` national char(254) NOT NULL , `AppTypeActDsc` national char(254) , `AppTypeActCreDate` datetime , `AppTypeActCreUser` national varchar(250) , `AppTypeActUpdDate` datetime , `AppTypeActUpdUser` national varchar(250) , PRIMARY KEY(`RepId`, `AppTypeId`, `AppTypeActId`))  ENGINE=InnoDB
+CREATE UNIQUE INDEX `UAPPTYPEACTGUID` ON `AppTypeAction` (`RepId` ,`AppTypeActGUID` )
+
+CREATE TABLE `AppTypeResource` (`RepId` int NOT NULL , `AppTypeId` bigint NOT NULL , `AppTypeResId` bigint NOT NULL , `AppTypeResGUID` national char(40) NOT NULL , `AppTypeResName` national char(254) NOT NULL , `AppTypeResDsc` national char(254) , `AppTypeResCreDate` datetime , `AppTypeResCreUser` national varchar(250) , `AppTypeResUpdDate` datetime , `AppTypeResUpdUser` national varchar(250) , PRIMARY KEY(`RepId`, `AppTypeId`, `AppTypeResId`))  ENGINE=InnoDB
+CREATE UNIQUE INDEX `UAPPTYPERESGUID` ON `AppTypeResource` (`RepId` ,`AppTypeResGUID` )
+
+CREATE TABLE `RoleAppTypePrm` (`RepId` int NOT NULL , `RoleId` bigint NOT NULL , `AppTypeId` bigint NOT NULL , `AppTypePrmId` bigint NOT NULL , `RoleAppTypePrmType` national char(1) NOT NULL , `RoleAppTypePrmInh` BOOL NOT NULL , `RoleAppTypePrmAllItems` BOOL NOT NULL , `RoleAppTypePrmCreDate` datetime , `RoleAppTypePrmCreUser` national varchar(250) , `RoleAppTypePrmUpdDate` datetime , `RoleAppTypePrmUpdUser` national varchar(250) , PRIMARY KEY(`RepId`, `RoleId`, `AppTypeId`, `AppTypePrmId`))  ENGINE=InnoDB
+CREATE INDEX `IROLEAPPPRM14` ON `RoleAppTypePrm` (`RepId` ,`AppTypeId` ,`AppTypePrmId` )
+
+CREATE TABLE `SessionLogAtt` (`RepId` int NOT NULL , `SesToken` national char(120) NOT NULL , `SesAttUserLog` national varchar(250) NOT NULL , `SesAttQtyLog` smallint NOT NULL , PRIMARY KEY(`RepId`, `SesToken`, `SesAttUserLog`))  ENGINE=InnoDB
+
+CREATE TABLE `Session` (`RepId` int NOT NULL , `SesToken` national char(120) NOT NULL , `SesDate` datetime NOT NULL , `SesSts` national char(1) NOT NULL , `SesType` smallint NOT NULL , `SesURL` national varchar(2048) NOT NULL , `SesIPAdd` national char(60) NOT NULL , `OpeSysId` smallint , `SesLastAcc` datetime NOT NULL , `SesTimeOut` smallint NOT NULL , `SesLogAtt` mediumint NOT NULL , `SesLogDate` datetime NOT NULL , `SesSharedData` MEDIUMTEXT CHARACTER SET utf8 NOT NULL , `SesEndDate` datetime NOT NULL , `SesReload` BOOL NOT NULL , `BrwId` smallint , `SesLastURL` national varchar(2048) NOT NULL , `SesLogin` national varchar(250) NOT NULL , `SesExtToken` national char(120) NOT NULL , `UserGUID` national char(40) , `SesAppTokenExp` datetime , `SesRefreshToken` national char(40) , `SesAppId` bigint , `SesDeviceId` national char(40) , `SesExtToken2` national varchar(1024) , `SesAutTypeName` national char(60) , `SesOauthTokenMaxRenew` smallint , `SesOauthTokenExpires` mediumint , `SesOauthScope` national varchar(2048) , `SesExtToken3` TEXT CHARACTER SET utf8 , `SesExtTokenExpires` datetime , `SesExtTokenRefresh` national varchar(2000) , `SesJson` TEXT CHARACTER SET utf8 , `SesIdToken` national varchar(4096) , `SesOTP` national varchar(250) , `SesOTPExpire` datetime , `SesEndedByOtherLogin` BOOL , PRIMARY KEY(`RepId`, `SesToken`))  ENGINE=InnoDB
+CREATE INDEX `ISESBRW` ON `Session` (`BrwId` )
+CREATE INDEX `ISESOPESYS` ON `Session` (`OpeSysId` )
+CREATE INDEX `ISESUSER` ON `Session` (`UserGUID` ,`RepId` )
+CREATE INDEX `USESTOKEN` ON `Session` (`SesToken` )
+CREATE INDEX `USESREPPARENTTOKENUSERSTS` ON `Session` (`RepId` ,`SesExtToken` ,`UserGUID` ,`SesSts` )
+CREATE INDEX `USESREFRESHTOKEN` ON `Session` (`RepId` ,`SesType` ,`SesSts` ,`SesAppId` ,`SesRefreshToken` )
+CREATE INDEX `USESUSERAPPPARENT` ON `Session` (`UserGUID` ,`SesAppId` ,`SesExtToken` )
+CREATE INDEX `USESPARENTTOKENUSERSTS` ON `Session` (`SesExtToken` ,`UserGUID` ,`SesSts` )
+CREATE INDEX `USESSIONUSEROTPCODE` ON `Session` (`RepId` ,`SesAppId` ,`SesAutTypeName` ,`UserGUID` ,`SesSts` ,`SesOTP` ,`SesDate` )
+
+CREATE TABLE `Repository` (`RepId` int NOT NULL , `RepVer` national char(60) NOT NULL , `RepUpg` national char(60) NOT NULL , `RepDefAutTypeName` national char(60) , `RepUserActType` national char(1) NOT NULL , `RepUserActTimeOut` int NOT NULL , `RepDefSecPolId` int , `RepGenAud` national char(20) NOT NULL , `RepUserRemMeTimeOut` smallint NOT NULL , `RepGenSesSta` national char(20) NOT NULL , `RepUserChrMinLog` smallint NOT NULL , `RepGUID` national char(40) NOT NULL , `RepCanRegUser` BOOL NOT NULL , `RepUserRemMeType` national char(6) NOT NULL , `RepGiveAnoSes` BOOL NOT NULL , `RepAnoUserGUID` national char(40) , `RepDefRoleId` bigint , `RepCreDate` datetime NOT NULL , `RepCreUser` national varchar(250) NOT NULL , `RepUpdDate` datetime NOT NULL , `RepUpdUser` national varchar(250) NOT NULL , `RepNameSpace` national char(60) NOT NULL , `RepUserRecPwdKeyTimeOut` int NOT NULL , `RepUserReqPwd` BOOL NOT NULL , `RepUserReqEmail` BOOL NOT NULL , `RepUserReqFirstName` BOOL NOT NULL , `RepUserReqLastName` BOOL NOT NULL , `RepUserReqBir` BOOL NOT NULL , `RepUserReqGen` BOOL NOT NULL , `RepUserReqPhone` BOOL NOT NULL , `RepUserReqAddress` BOOL NOT NULL , `RepUserReqCity` BOOL NOT NULL , `RepUserReqState` BOOL NOT NULL , `RepUserReqCountry` BOOL NOT NULL , `RepUserReqPostCode` BOOL NOT NULL , `RepUserReqLng` BOOL NOT NULL , `RepUserReqTimeZone` BOOL NOT NULL , `RepUserReqPhoto` BOOL NOT NULL , `RepUserAttLogLockUser` smallint NOT NULL , `RepUserAttLogLockSession` smallint NOT NULL , `RepDsc` national char(254) , `RepUserEmailSecAdm` national char(254) , `RepUserTimeToUnblock` int NOT NULL , `RepName` national char(60) NOT NULL , `RepUserEmailUnique` BOOL NOT NULL , `RepAllowOauthAccess` BOOL NOT NULL , `RepUserIdentification` national char(6) NOT NULL , `RepKeepSesOnlyOriIP` BOOL NOT NULL , `RepUserSessionCacheTimeout` int NOT NULL , `RepAnoUserSDRoleId` bigint , PRIMARY KEY(`RepId`))  ENGINE=InnoDB
+CREATE UNIQUE INDEX `UREPGIUD` ON `Repository` (`RepGUID` )
+CREATE INDEX `IREPOSITORYROLE` ON `Repository` (`RepId` ,`RepDefRoleId` )
+CREATE INDEX `IREPOSITORYATYPE` ON `Repository` (`RepId` ,`RepDefAutTypeName` )
+CREATE INDEX `IREPOSITORYSECPOL` ON `Repository` (`RepId` ,`RepDefSecPolId` )
+CREATE INDEX `IREPOSITORY` ON `Repository` (`RepId` ,`RepAnoUserSDRoleId` )
+
+CREATE TABLE `Browser` (`BrwId` smallint NOT NULL , `BrwDsc` national char(60) , `BrwVer` national char(60) , PRIMARY KEY(`BrwId`))  ENGINE=InnoDB
+
+CREATE TABLE `SysPar` (`SysParId` national char(30) NOT NULL , `SysParVal` national char(254) NOT NULL , PRIMARY KEY(`SysParId`))  ENGINE=InnoDB
+
+CREATE TABLE `RoleMemRole` (`RepId` int NOT NULL , `RoleMemRoleParent` bigint NOT NULL , `RoleMemRoleChild` bigint NOT NULL , `RoleMemRoleCreDate` datetime , `RoleMemRoleCreUser` national varchar(250) , `RoleMemRoleUpdDate` datetime , `RoleMemRoleUpdUser` national varchar(250) , PRIMARY KEY(`RepId`, `RoleMemRoleParent`, `RoleMemRoleChild`))  ENGINE=InnoDB
+CREATE INDEX `IROLEMEMROLE2` ON `RoleMemRole` (`RepId` ,`RoleMemRoleChild` )
+
+CREATE TABLE `Role` (`RepId` int NOT NULL , `RoleId` bigint NOT NULL , `RoleExtId` national varchar(100) , `RoleSecPolId` int , `RoleGUID` national char(40) NOT NULL , `RoleName` national char(254) , `RoleDsc` national char(254) , `RoleCreDate` datetime , `RoleCreUser` national varchar(250) , `RoleUpdDate` datetime , `RoleUpdUser` national varchar(250) , PRIMARY KEY(`RepId`, `RoleId`))  ENGINE=InnoDB
+CREATE UNIQUE INDEX `UROLEGUID` ON `Role` (`RepId` ,`RoleGUID` )
+CREATE INDEX `UROLEEXTID` ON `Role` (`RepId` ,`RoleExtId` )
+CREATE INDEX `IROLESECPOL` ON `Role` (`RepId` ,`RoleSecPolId` )
+

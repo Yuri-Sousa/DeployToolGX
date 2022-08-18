@@ -1,0 +1,11 @@
+CREATE TABLE gam.GXA0189 (RepId  NUMERIC(9) NOT NULL , EveSusId  GRAPHIC(40) NOT NULL , EveSusPropId  GRAPHIC(60) NOT NULL , EveSusPropToken  GRAPHIC(40) NOT NULL , EveSusPropValue  VARGRAPHIC(400) )
+Run conversion program for table EventSuscriptionProp
+RENAME TABLE gam.GXA0189 TO EventSuscriptionProp
+ALTER TABLE gam.EventSuscriptionProp ADD PRIMARY KEY(RepId, EveSusId, EveSusPropId, EveSusPropToken)
+
+CREATE TABLE gam.EventSuscription (RepId  NUMERIC(9) NOT NULL , EveSusId  GRAPHIC(40) NOT NULL , EveSusDsc  VARGRAPHIC(254) NOT NULL , EveSusStatus  GRAPHIC(1) NOT NULL , EveSusEntity  GRAPHIC(60) NOT NULL , EveSusAction  GRAPHIC(20) NOT NULL , EveSusClassName  GRAPHIC(60) NOT NULL , EveSusCreDate  TIMESTAMP , EveSusCreUser  VARGRAPHIC(250) , EveSusUpdDate  TIMESTAMP , EveSusUpdUser  VARGRAPHIC(250) , EveSusFileName  VARGRAPHIC(254) NOT NULL , EveSusMethodName  GRAPHIC(60) NOT NULL , PRIMARY KEY(RepId, EveSusId))
+CREATE INDEX gam.UEVENTSUSCRIPTION ON gam.EventSuscription (RepId ,EveSusEntity ,EveSusAction ,EveSusClassName ,EveSusMethodName )
+
+DROP TABLE gam.RepositoryEvents
+
+UPDATE SysPar SET SysParVal='4.0.2' WHERE SysParId='GAMVersion'

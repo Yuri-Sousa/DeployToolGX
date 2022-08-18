@@ -1,0 +1,29 @@
+ALTER TABLE gam.[Repository] ALTER COLUMN [RepUserSessionCacheTimeout] int NOT NULL
+ALTER TABLE gam.[Repository] ALTER COLUMN [RepUserTimeToUnblock] int NOT NULL
+ALTER TABLE gam.[Repository] ALTER COLUMN [RepUserRecPwdKeyTimeOut] int NOT NULL
+ALTER TABLE gam.[Repository] ALTER COLUMN [RepUserActTimeOut] int NOT NULL
+
+ALTER TABLE gam.[Session] ADD [SesEndedByOtherLogin] BIT NULL , [SesOTPExpire] datetime NULL , [SesOTP] nvarchar(250) NULL , [SesIdToken] nvarchar(4000) NULL
+DROP INDEX [ISESSION1] ON gam.[Session]
+DROP INDEX [ISESSION] ON gam.[Session]
+CREATE NONCLUSTERED INDEX [ISESOPESYS] ON gam.[Session] ([OpeSysId] )
+CREATE NONCLUSTERED INDEX [ISESUSER] ON gam.[Session] ([UserGUID] ,[RepId] )
+CREATE NONCLUSTERED INDEX [USESTOKEN] ON gam.[Session] ([SesToken] )
+CREATE NONCLUSTERED INDEX [USESREPPARENTTOKENUSERSTS] ON gam.[Session] ([RepId] ,[SesExtToken] ,[UserGUID] ,[SesSts] )
+CREATE NONCLUSTERED INDEX [USESREFRESHTOKEN] ON gam.[Session] ([RepId] ,[SesType] ,[SesSts] ,[SesAppId] ,[SesRefreshToken] )
+CREATE NONCLUSTERED INDEX [USESUSERAPPPARENT] ON gam.[Session] ([UserGUID] ,[SesAppId] ,[SesExtToken] )
+CREATE NONCLUSTERED INDEX [USESPARENTTOKENUSERSTS] ON gam.[Session] ([SesExtToken] ,[UserGUID] ,[SesSts] )
+CREATE NONCLUSTERED INDEX [USESSIONUSEROTPCODE] ON gam.[Session] ([RepId] ,[SesAppId] ,[SesAutTypeName] ,[UserGUID] ,[SesSts] ,[SesOTP] ,[SesDate] DESC)
+
+ALTER TABLE gam.[SecurityPolicy] ALTER COLUMN [SecPolFrecMinChangePwd] int NOT NULL
+ALTER TABLE gam.[SecurityPolicy] ALTER COLUMN [SecPolSesTimeOut] int NOT NULL
+
+ALTER TABLE gam.[SessionHistory] ADD [SesHisEndedByOtherLogin] BIT NULL , [SesHisIdToken] nvarchar(4000) NULL
+
+ALTER TABLE gam.[User] ADD [UserLastFailedLoginAttempt] datetime NULL , [UserFailedLoginAttempts] smallint NULL , [UserOTPFailedAttempts] smallint NULL , [UserOTPLastDateRequestCode] datetime NULL , [UserOTPDailyNumberCodes] smallint NULL , [UserOTPLastLockedDate] datetime NULL , [UserOTPNumberLocked] smallint NULL , [UserEnableTwoFactorAuth] BIT NULL
+
+CREATE TABLE gam.[SysConnectionConfig] ([SysConnCfgKey] nchar(40) NOT NULL , [SysConnCfgRep] nchar(40) NOT NULL , [SysConnCfgName] nvarchar(120) NOT NULL , [SysConnCfgUser] nvarchar(100) NULL , [SysConnCfgPwd] nchar(254) NOT NULL , [SysConnCfgJson] NVARCHAR(MAX) NULL , PRIMARY KEY([SysConnCfgKey], [SysConnCfgRep], [SysConnCfgName]))
+
+DROP INDEX [UEVENTSUSCRIPTION] ON gam.[EventSuscription]
+CREATE NONCLUSTERED INDEX [UEVENTSUSCRIPTION] ON gam.[EventSuscription] ([RepId] ,[EveSusEntity] ,[EveSusStatus] ,[EveSusDsc] )
+

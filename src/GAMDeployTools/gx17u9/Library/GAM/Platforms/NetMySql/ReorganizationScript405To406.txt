@@ -1,0 +1,38 @@
+ALTER TABLE `RoleAppTypePrmProp` MODIFY COLUMN `RoleAppTypePrmPropValue` national varchar(2048) NOT NULL
+
+ALTER TABLE `AppMenuProp` MODIFY COLUMN `APPMnuPropValue` national varchar(2048)
+
+ALTER TABLE `AppMenuOptionProp` MODIFY COLUMN `AppMnuOptPropValue` national varchar(2048)
+
+ALTER TABLE `RoleProp` MODIFY COLUMN `RolePropValue` national varchar(2048)
+
+ALTER TABLE `ApplicationProp` MODIFY COLUMN `AppPropValue` national varchar(2048)
+
+ALTER TABLE `RepositoryProp` MODIFY COLUMN `RepPropVal` national varchar(2048)
+
+ALTER TABLE `User` ADD (`UserTOTPSecretKey` national varchar(120) , `UserTOTPEnable` BOOL , `UserRecPwdKeyLastDate` date , `UserRecPwdKeyMonthNumber` smallint , `UserRecPwdKeyDailyNumber` smallint )
+
+ALTER TABLE `UserAtt` MODIFY COLUMN `UserAttVal` national varchar(2048)
+
+ALTER TABLE `UserAttMultiValue` MODIFY COLUMN `UserAttMVVal` national varchar(2048)
+
+ALTER TABLE `AuthenticationTypeProp` MODIFY COLUMN `AutTypePropValue` national varchar(2048)
+
+ALTER TABLE `AppPermissionProp` MODIFY COLUMN `AppPrmPropValue` national varchar(2048) NOT NULL
+
+ALTER TABLE `RoleAppPrmProp` MODIFY COLUMN `RoleAppPrmPropValue` national varchar(2048) NOT NULL
+
+ALTER TABLE `UserAppPrmProp` MODIFY COLUMN `UserAppPrmPropValue` national varchar(2048)
+
+ALTER TABLE `SecurityPolicyProp` MODIFY COLUMN `SecPolPropValue` national varchar(2048) NOT NULL
+
+ALTER TABLE `UserMemAppRoleProp` MODIFY COLUMN `UserMemAppRolePropValue` national varchar(2048) NOT NULL
+
+ALTER TABLE `UserMemRoleProp` MODIFY COLUMN `UserMemRolePropValue` national varchar(2048) NOT NULL
+
+ALTER TABLE `EventSuscriptionProp` MODIFY COLUMN `EveSusPropValue` national varchar(2048)
+
+ALTER TABLE `UserRepositoryProp` MODIFY COLUMN `UserRepPropValue` national varchar(2048)
+
+CREATE TABLE `UserProp` (`UserGUID` national char(40) NOT NULL , `UserPropID` national char(60) NOT NULL , `UserPropToken` national char(40) NOT NULL , `UserPropValue` national varchar(2048) , PRIMARY KEY(`UserGUID`, `UserPropID`, `UserPropToken`))  ENGINE=InnoDB
+

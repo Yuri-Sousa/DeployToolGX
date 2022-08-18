@@ -1,0 +1,60 @@
+CREATE TABLE gam.GXA0040 (RepId  INT NOT NULL , SesToken  CHAR(120) NOT NULL , SesDate  DateTime Year to Second NOT NULL , SesSts  CHAR(1) NOT NULL , SesType  SMALLINT NOT NULL , SesURL  lvarchar(2048) NOT NULL , SesIPAdd  CHAR(60) NOT NULL , OpeSysId  SMALLINT , SesLastAcc  DateTime Year to Second NOT NULL , SesTimeOut  SMALLINT NOT NULL , SesLogAtt  INT NOT NULL , SesLogDate  DateTime Year to Second NOT NULL , SesSharedData  TEXT NOT NULL , SesEndDate  DateTime Year to Second NOT NULL , SesReload  BOOLEAN NOT NULL , BrwId  SMALLINT , SesLastURL  lvarchar(2048) NOT NULL , SesLogin  varchar(250,60) NOT NULL , SesExtToken  CHAR(120) NOT NULL , UserGUID  CHAR(40) , SesAppTokenExp  DateTime Year to Second , SesRefreshToken  CHAR(40) , SesAppId  DECIMAL( 12) , SesDeviceId  CHAR(40) , SesExtToken2  lvarchar(1024) , SesAutTypeName  CHAR(60) , SesOauthTokenMaxRenew  SMALLINT , SesOauthTokenExpires  INT , SesOauthScope  lvarchar(2048) )
+Run conversion program for table Session
+DROP TABLE gam.Session
+RENAME TABLE gam.GXA0040 TO Session
+ALTER TABLE gam.Session ADD CONSTRAINT PRIMARY KEY(RepId, SesToken)
+CREATE INDEX gam.ISESBRW ON gam.Session (BrwId )
+CREATE INDEX gam.ISESSION1 ON gam.Session (OpeSysId )
+CREATE INDEX gam.ISESSION ON gam.Session (UserGUID ,RepId )
+
+CREATE TABLE gam.GXA0097 (RepId  INT NOT NULL , SesHisToken  CHAR(120) NOT NULL , SesHisLogin  varchar(250,60) NOT NULL , SesHisDate  DateTime Year to Second NOT NULL , SesHisSts  CHAR(1) NOT NULL , SesHisType  SMALLINT NOT NULL , SesHisURL  lvarchar(2048) NOT NULL , SesHisIPAdd  CHAR(60) NOT NULL , BrwId  SMALLINT , OpeSysId  SMALLINT , SesHisLastAcc  DateTime Year to Second NOT NULL , SesHisLastURL  lvarchar(2048) NOT NULL , SesHisTimeOut  SMALLINT NOT NULL , SesHisExtToken  CHAR(120) NOT NULL , SesHisLogAtt  INT NOT NULL , SesHisLogDate  DateTime Year to Second NOT NULL , SesHisSharedData  TEXT NOT NULL , SesHisEndDate  DateTime Year to Second NOT NULL , UserGUID  CHAR(40) NOT NULL , SesHisExtToken2  lvarchar(1024) , SesHisAppId  DECIMAL( 12) , SesHisRefreshToken  CHAR(40) , SesHisDeviceId  CHAR(40) , SesHisAppTokenExp  DateTime Year to Second , SesHisOauthTokenMaxRenew  SMALLINT , SesHisOauthTokenExpires  INT , SesHisOauthScope  lvarchar(2048) )
+Run conversion program for table SessionHistory
+DROP TABLE gam.SessionHistory
+RENAME TABLE gam.GXA0097 TO SessionHistory
+ALTER TABLE gam.SessionHistory ADD CONSTRAINT PRIMARY KEY(RepId, SesHisToken)
+CREATE INDEX gam.ISESHISTORYOS ON gam.SessionHistory (OpeSysId )
+CREATE INDEX gam.ISESHISTORYBRW ON gam.SessionHistory (BrwId )
+CREATE INDEX gam.ISESHISUSER ON gam.SessionHistory (UserGUID ,RepId )
+
+CREATE TABLE gam.GXA0110 (RepId  INT NOT NULL , AudId  INT NOT NULL , AudSesRepId  INT NOT NULL , AudSesToken  CHAR(120) NOT NULL , AudDate  DateTime Year to Second NOT NULL , AudActId  DECIMAL( 12) NOT NULL , AudPgmName  CHAR(254) NOT NULL , AudActKey1  DECIMAL( 12) , AudActKey2  DECIMAL( 12) , AudActKey3  DECIMAL( 12) , AudActKey4  DECIMAL( 12) , AudActPreDet  lvarchar(2048) , AudActCurDet  lvarchar(2048) , AudActionKeyGUID1  CHAR(40) , AudActionKeyGUID2  CHAR(40) , AudActionKeyChar1  CHAR(254) )
+Run conversion program for table Auditory
+DROP TABLE gam.Auditory
+RENAME TABLE gam.GXA0110 TO Auditory
+ALTER TABLE gam.Auditory ADD CONSTRAINT PRIMARY KEY(RepId, AudId)
+CREATE INDEX gam.IAUDITORY1 ON gam.Auditory (AudActId )
+
+CREATE TABLE gam.GXA0120 (RepId  INT NOT NULL , AppId  DECIMAL( 12) NOT NULL , AppName  CHAR(254) , AppGUID  CHAR(40) NOT NULL , AppVer  CHAR(60) NOT NULL , AppComName  CHAR(254) , AppTypeId  DECIMAL( 12) , AppParAppId  DECIMAL( 12) , AppDsc  CHAR(254) , AppCopyright  CHAR(254) , AppOrder  INT NOT NULL , AppRetMnuOptWithoutPrm  BOOLEAN NOT NULL , AppCurEnvId  DECIMAL( 12) , AppBaseAppId  DECIMAL( 12) , AppCreDate  DateTime Year to Second , AppCreUser  varchar(250,60) , AppUpdDate  DateTime Year to Second , AppUpdUser  varchar(250,60) , AppIsBaseApplication  BOOLEAN NOT NULL , AppCliId  CHAR(40) , AppCliSecret  CHAR(120) , AppCliUserGUID  CHAR(40) , AppCliImageURL  lvarchar(2048) , AppCliSiteURL  lvarchar(2048) , AppCliSiteDomain  lvarchar(2048) , AppCliRevoked  DateTime Year to Second , AppType  SMALLINT NOT NULL , AppCliEncKey  CHAR(32) NOT NULL , AppCliDefPrmGUID  CHAR(40) , AppAccessReqPrm  BOOLEAN NOT NULL , AppCliAccessUniqueByUser  BOOLEAN NOT NULL , AppCliAutoRegAnomymousUser  BOOLEAN NOT NULL , AppCliAllowRemoteAuth  BOOLEAN , AppCliAllowGetUserRoles  BOOLEAN , AppCliAllowGetUserAdditionalDa  BOOLEAN , AppCliLocalLoginURL  lvarchar(2048) )
+Run conversion program for table Application
+DROP TABLE gam.Application
+RENAME TABLE gam.GXA0120 TO Application
+ALTER TABLE gam.Application ADD CONSTRAINT PRIMARY KEY(RepId, AppId)
+CREATE UNIQUE INDEX gam.UAPPLICATIONGUID ON gam.Application (RepId ,AppGUID )
+CREATE UNIQUE INDEX gam.UAPPLICATIONCLIID ON gam.Application (RepId ,AppCliId )
+CREATE INDEX gam.IAPPLICATIONPAR ON gam.Application (RepId ,AppParAppId )
+CREATE INDEX gam.IAPPLICATIONBASE ON gam.Application (RepId ,AppBaseAppId )
+CREATE INDEX gam.IAPPLICATIONTYPE ON gam.Application (RepId ,AppTypeId )
+CREATE INDEX gam.UAPPLICATIONNAME ON gam.Application (RepId ,AppName )
+CREATE INDEX gam.IAPPLICATIONENV ON gam.Application (RepId ,AppId ,AppCurEnvId )
+
+CREATE TABLE gam.GXA0142 (UserGUID  CHAR(40) NOT NULL , UserNameSpace  CHAR(60) NOT NULL , UserAutTypeName  CHAR(60) NOT NULL , UserName  varchar(100,60) NOT NULL , UserEMail  varchar(100) NOT NULL , UserExtId  varchar(100,60) , UserPwd  CHAR(254) NOT NULL , UserFirstName  CHAR(60) , UserLastName  CHAR(60) , UserBirthday  DateTime Year to Day , UserGender  CHAR(1) NOT NULL , UserPhone  CHAR(254) , UserAddress  CHAR(254) , UserAddress2  CHAR(254) , UserCity  CHAR(254) , UserState  CHAR(254) , CountryId  CHAR(9) , UserPostCode  CHAR(60) , UserLng  CHAR(3) , UserTimeZone  CHAR(60) , UserPhoto  BYTE , UserPhoto_GXI  lvarchar(2048) , UserNotRcvInf  BOOLEAN NOT NULL , UserIsBlk  BOOLEAN NOT NULL , UserBlkLastDate  DateTime Year to Second , UserIsAct  BOOLEAN NOT NULL , UserActKey  CHAR(254) , UserActDate  DateTime Year to Second , UserNotChgPwd  BOOLEAN NOT NULL , UserChgPwdNexLog  BOOLEAN NOT NULL , UserPwdNevExp  BOOLEAN NOT NULL , UserRecPwdKey  CHAR(254) , UserRecPwdKeyExp  DateTime Year to Second , UserDateLastChgPwd  DateTime Year to Second , UserIsDlt  BOOLEAN NOT NULL , UserDateLastAuth  DateTime Year to Second , UserCreDate  DateTime Year to Second , UserCreUser  varchar(250,60) , UserUpdDate  DateTime Year to Second , UserUpdUser  varchar(250,60) , UserURLImage  lvarchar(2048) , UserURLProf  lvarchar(2048) , UserDataReqComplete  BOOLEAN NOT NULL , UserDataReqCompleteKey  CHAR(254) , UserIsDevice  BOOLEAN NOT NULL , UserPwdEncryption  CHAR(3) )
+Run conversion program for table User
+DROP TABLE gam.User
+RENAME TABLE gam.GXA0142 TO User
+ALTER TABLE gam.User ADD CONSTRAINT PRIMARY KEY(UserGUID)
+CREATE INDEX gam.UUSERLOGIN ON gam.User (UserNameSpace ,UserAutTypeName ,UserName ,UserIsDlt )
+CREATE INDEX gam.IUSERCOUNTRY ON gam.User (CountryId )
+CREATE INDEX gam.UUSEREMAIL ON gam.User (UserNameSpace ,UserAutTypeName ,UserEMail ,UserIsDlt )
+CREATE INDEX gam.UUSEREXTID ON gam.User (UserNameSpace ,UserAutTypeName ,UserExtId ,UserIsDlt )
+
+CREATE TABLE gam.GXA0173 (RepId  INT NOT NULL , AppAuthReqId  CHAR(254) NOT NULL , AppAuthReqRedirURL  lvarchar(2048) NOT NULL , AppAuthReqResponseType  CHAR(5) NOT NULL , AppAuthReqAuthorized  DateTime Year to Second , AppAuthReqRevoked  DateTime Year to Second , AppId  DECIMAL( 12) NOT NULL , AppPrmGUID  CHAR(40) NOT NULL , AppAuthReqCreated  DateTime Year to Second NOT NULL , AppAuthReqUserAppPrmCode  CHAR(80) , AppAuthReqSesToken  CHAR(120) )
+Run conversion program for table AppAuthReq
+DROP TABLE gam.AppAuthReq
+RENAME TABLE gam.GXA0173 TO AppAuthReq
+ALTER TABLE gam.AppAuthReq ADD CONSTRAINT PRIMARY KEY(RepId, AppAuthReqId)
+CREATE INDEX gam.IAPPAUTHREQ1 ON gam.AppAuthReq (RepId ,AppId ,AppPrmGUID )
+
+CREATE TABLE gam.RepositoryEvents (RepId  INT NOT NULL , RepEveEntity  CHAR(60) NOT NULL , RepEveAction  CHAR(20) NOT NULL , RepEveClassName  CHAR(60) NOT NULL , RepEveFileName  CHAR(254) NOT NULL , RepEveMethodName  CHAR(60) NOT NULL , PRIMARY KEY(RepId, RepEveEntity, RepEveAction, RepEveClassName))
+
+CREATE INDEX gam.UAPPMENUOPTION ON gam.AppMenuOption (RepId ,AppId ,AppMnuId ,AppMnuOptOrder )
+
+UPDATE gam.SysPar SET SysParVal='4.0.0' WHERE SysParId='GAMVersion'

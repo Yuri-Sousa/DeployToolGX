@@ -1,0 +1,30 @@
+ALTER TABLE gam.Session ADD SesOauthScope  VARGRAPHIC(1024)  ADD SesOauthTokenExpires  NUMERIC(6)  ADD SesOauthTokenMaxRenew  NUMERIC(4)  ADD SesAutTypeName  GRAPHIC(60)  ADD SesExtToken2  VARGRAPHIC(1024)
+
+ALTER TABLE gam.SessionHistory ADD SesHisOauthScope  VARGRAPHIC(1024)  ADD SesHisOauthTokenExpires  NUMERIC(6)  ADD SesHisOauthTokenMaxRenew  NUMERIC(4)  ADD SesHisAppTokenExp  TIMESTAMP  ADD SesHisDeviceId  GRAPHIC(40)  ADD SesHisRefreshToken  GRAPHIC(40)  ADD SesHisAppId  NUMERIC(12)  ADD SesHisExtToken2  VARGRAPHIC(1024)
+
+CREATE TABLE gam.GXA0120 (RepId  NUMERIC(9) NOT NULL , AppId  NUMERIC(12) NOT NULL , AppName  VARGRAPHIC(254) , AppGUID  GRAPHIC(40) NOT NULL , AppVer  GRAPHIC(60) NOT NULL , AppComName  VARGRAPHIC(254) , AppTypeId  NUMERIC(12) , AppParAppId  NUMERIC(12) , AppDsc  VARGRAPHIC(254) , AppCopyright  VARGRAPHIC(254) , AppOrder  NUMERIC(9) NOT NULL , AppRetMnuOptWithoutPrm  NUMERIC(1) NOT NULL , AppCurEnvId  NUMERIC(12) , AppBaseAppId  NUMERIC(12) , AppCreDate  TIMESTAMP , AppCreUser  VARGRAPHIC(250) , AppUpdDate  TIMESTAMP , AppUpdUser  VARGRAPHIC(250) , AppIsBaseApplication  NUMERIC(1) NOT NULL , AppCliId  GRAPHIC(40) , AppCliSecret  GRAPHIC(120) , AppCliUserGUID  GRAPHIC(40) , AppCliImageURL  VARGRAPHIC(1024) , AppCliSiteURL  VARGRAPHIC(1024) , AppCliSiteDomain  VARGRAPHIC(1024) , AppCliRevoked  TIMESTAMP , AppType  NUMERIC(1) NOT NULL , AppCliEncKey  GRAPHIC(32) NOT NULL , AppCliDefPrmGUID  GRAPHIC(40) , AppAccessReqPrm  NUMERIC(1) NOT NULL , AppCliAccessUniqueByUser  NUMERIC(1) NOT NULL , AppCliAutoRegAnomymousUser  NUMERIC(1) NOT NULL , AppCliAllowRemoteAuth  NUMERIC(1) , AppCliAllowGetUserRoles  NUMERIC(1) , AppCliAllowGetUserAdditionalDa  NUMERIC(1) , AppCliLocalLoginURL  VARGRAPHIC(1024) )
+Run conversion program for table Application
+DROP TABLE gam.Application
+RENAME TABLE gam.GXA0120 TO Application
+ALTER TABLE gam.Application ADD PRIMARY KEY(RepId, AppId)
+CREATE UNIQUE INDEX gam.UAPPLICATIONGUID ON gam.Application (RepId ,AppGUID )
+CREATE UNIQUE INDEX gam.UAPPLICATIONCLIID ON gam.Application (RepId ,AppCliId )
+CREATE INDEX gam.IAPPLICATIONPAR ON gam.Application (RepId ,AppParAppId )
+CREATE INDEX gam.IAPPLICATIONBASE ON gam.Application (RepId ,AppBaseAppId )
+CREATE INDEX gam.IAPPLICATIONTYPE ON gam.Application (RepId ,AppTypeId )
+CREATE INDEX gam.UAPPLICATIONNAME ON gam.Application (RepId ,AppName )
+CREATE INDEX gam.IAPPLICATIONENV ON gam.Application (RepId ,AppId ,AppCurEnvId )
+
+CREATE TABLE gam.UserMemRoleProp (UserGUID  GRAPHIC(40) NOT NULL , RepId  NUMERIC(9) NOT NULL , UserMemRoleRoleId  NUMERIC(12) NOT NULL , UserMemRolePropId  GRAPHIC(60) NOT NULL , UserMemRolePropToken  GRAPHIC(40) NOT NULL , UserMemRolePropValue  VARGRAPHIC(400) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemRoleRoleId, UserMemRolePropId, UserMemRolePropToken))
+
+CREATE TABLE gam.UserMemAppRoleProp (UserGUID  GRAPHIC(40) NOT NULL , RepId  NUMERIC(9) NOT NULL , UserMemAppRoleAppId  NUMERIC(12) NOT NULL , UserMemAppRoleRoleId  NUMERIC(12) NOT NULL , UserMemAppRolePropId  GRAPHIC(60) NOT NULL , UserMemAppRolePropToken  GRAPHIC(40) NOT NULL , UserMemAppRolePropValue  VARGRAPHIC(400) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemAppRoleAppId, UserMemAppRoleRoleId, UserMemAppRolePropId, UserMemAppRolePropToken))
+
+CREATE TABLE gam.SecurityPolicyProp (RepId  NUMERIC(9) NOT NULL , SecPolId  NUMERIC(9) NOT NULL , SecPolPropId  GRAPHIC(60) NOT NULL , SecPolPropToken  GRAPHIC(40) NOT NULL , SecPolPropValue  VARGRAPHIC(400) NOT NULL , PRIMARY KEY(RepId, SecPolId, SecPolPropId, SecPolPropToken))
+
+DROP INDEX gam.IUSERMEMAPPROLE1
+CREATE INDEX gam.IUSERMEMAPPROLEAPP ON gam.UserMemAppRole (RepId ,UserMemAppRoleAppId )
+CREATE INDEX gam.IUSERMEMAPPROLEROLE ON gam.UserMemAppRole (RepId ,UserMemAppRoleRoleId )
+
+RENAME TABLE gam.SessionHistoryHisLogAtt TO SessionHistoryLogAtt
+
+UPDATE SysPar SET SysParVal='3.0.6' WHERE SysParId='GAMVersion'

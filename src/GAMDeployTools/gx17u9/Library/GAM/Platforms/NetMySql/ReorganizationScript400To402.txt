@@ -1,0 +1,9 @@
+CREATE TABLE `GXA0189` (`RepId`  int NOT NULL , `EveSusId`  national char(40) NOT NULL , `EveSusPropId`  national char(60) NOT NULL , `EveSusPropToken`  national char(40) NOT NULL , `EveSusPropValue`  national varchar(400) , PRIMARY KEY(`RepId`, `EveSusId`, `EveSusPropId`, `EveSusPropToken`))  ENGINE=InnoDB
+Run conversion program for table EventSuscriptionProp
+RENAME TABLE `GXA0189` TO `EventSuscriptionProp`
+
+CREATE TABLE `EventSuscription` (`RepId`  int NOT NULL , `EveSusId`  national char(40) NOT NULL , `EveSusDsc`  national char(254) NOT NULL , `EveSusStatus`  national char(1) NOT NULL , `EveSusEntity`  national char(60) NOT NULL , `EveSusAction`  national char(20) NOT NULL , `EveSusClassName`  national char(60) NOT NULL , `EveSusCreDate`  datetime , `EveSusCreUser`  national varchar(250) , `EveSusUpdDate`  datetime , `EveSusUpdUser`  national varchar(250) , `EveSusFileName`  national char(254) NOT NULL , `EveSusMethodName`  national char(60) NOT NULL , PRIMARY KEY(`RepId`, `EveSusId`))  ENGINE=InnoDB
+CREATE INDEX `UEVENTSUSCRIPTION` ON `EventSuscription` (`RepId` ,`EveSusEntity` ,`EveSusAction` ,`EveSusClassName` ,`EveSusMethodName` )
+
+DROP TABLE `RepositoryEvents`
+

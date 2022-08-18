@@ -1,0 +1,30 @@
+ALTER TABLE `Repository` MODIFY COLUMN `RepUserSessionCacheTimeout` int NOT NULL
+ALTER TABLE `Repository` MODIFY COLUMN `RepUserTimeToUnblock` int NOT NULL
+ALTER TABLE `Repository` MODIFY COLUMN `RepUserRecPwdKeyTimeOut` int NOT NULL
+ALTER TABLE `Repository` MODIFY COLUMN `RepUserActTimeOut` int NOT NULL
+
+ALTER TABLE `Session` ADD (`SesEndedByOtherLogin` BOOL , `SesOTPExpire` datetime , `SesOTP` national varchar(250) , `SesIdToken` national varchar(4096) )
+DROP INDEX `ISESSION1` ON `Session`
+DROP INDEX `ISESSION` ON `Session`
+CREATE INDEX `ISESOPESYS` ON `Session` (`OpeSysId` )
+CREATE INDEX `ISESUSER` ON `Session` (`UserGUID` ,`RepId` )
+CREATE INDEX `USESTOKEN` ON `Session` (`SesToken` )
+CREATE INDEX `USESREPPARENTTOKENUSERSTS` ON `Session` (`RepId` ,`SesExtToken` ,`UserGUID` ,`SesSts` )
+CREATE INDEX `USESREFRESHTOKEN` ON `Session` (`RepId` ,`SesType` ,`SesSts` ,`SesAppId` ,`SesRefreshToken` )
+CREATE INDEX `USESUSERAPPPARENT` ON `Session` (`UserGUID` ,`SesAppId` ,`SesExtToken` )
+CREATE INDEX `USESPARENTTOKENUSERSTS` ON `Session` (`SesExtToken` ,`UserGUID` ,`SesSts` )
+CREATE INDEX `USESSIONUSEROTPCODE` ON `Session` (`RepId` ,`SesAppId` ,`SesAutTypeName` ,`UserGUID` ,`SesSts` ,`SesOTP` ,`SesDate` )
+
+ALTER TABLE `SecurityPolicy` MODIFY COLUMN `SecPolFrecMinChangePwd` int NOT NULL
+ALTER TABLE `SecurityPolicy` MODIFY COLUMN `SecPolOauthTokenExpire` int NOT NULL
+ALTER TABLE `SecurityPolicy` MODIFY COLUMN `SecPolSesTimeOut` int NOT NULL
+
+ALTER TABLE `SessionHistory` ADD (`SesHisEndedByOtherLogin` BOOL , `SesHisIdToken` national varchar(4096) )
+
+ALTER TABLE `User` ADD (`UserLastFailedLoginAttempt` datetime , `UserFailedLoginAttempts` smallint , `UserOTPFailedAttempts` smallint , `UserOTPLastDateRequestCode` date , `UserOTPDailyNumberCodes` smallint , `UserOTPLastLockedDate` datetime , `UserOTPNumberLocked` smallint , `UserEnableTwoFactorAuth` BOOL )
+
+CREATE TABLE `SysConnectionConfig` (`SysConnCfgKey` national char(40) NOT NULL , `SysConnCfgRep` national char(40) NOT NULL , `SysConnCfgName` national varchar(120) NOT NULL , `SysConnCfgUser` national varchar(100) , `SysConnCfgPwd` national char(254) NOT NULL , `SysConnCfgJson` MEDIUMTEXT CHARACTER SET utf8 , PRIMARY KEY(`SysConnCfgKey`, `SysConnCfgRep`, `SysConnCfgName`))  ENGINE=InnoDB
+
+DROP INDEX `UEVENTSUSCRIPTION` ON `EventSuscription`
+CREATE INDEX `UEVENTSUSCRIPTION` ON `EventSuscription` (`RepId` ,`EveSusEntity` ,`EveSusStatus` ,`EveSusDsc` )
+

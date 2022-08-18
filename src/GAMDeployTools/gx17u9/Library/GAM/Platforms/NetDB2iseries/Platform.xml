@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PlatformDescriptor>
+	<Descriptions />
+	<ModelProperties>
+		<GeneratorType>15</GeneratorType>
+		<DbmsType>9</DbmsType>
+		
+	</ModelProperties>
+	<ExtraModelProperties />
+	<DataSourceProperties></DataSourceProperties>
+	<VersionFile />
+	<FilesToCopy><FileToCopy file="GeneXus.Security.dll" target="bin" /><FileToCopy file="agamapi.dll" target="bin" /><FileToCopy file="agamextauthinput.dll" target="bin" /><FileToCopy file="agamoauth20getaccesstoken.dll" target="bin" /><FileToCopy file="agamoauth20getuserinfo.dll" target="bin" /><FileToCopy file="GeneXus.Security.API.TOTP.dll" target="bin" /><FileToCopy file="GeneXus.Security.API.Common.dll" target="bin" /><FileToCopy file="Artech.Security.API.Cryptography.dll" target="bin" /><FileToCopy file="Artech.Security.API.OAuthLib.dll" target="bin" /><FileToCopy file="Artech.Security.API.DynamicCall.dll" target="bin" /><FileToCopy file="GXzip.dll" target="bin" /><FileToCopy file="Ionic.Zip.dll" target="bin" /><FileToCopy file="agamdeploytool.exe" target="bin" /><FileToCopy file="Microsoft.IdentityModel.Logging.dll" target="bin" /><FileToCopy file="Microsoft.IdentityModel.Tokens.dll" target="bin" /><FileToCopy file="Microsoft.IdentityModel.Tokens.Saml.dll" target="bin" /><FileToCopy file="Microsoft.IdentityModel.Xml.dll" target="bin" /><FileToCopy file="Sustainsys.Saml2.dll" target="bin" /><FileToCopy file="Sustainsys.Saml2.HttpModule.dll" target="bin" /><FileToCopy file="Sustainsys.Saml2.Mvc.dll" target="bin" /><FileToCopy file="System.Configuration.ConfigurationManager.dll" target="bin" /><FileToCopy file="System.Security.Cryptography.Xml.dll" target="bin" /><FileToCopy file="System.Web.Mvc.dll" target="bin" /><FileToCopy file="System.Web.Razor.dll" target="bin" /><FileToCopy file="System.Web.WebPages.dll" target="bin" /><FileToCopy file="Microsoft.Web.Infrastructure.dll" target="bin" /><FileToCopy file="System.Web.WebPages.Razor.dll" target="bin" /><FileToCopy file="System.Web.WebPages.Deployment.dll" target="bin" /><FileToCopy file="gamexternalauthenticationinputsaml20_ws.dll" target="bin" /><FileToCopy file="..\..\GAM_Backend\Net\GAM_Backend.zip" target="." extract="True" />
+		
+		</FilesToCopy>
+	<FilesToExecute />
+</PlatformDescriptor>

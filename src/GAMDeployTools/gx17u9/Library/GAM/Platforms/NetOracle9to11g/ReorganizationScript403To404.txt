@@ -1,0 +1,7 @@
+ALTER TABLE "Session" ADD (SesJson  NCLOB , SesExtTokenRefresh  NVARCHAR2(2000) , SesExtTokenExpires  DATE , SesExtToken3  NCLOB )
+
+ALTER TABLE SessionHistory ADD (SesHisJson  NCLOB , SesHisAutTypeName  NCHAR(60) , SesHisExtTokenRefresh  NVARCHAR2(2000) , SesHisExtTokenExpires  DATE , SesHisExtToken3  NCLOB )
+
+CREATE TABLE SessionHistoryLog (RepId  NUMERIC(9) NOT NULL , SesHisToken  NCHAR(120) NOT NULL , SesHisLogGuid  NCHAR(40) NOT NULL , SesHisLogDateTime  DATE NOT NULL , SesHisLogType  NCHAR(30) NOT NULL , SesHisLogDetail  NCLOB , PRIMARY KEY(RepId, SesHisToken, SesHisLogGuid))
+
+UPDATE SysPar SET SysParVal='4.0.4' WHERE SysParId=N'GAMVersion'

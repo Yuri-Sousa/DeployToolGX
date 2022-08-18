@@ -1,0 +1,21 @@
+ALTER TABLE "Session" ADD (SesOauthScope  NVARCHAR2(1024) , SesOauthTokenExpires  NUMERIC(6) , SesOauthTokenMaxRenew  NUMERIC(4) , SesAutTypeName  NCHAR(60) , SesExtToken2  NVARCHAR2(1024) )
+
+ALTER TABLE SessionHistory ADD (SesHisOauthScope  NVARCHAR2(1024) , SesHisOauthTokenExpires  NUMERIC(6) , SesHisOauthTokenMaxRenew  NUMERIC(4) , SesHisAppTokenExp  DATE , SesHisDeviceId  NCHAR(40) , SesHisRefreshToken  NCHAR(40) , SesHisAppId  NUMERIC(12) , SesHisExtToken2  NVARCHAR2(1024) )
+
+ALTER TABLE Application ADD (AppCliLocalLoginURL  NVARCHAR2(1024) , AppCliAllowGetUserAdditionalDa  NUMERIC(1) , AppCliAllowGetUserRoles  NUMERIC(1) , AppCliAllowRemoteAuth  NUMERIC(1) )
+ALTER TABLE Application MODIFY AppCliSecret  NCHAR(120)
+CREATE INDEX IAPPLICATIONENV ON Application (RepId ,AppId ,AppCurEnvId )
+
+CREATE TABLE UserMemRoleProp (UserGUID  NCHAR(40) NOT NULL , RepId  NUMERIC(9) NOT NULL , UserMemRoleRoleId  NUMERIC(12) NOT NULL , UserMemRolePropId  NCHAR(60) NOT NULL , UserMemRolePropToken  NCHAR(40) NOT NULL , UserMemRolePropValue  NVARCHAR2(400) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemRoleRoleId, UserMemRolePropId, UserMemRolePropToken))
+
+CREATE TABLE UserMemAppRoleProp (UserGUID  NCHAR(40) NOT NULL , RepId  NUMERIC(9) NOT NULL , UserMemAppRoleAppId  NUMERIC(12) NOT NULL , UserMemAppRoleRoleId  NUMERIC(12) NOT NULL , UserMemAppRolePropId  NCHAR(60) NOT NULL , UserMemAppRolePropToken  NCHAR(40) NOT NULL , UserMemAppRolePropValue  NVARCHAR2(400) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemAppRoleAppId, UserMemAppRoleRoleId, UserMemAppRolePropId, UserMemAppRolePropToken))
+
+CREATE TABLE SecurityPolicyProp (RepId  NUMERIC(9) NOT NULL , SecPolId  NUMERIC(9) NOT NULL , SecPolPropId  NCHAR(60) NOT NULL , SecPolPropToken  NCHAR(40) NOT NULL , SecPolPropValue  NVARCHAR2(400) NOT NULL , PRIMARY KEY(RepId, SecPolId, SecPolPropId, SecPolPropToken))
+
+DROP INDEX IUSERMEMAPPROLE1
+CREATE INDEX IUSERMEMAPPROLEAPP ON UserMemAppRole (RepId ,UserMemAppRoleAppId )
+CREATE INDEX IUSERMEMAPPROLEROLE ON UserMemAppRole (RepId ,UserMemAppRoleRoleId )
+
+ALTER TABLE SessionHistoryHisLogAtt RENAME TO SessionHistoryLogAtt
+
+UPDATE SysPar SET SysParVal='3.0.6' WHERE SysParId=N'GAMVersion'

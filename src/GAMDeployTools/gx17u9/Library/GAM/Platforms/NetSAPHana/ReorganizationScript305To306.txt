@@ -1,0 +1,29 @@
+ALTER TABLE gam."Session" ADD (SesOauthScope  NVARCHAR(1024) , SesOauthTokenExpires  INTEGER , SesOauthTokenMaxRenew  SMALLINT , SesAutTypeName  NVARCHAR(60) , SesExtToken2  NVARCHAR(1024) )
+
+ALTER TABLE gam.SessionHistory ADD (SesHisOauthScope  NVARCHAR(1024) , SesHisOauthTokenExpires  INTEGER , SesHisOauthTokenMaxRenew  SMALLINT , SesHisAppTokenExp  SECONDDATE , SesHisDeviceId  NVARCHAR(40) , SesHisRefreshToken  NVARCHAR(40) , SesHisAppId  BIGINT , SesHisExtToken2  NVARCHAR(1024) )
+
+CREATE TABLE gam.GXA0120 (RepId  INTEGER NOT NULL , AppId  BIGINT NOT NULL , AppName  NVARCHAR(254) , AppGUID  NVARCHAR(40) NOT NULL , AppVer  NVARCHAR(60) NOT NULL , AppComName  NVARCHAR(254) , AppTypeId  BIGINT , AppParAppId  BIGINT , AppDsc  NVARCHAR(254) , AppCopyright  NVARCHAR(254) , AppOrder  INTEGER NOT NULL , AppRetMnuOptWithoutPrm  TINYINT NOT NULL , AppCurEnvId  BIGINT , AppBaseAppId  BIGINT , AppCreDate  SECONDDATE , AppCreUser  NVARCHAR(250) , AppUpdDate  SECONDDATE , AppUpdUser  NVARCHAR(250) , AppIsBaseApplication  TINYINT NOT NULL , AppCliId  NVARCHAR(40) , AppCliSecret  NVARCHAR(120) , AppCliUserGUID  NVARCHAR(40) , AppCliImageURL  NVARCHAR(1024) , AppCliSiteURL  NVARCHAR(1024) , AppCliSiteDomain  NVARCHAR(1024) , AppCliRevoked  SECONDDATE , AppType  SMALLINT NOT NULL , AppCliEncKey  NVARCHAR(32) NOT NULL , AppCliDefPrmGUID  NVARCHAR(40) , AppAccessReqPrm  TINYINT NOT NULL , AppCliAccessUniqueByUser  TINYINT NOT NULL , AppCliAutoRegAnomymousUser  TINYINT NOT NULL , AppCliAllowRemoteAuth  TINYINT , AppCliAllowGetUserRoles  TINYINT , AppCliAllowGetUserAdditionalDa  TINYINT , AppCliLocalLoginURL  NVARCHAR(1024) )
+Run conversion program for table Application
+DROP TABLE gam.Application CASCADE
+RENAME TABLE gam.GXA0120 TO Application
+ALTER TABLE gam.Application ADD PRIMARY KEY(RepId, AppId)
+CREATE UNIQUE INDEX gam.UAPPLICATIONGUID ON gam.Application (RepId ,AppGUID )
+CREATE UNIQUE INDEX gam.UAPPLICATIONCLIID ON gam.Application (RepId ,AppCliId )
+CREATE INDEX gam.IAPPLICATIONPAR ON gam.Application (RepId ,AppParAppId )
+CREATE INDEX gam.IAPPLICATIONBASE ON gam.Application (RepId ,AppBaseAppId )
+CREATE INDEX gam.IAPPLICATIONTYPE ON gam.Application (RepId ,AppTypeId )
+CREATE INDEX gam.UAPPLICATIONNAME ON gam.Application (RepId ,AppName )
+CREATE INDEX gam.IAPPLICATIONENV ON gam.Application (RepId ,AppId ,AppCurEnvId )
+
+CREATE TABLE gam.UserMemRoleProp (UserGUID  NVARCHAR(40) NOT NULL , RepId  INTEGER NOT NULL , UserMemRoleRoleId  BIGINT NOT NULL , UserMemRolePropId  NVARCHAR(60) NOT NULL , UserMemRolePropToken  NVARCHAR(40) NOT NULL , UserMemRolePropValue  NVARCHAR(400) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemRoleRoleId, UserMemRolePropId, UserMemRolePropToken))
+
+CREATE TABLE gam.UserMemAppRoleProp (UserGUID  NVARCHAR(40) NOT NULL , RepId  INTEGER NOT NULL , UserMemAppRoleAppId  BIGINT NOT NULL , UserMemAppRoleRoleId  BIGINT NOT NULL , UserMemAppRolePropId  NVARCHAR(60) NOT NULL , UserMemAppRolePropToken  NVARCHAR(40) NOT NULL , UserMemAppRolePropValue  NVARCHAR(400) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemAppRoleAppId, UserMemAppRoleRoleId, UserMemAppRolePropId, UserMemAppRolePropToken))
+
+CREATE TABLE gam.SecurityPolicyProp (RepId  INTEGER NOT NULL , SecPolId  INTEGER NOT NULL , SecPolPropId  NVARCHAR(60) NOT NULL , SecPolPropToken  NVARCHAR(40) NOT NULL , SecPolPropValue  NVARCHAR(400) NOT NULL , PRIMARY KEY(RepId, SecPolId, SecPolPropId, SecPolPropToken))
+
+DROP INDEX gam.IUSERMEMAPPROLE1
+CREATE INDEX gam.IUSERMEMAPPROLEAPP ON gam.UserMemAppRole (RepId ,UserMemAppRoleAppId )
+CREATE INDEX gam.IUSERMEMAPPROLEROLE ON gam.UserMemAppRole (RepId ,UserMemAppRoleRoleId )
+
+RENAME TABLE gam.SessionHistoryHisLogAtt TO SessionHistoryLogAtt
+

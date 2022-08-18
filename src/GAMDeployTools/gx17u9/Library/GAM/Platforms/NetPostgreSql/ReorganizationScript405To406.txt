@@ -1,0 +1,38 @@
+ALTER TABLE gam.RoleAppTypePrmProp ALTER COLUMN RoleAppTypePrmPropValue TYPE VARCHAR(2048)
+
+ALTER TABLE gam.AppMenuProp ALTER COLUMN APPMnuPropValue TYPE VARCHAR(2048)
+
+ALTER TABLE gam.AppMenuOptionProp ALTER COLUMN AppMnuOptPropValue TYPE VARCHAR(2048)
+
+ALTER TABLE gam.RoleProp ALTER COLUMN RolePropValue TYPE VARCHAR(2048)
+
+ALTER TABLE gam.ApplicationProp ALTER COLUMN AppPropValue TYPE VARCHAR(2048)
+
+ALTER TABLE gam.RepositoryProp ALTER COLUMN RepPropVal TYPE VARCHAR(2048)
+
+ALTER TABLE gam."User" ADD UserTOTPSecretKey VARCHAR(120) , ADD UserTOTPEnable BOOLEAN , ADD UserRecPwdKeyLastDate date , ADD UserRecPwdKeyMonthNumber smallint , ADD UserRecPwdKeyDailyNumber smallint
+
+ALTER TABLE gam.UserAtt ALTER COLUMN UserAttVal TYPE VARCHAR(2048)
+
+ALTER TABLE gam.UserAttMultiValue ALTER COLUMN UserAttMVVal TYPE VARCHAR(2048)
+
+ALTER TABLE gam.AuthenticationTypeProp ALTER COLUMN AutTypePropValue TYPE VARCHAR(2048)
+
+ALTER TABLE gam.AppPermissionProp ALTER COLUMN AppPrmPropValue TYPE VARCHAR(2048)
+
+ALTER TABLE gam.RoleAppPrmProp ALTER COLUMN RoleAppPrmPropValue TYPE VARCHAR(2048)
+
+ALTER TABLE gam.UserAppPrmProp ALTER COLUMN UserAppPrmPropValue TYPE VARCHAR(2048)
+
+ALTER TABLE gam.SecurityPolicyProp ALTER COLUMN SecPolPropValue TYPE VARCHAR(2048)
+
+ALTER TABLE gam.UserMemAppRoleProp ALTER COLUMN UserMemAppRolePropValue TYPE VARCHAR(2048)
+
+ALTER TABLE gam.UserMemRoleProp ALTER COLUMN UserMemRolePropValue TYPE VARCHAR(2048)
+
+ALTER TABLE gam.EventSuscriptionProp ALTER COLUMN EveSusPropValue TYPE VARCHAR(2048)
+
+ALTER TABLE gam.UserRepositoryProp ALTER COLUMN UserRepPropValue TYPE VARCHAR(2048)
+
+CREATE TABLE gam.UserProp (UserGUID CHAR(40) NOT NULL , UserPropID CHAR(60) NOT NULL , UserPropToken CHAR(40) NOT NULL , UserPropValue VARCHAR(2048) , PRIMARY KEY(UserGUID, UserPropID, UserPropToken))
+

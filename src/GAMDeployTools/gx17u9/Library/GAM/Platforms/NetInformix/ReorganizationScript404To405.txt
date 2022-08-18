@@ -1,0 +1,29 @@
+ALTER TABLE gam.Repository MODIFY RepUserSessionCacheTimeout INT
+ALTER TABLE gam.Repository MODIFY RepUserTimeToUnblock INT
+ALTER TABLE gam.Repository MODIFY RepUserRecPwdKeyTimeOut INT
+ALTER TABLE gam.Repository MODIFY RepUserActTimeOut INT
+
+ALTER TABLE gam.Session ADD (SesEndedByOtherLogin BOOLEAN , SesOTPExpire DateTime Year to Second , SesOTP varchar(250) , SesIdToken lvarchar(4096) )
+DROP INDEX gam.ISESSION1
+DROP INDEX gam.ISESSION
+CREATE INDEX gam.ISESOPESYS ON gam.Session (OpeSysId )
+CREATE INDEX gam.ISESUSER ON gam.Session (UserGUID ,RepId )
+CREATE INDEX gam.USESTOKEN ON gam.Session (SesToken )
+CREATE INDEX gam.USESREPPARENTTOKENUSERSTS ON gam.Session (RepId ,SesExtToken ,UserGUID ,SesSts )
+CREATE INDEX gam.USESREFRESHTOKEN ON gam.Session (RepId ,SesType ,SesSts ,SesAppId ,SesRefreshToken )
+CREATE INDEX gam.USESUSERAPPPARENT ON gam.Session (UserGUID ,SesAppId ,SesExtToken )
+CREATE INDEX gam.USESPARENTTOKENUSERSTS ON gam.Session (SesExtToken ,UserGUID ,SesSts )
+CREATE INDEX gam.USESSIONUSEROTPCODE ON gam.Session (RepId ,SesAppId ,SesAutTypeName ,UserGUID ,SesSts ,SesOTP ,SesDate DESC)
+
+ALTER TABLE gam.SecurityPolicy MODIFY SecPolFrecMinChangePwd INT
+ALTER TABLE gam.SecurityPolicy MODIFY SecPolSesTimeOut INT
+
+ALTER TABLE gam.SessionHistory ADD (SesHisEndedByOtherLogin BOOLEAN , SesHisIdToken lvarchar(4096) )
+
+ALTER TABLE gam.User ADD (UserLastFailedLoginAttempt DateTime Year to Second , UserFailedLoginAttempts SMALLINT , UserOTPFailedAttempts SMALLINT , UserOTPLastDateRequestCode DateTime Year to Day , UserOTPDailyNumberCodes SMALLINT , UserOTPLastLockedDate DateTime Year to Second , UserOTPNumberLocked SMALLINT , UserEnableTwoFactorAuth BOOLEAN )
+
+CREATE TABLE gam.SysConnectionConfig (SysConnCfgKey CHAR(40) NOT NULL , SysConnCfgRep CHAR(40) NOT NULL , SysConnCfgName varchar(120) NOT NULL , SysConnCfgUser varchar(100) , SysConnCfgPwd CHAR(254) NOT NULL , SysConnCfgJson TEXT , PRIMARY KEY(SysConnCfgKey, SysConnCfgRep, SysConnCfgName))
+
+DROP INDEX gam.UEVENTSUSCRIPTION
+CREATE INDEX gam.UEVENTSUSCRIPTION ON gam.EventSuscription (RepId ,EveSusEntity ,EveSusStatus ,EveSusDsc )
+

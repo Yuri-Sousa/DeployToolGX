@@ -1,0 +1,8 @@
+CREATE TABLE gam.EventSuscriptionProp (RepId integer NOT NULL , EveSusId CHAR(40) NOT NULL , EveSusPropId CHAR(60) NOT NULL , EveSusPropToken CHAR(40) NOT NULL , EveSusPropValue VARCHAR(400) , PRIMARY KEY(RepId, EveSusId, EveSusPropId, EveSusPropToken))
+
+CREATE TABLE gam.EventSuscription (RepId integer NOT NULL , EveSusId CHAR(40) NOT NULL , EveSusDsc CHAR(254) NOT NULL , EveSusStatus CHAR(1) NOT NULL , EveSusEntity CHAR(60) NOT NULL , EveSusAction CHAR(20) NOT NULL , EveSusClassName CHAR(60) NOT NULL , EveSusCreDate timestamp without time zone , EveSusCreUser VARCHAR(250) , EveSusUpdDate timestamp without time zone , EveSusUpdUser VARCHAR(250) , EveSusFileName CHAR(254) NOT NULL , EveSusMethodName CHAR(60) NOT NULL , PRIMARY KEY(RepId, EveSusId))
+CREATE INDEX UEVENTSUSCRIPTION ON gam.EventSuscription (RepId ,EveSusEntity ,EveSusAction ,EveSusClassName ,EveSusMethodName )
+
+DROP TABLE gam.RepositoryEvents CASCADE
+
+UPDATE gam.SysPar SET SysParVal='4.0.2' WHERE SysParId=( 'GAMVersion')

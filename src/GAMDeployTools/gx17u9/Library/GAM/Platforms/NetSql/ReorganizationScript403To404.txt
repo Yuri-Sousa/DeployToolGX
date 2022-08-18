@@ -1,0 +1,7 @@
+ALTER TABLE gam.[Session] ADD [SesJson]  NVARCHAR(MAX) NULL , [SesExtTokenRefresh]  nvarchar(2000) NULL , [SesExtTokenExpires]  datetime NULL , [SesExtToken3]  NVARCHAR(MAX) NULL
+
+ALTER TABLE gam.[SessionHistory] ADD [SesHisJson]  NVARCHAR(MAX) NULL , [SesHisAutTypeName]  nchar(60) NULL , [SesHisExtTokenRefresh]  nvarchar(2000) NULL , [SesHisExtTokenExpires]  datetime NULL , [SesHisExtToken3]  NVARCHAR(MAX) NULL
+
+CREATE TABLE gam.[SessionHistoryLog] ([RepId]  int NOT NULL , [SesHisToken]  nchar(120) NOT NULL , [SesHisLogGuid]  nchar(40) NOT NULL , [SesHisLogDateTime]  datetime NOT NULL , [SesHisLogType]  nchar(30) NOT NULL , [SesHisLogDetail]  NVARCHAR(MAX) NULL , PRIMARY KEY([RepId], [SesHisToken], [SesHisLogGuid]))
+
+UPDATE gam.[SysPar] SET [SysParVal]='4.0.4' WHERE [SysParId]='GAMVersion'

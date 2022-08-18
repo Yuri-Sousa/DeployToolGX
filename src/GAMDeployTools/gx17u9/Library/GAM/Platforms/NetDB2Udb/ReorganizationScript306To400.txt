@@ -1,0 +1,60 @@
+CREATE TABLE gam.GXA0040 (RepId  NUMERIC(9) NOT NULL , SesToken  GRAPHIC(120) NOT NULL , SesDate  TIMESTAMP NOT NULL , SesSts  GRAPHIC(1) NOT NULL , SesType  NUMERIC(2) NOT NULL , SesURL  VARGRAPHIC(2048) NOT NULL , SesIPAdd  GRAPHIC(60) NOT NULL , OpeSysId  NUMERIC(4) , SesLastAcc  TIMESTAMP NOT NULL , SesTimeOut  NUMERIC(4) NOT NULL , SesLogAtt  NUMERIC(5) NOT NULL , SesLogDate  TIMESTAMP NOT NULL , SesSharedData  DBCLOB(65536) NOT NULL , SesEndDate  TIMESTAMP NOT NULL , SesReload  NUMERIC(1) NOT NULL , BrwId  NUMERIC(4) , SesLastURL  VARGRAPHIC(2048) NOT NULL , SesLogin  VARGRAPHIC(250) NOT NULL , SesExtToken  GRAPHIC(120) NOT NULL , UserGUID  GRAPHIC(40) , SesAppTokenExp  TIMESTAMP , SesRefreshToken  GRAPHIC(40) , SesAppId  NUMERIC(12) , SesDeviceId  GRAPHIC(40) , SesExtToken2  VARGRAPHIC(1024) , SesAutTypeName  GRAPHIC(60) , SesOauthTokenMaxRenew  NUMERIC(4) , SesOauthTokenExpires  NUMERIC(6) , SesOauthScope  VARGRAPHIC(2048) )
+Run conversion program for table Session
+DROP TABLE gam.Session
+RENAME TABLE gam.GXA0040 TO Session
+ALTER TABLE gam.Session ADD PRIMARY KEY(RepId, SesToken)
+CREATE INDEX gam.ISESBRW ON gam.Session (BrwId )
+CREATE INDEX gam.ISESSION1 ON gam.Session (OpeSysId )
+CREATE INDEX gam.ISESSION ON gam.Session (UserGUID ,RepId )
+
+CREATE TABLE gam.GXA0097 (RepId  NUMERIC(9) NOT NULL , SesHisToken  GRAPHIC(120) NOT NULL , SesHisLogin  VARGRAPHIC(250) NOT NULL , SesHisDate  TIMESTAMP NOT NULL , SesHisSts  GRAPHIC(1) NOT NULL , SesHisType  NUMERIC(2) NOT NULL , SesHisURL  VARGRAPHIC(2048) NOT NULL , SesHisIPAdd  GRAPHIC(60) NOT NULL , BrwId  NUMERIC(4) , OpeSysId  NUMERIC(4) , SesHisLastAcc  TIMESTAMP NOT NULL , SesHisLastURL  VARGRAPHIC(2048) NOT NULL , SesHisTimeOut  NUMERIC(4) NOT NULL , SesHisExtToken  GRAPHIC(120) NOT NULL , SesHisLogAtt  NUMERIC(5) NOT NULL , SesHisLogDate  TIMESTAMP NOT NULL , SesHisSharedData  DBCLOB(65536) NOT NULL , SesHisEndDate  TIMESTAMP NOT NULL , UserGUID  GRAPHIC(40) NOT NULL , SesHisExtToken2  VARGRAPHIC(1024) , SesHisAppId  NUMERIC(12) , SesHisRefreshToken  GRAPHIC(40) , SesHisDeviceId  GRAPHIC(40) , SesHisAppTokenExp  TIMESTAMP , SesHisOauthTokenMaxRenew  NUMERIC(4) , SesHisOauthTokenExpires  NUMERIC(6) , SesHisOauthScope  VARGRAPHIC(2048) )
+Run conversion program for table SessionHistory
+DROP TABLE gam.SessionHistory
+RENAME TABLE gam.GXA0097 TO SessionHistory
+ALTER TABLE gam.SessionHistory ADD PRIMARY KEY(RepId, SesHisToken)
+CREATE INDEX gam.ISESHISTORYOS ON gam.SessionHistory (OpeSysId )
+CREATE INDEX gam.ISESHISTORYBRW ON gam.SessionHistory (BrwId )
+CREATE INDEX gam.ISESHISUSER ON gam.SessionHistory (UserGUID ,RepId )
+
+CREATE TABLE gam.GXA0110 (RepId  NUMERIC(9) NOT NULL , AudId  NUMERIC(9) NOT NULL , AudSesRepId  NUMERIC(9) NOT NULL , AudSesToken  GRAPHIC(120) NOT NULL , AudDate  TIMESTAMP NOT NULL , AudActId  NUMERIC(12) NOT NULL , AudPgmName  VARGRAPHIC(254) NOT NULL , AudActKey1  NUMERIC(12) , AudActKey2  NUMERIC(12) , AudActKey3  NUMERIC(12) , AudActKey4  NUMERIC(12) , AudActPreDet  VARGRAPHIC(2048) , AudActCurDet  VARGRAPHIC(2048) , AudActionKeyGUID1  GRAPHIC(40) , AudActionKeyGUID2  GRAPHIC(40) , AudActionKeyChar1  VARGRAPHIC(254) )
+Run conversion program for table Auditory
+DROP TABLE gam.Auditory
+RENAME TABLE gam.GXA0110 TO Auditory
+ALTER TABLE gam.Auditory ADD PRIMARY KEY(RepId, AudId)
+CREATE INDEX gam.IAUDITORY1 ON gam.Auditory (AudActId )
+
+CREATE TABLE gam.GXA0120 (RepId  NUMERIC(9) NOT NULL , AppId  NUMERIC(12) NOT NULL , AppName  VARGRAPHIC(254) , AppGUID  GRAPHIC(40) NOT NULL , AppVer  GRAPHIC(60) NOT NULL , AppComName  VARGRAPHIC(254) , AppTypeId  NUMERIC(12) , AppParAppId  NUMERIC(12) , AppDsc  VARGRAPHIC(254) , AppCopyright  VARGRAPHIC(254) , AppOrder  NUMERIC(9) NOT NULL , AppRetMnuOptWithoutPrm  NUMERIC(1) NOT NULL , AppCurEnvId  NUMERIC(12) , AppBaseAppId  NUMERIC(12) , AppCreDate  TIMESTAMP , AppCreUser  VARGRAPHIC(250) , AppUpdDate  TIMESTAMP , AppUpdUser  VARGRAPHIC(250) , AppIsBaseApplication  NUMERIC(1) NOT NULL , AppCliId  GRAPHIC(40) , AppCliSecret  GRAPHIC(120) , AppCliUserGUID  GRAPHIC(40) , AppCliImageURL  VARGRAPHIC(2048) , AppCliSiteURL  VARGRAPHIC(2048) , AppCliSiteDomain  VARGRAPHIC(2048) , AppCliRevoked  TIMESTAMP , AppType  NUMERIC(1) NOT NULL , AppCliEncKey  GRAPHIC(32) NOT NULL , AppCliDefPrmGUID  GRAPHIC(40) , AppAccessReqPrm  NUMERIC(1) NOT NULL , AppCliAccessUniqueByUser  NUMERIC(1) NOT NULL , AppCliAutoRegAnomymousUser  NUMERIC(1) NOT NULL , AppCliAllowRemoteAuth  NUMERIC(1) , AppCliAllowGetUserRoles  NUMERIC(1) , AppCliAllowGetUserAdditionalDa  NUMERIC(1) , AppCliLocalLoginURL  VARGRAPHIC(2048) )
+Run conversion program for table Application
+DROP TABLE gam.Application
+RENAME TABLE gam.GXA0120 TO Application
+ALTER TABLE gam.Application ADD PRIMARY KEY(RepId, AppId)
+CREATE UNIQUE INDEX gam.UAPPLICATIONGUID ON gam.Application (RepId ,AppGUID )
+CREATE UNIQUE INDEX gam.UAPPLICATIONCLIID ON gam.Application (RepId ,AppCliId )
+CREATE INDEX gam.IAPPLICATIONPAR ON gam.Application (RepId ,AppParAppId )
+CREATE INDEX gam.IAPPLICATIONBASE ON gam.Application (RepId ,AppBaseAppId )
+CREATE INDEX gam.IAPPLICATIONTYPE ON gam.Application (RepId ,AppTypeId )
+CREATE INDEX gam.UAPPLICATIONNAME ON gam.Application (RepId ,AppName )
+CREATE INDEX gam.IAPPLICATIONENV ON gam.Application (RepId ,AppId ,AppCurEnvId )
+
+CREATE TABLE gam.GXA0142 (UserGUID  GRAPHIC(40) NOT NULL , UserNameSpace  GRAPHIC(60) NOT NULL , UserAutTypeName  GRAPHIC(60) NOT NULL , UserName  VARGRAPHIC(100) NOT NULL , UserEMail  VARGRAPHIC(100) NOT NULL , UserExtId  VARGRAPHIC(100) , UserPwd  VARGRAPHIC(254) NOT NULL , UserFirstName  GRAPHIC(60) , UserLastName  GRAPHIC(60) , UserBirthday  DATE , UserGender  GRAPHIC(1) NOT NULL , UserPhone  VARGRAPHIC(254) , UserAddress  VARGRAPHIC(254) , UserAddress2  VARGRAPHIC(254) , UserCity  VARGRAPHIC(254) , UserState  VARGRAPHIC(254) , CountryId  GRAPHIC(9) , UserPostCode  GRAPHIC(60) , UserLng  GRAPHIC(3) , UserTimeZone  GRAPHIC(60) , UserPhoto  BLOB( 2G) NOT LOGGED , UserPhoto_GXI  VARCHAR(2048) , UserNotRcvInf  NUMERIC(1) NOT NULL , UserIsBlk  NUMERIC(1) NOT NULL , UserBlkLastDate  TIMESTAMP , UserIsAct  NUMERIC(1) NOT NULL , UserActKey  VARGRAPHIC(254) , UserActDate  TIMESTAMP , UserNotChgPwd  NUMERIC(1) NOT NULL , UserChgPwdNexLog  NUMERIC(1) NOT NULL , UserPwdNevExp  NUMERIC(1) NOT NULL , UserRecPwdKey  VARGRAPHIC(254) , UserRecPwdKeyExp  TIMESTAMP , UserDateLastChgPwd  TIMESTAMP , UserIsDlt  NUMERIC(1) NOT NULL , UserDateLastAuth  TIMESTAMP , UserCreDate  TIMESTAMP , UserCreUser  VARGRAPHIC(250) , UserUpdDate  TIMESTAMP , UserUpdUser  VARGRAPHIC(250) , UserURLImage  VARGRAPHIC(2048) , UserURLProf  VARGRAPHIC(2048) , UserDataReqComplete  NUMERIC(1) NOT NULL , UserDataReqCompleteKey  VARGRAPHIC(254) , UserIsDevice  NUMERIC(1) NOT NULL , UserPwdEncryption  GRAPHIC(3) )
+Run conversion program for table User
+DROP TABLE gam.User
+RENAME TABLE gam.GXA0142 TO User
+ALTER TABLE gam.User ADD PRIMARY KEY(UserGUID)
+CREATE INDEX gam.UUSERLOGIN ON gam.User (UserNameSpace ,UserAutTypeName ,UserName ,UserIsDlt )
+CREATE INDEX gam.IUSERCOUNTRY ON gam.User (CountryId )
+CREATE INDEX gam.UUSEREMAIL ON gam.User (UserNameSpace ,UserAutTypeName ,UserEMail ,UserIsDlt )
+CREATE INDEX gam.UUSEREXTID ON gam.User (UserNameSpace ,UserAutTypeName ,UserExtId ,UserIsDlt )
+
+CREATE TABLE gam.GXA0173 (RepId  NUMERIC(9) NOT NULL , AppAuthReqId  VARGRAPHIC(254) NOT NULL , AppAuthReqRedirURL  VARGRAPHIC(2048) NOT NULL , AppAuthReqResponseType  GRAPHIC(5) NOT NULL , AppAuthReqAuthorized  TIMESTAMP , AppAuthReqRevoked  TIMESTAMP , AppId  NUMERIC(12) NOT NULL , AppPrmGUID  GRAPHIC(40) NOT NULL , AppAuthReqCreated  TIMESTAMP NOT NULL , AppAuthReqUserAppPrmCode  GRAPHIC(80) , AppAuthReqSesToken  GRAPHIC(120) )
+Run conversion program for table AppAuthReq
+DROP TABLE gam.AppAuthReq
+RENAME TABLE gam.GXA0173 TO AppAuthReq
+ALTER TABLE gam.AppAuthReq ADD PRIMARY KEY(RepId, AppAuthReqId)
+CREATE INDEX gam.IAPPAUTHREQ1 ON gam.AppAuthReq (RepId ,AppId ,AppPrmGUID )
+
+CREATE TABLE gam.RepositoryEvents (RepId  NUMERIC(9) NOT NULL , RepEveEntity  GRAPHIC(60) NOT NULL , RepEveAction  GRAPHIC(20) NOT NULL , RepEveClassName  GRAPHIC(60) NOT NULL , RepEveFileName  VARGRAPHIC(254) NOT NULL , RepEveMethodName  GRAPHIC(60) NOT NULL , PRIMARY KEY(RepId, RepEveEntity, RepEveAction, RepEveClassName))
+
+CREATE INDEX gam.UAPPMENUOPTION ON gam.AppMenuOption (RepId ,AppId ,AppMnuId ,AppMnuOptOrder )
+
+UPDATE SysPar SET SysParVal='4.0.0' WHERE SysParId='GAMVersion'

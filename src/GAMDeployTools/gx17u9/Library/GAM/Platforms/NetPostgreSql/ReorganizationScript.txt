@@ -1,0 +1,238 @@
+CREATE TABLE gam.UserProp (UserGUID CHAR(40) NOT NULL , UserPropID CHAR(60) NOT NULL , UserPropToken CHAR(40) NOT NULL , UserPropValue VARCHAR(2048) , PRIMARY KEY(UserGUID, UserPropID, UserPropToken))
+
+CREATE TABLE gam.SysConnectionConfig (SysConnCfgKey CHAR(40) NOT NULL , SysConnCfgRep CHAR(40) NOT NULL , SysConnCfgName VARCHAR(120) NOT NULL , SysConnCfgUser VARCHAR(100) , SysConnCfgPwd CHAR(254) NOT NULL , SysConnCfgJson TEXT , PRIMARY KEY(SysConnCfgKey, SysConnCfgRep, SysConnCfgName))
+
+CREATE TABLE gam.SessionHistoryLog (RepId integer NOT NULL , SesHisToken CHAR(120) NOT NULL , SesHisLogGuid CHAR(40) NOT NULL , SesHisLogDateTime timestamp without time zone NOT NULL , SesHisLogType CHAR(30) NOT NULL , SesHisLogDetail TEXT , PRIMARY KEY(RepId, SesHisToken, SesHisLogGuid))
+
+CREATE TABLE gam.UserRepositoryProp (UserGUID CHAR(40) NOT NULL , RepId integer NOT NULL , UserRepPropId CHAR(60) NOT NULL , UserRepPropToken CHAR(40) NOT NULL , UserRepPropValue VARCHAR(2048) , PRIMARY KEY(UserGUID, RepId, UserRepPropId, UserRepPropToken))
+
+CREATE TABLE gam.SessionLog (RepId integer NOT NULL , SesToken CHAR(120) NOT NULL , SesLogGuid CHAR(40) NOT NULL , SesLogDateTime timestamp without time zone NOT NULL , SesLogType CHAR(30) NOT NULL , SesLogDetail TEXT , PRIMARY KEY(RepId, SesToken, SesLogGuid))
+
+CREATE TABLE gam.LoginTmp (LoginTmpTokenState CHAR(60) NOT NULL , LoginTmpDateTime timestamp without time zone NOT NULL , LoginTmpData VARCHAR(5000) NOT NULL , PRIMARY KEY(LoginTmpTokenState))
+
+CREATE TABLE gam.EventSuscriptionProp (RepId integer NOT NULL , EveSusId CHAR(40) NOT NULL , EveSusPropId CHAR(60) NOT NULL , EveSusPropToken CHAR(40) NOT NULL , EveSusPropValue VARCHAR(2048) , PRIMARY KEY(RepId, EveSusId, EveSusPropId, EveSusPropToken))
+
+CREATE TABLE gam.EventSuscription (RepId integer NOT NULL , EveSusId CHAR(40) NOT NULL , EveSusDsc CHAR(254) NOT NULL , EveSusStatus CHAR(1) NOT NULL , EveSusEntity CHAR(60) NOT NULL , EveSusAction CHAR(20) NOT NULL , EveSusClassName CHAR(60) NOT NULL , EveSusCreDate timestamp without time zone , EveSusCreUser VARCHAR(250) , EveSusUpdDate timestamp without time zone , EveSusUpdUser VARCHAR(250) , EveSusFileName CHAR(254) NOT NULL , EveSusMethodName CHAR(60) NOT NULL , PRIMARY KEY(RepId, EveSusId))
+CREATE INDEX UEVENTSUSCRIPTION ON gam.EventSuscription (RepId ,EveSusEntity ,EveSusStatus ,EveSusDsc )
+
+CREATE TABLE gam.UserMemRoleProp (UserGUID CHAR(40) NOT NULL , RepId integer NOT NULL , UserMemRoleRoleId bigint NOT NULL , UserMemRolePropId CHAR(60) NOT NULL , UserMemRolePropToken CHAR(40) NOT NULL , UserMemRolePropValue VARCHAR(2048) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemRoleRoleId, UserMemRolePropId, UserMemRolePropToken))
+
+CREATE TABLE gam.UserMemAppRoleProp (UserGUID CHAR(40) NOT NULL , RepId integer NOT NULL , UserMemAppRoleAppId bigint NOT NULL , UserMemAppRoleRoleId bigint NOT NULL , UserMemAppRolePropId CHAR(60) NOT NULL , UserMemAppRolePropToken CHAR(40) NOT NULL , UserMemAppRolePropValue VARCHAR(2048) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemAppRoleAppId, UserMemAppRoleRoleId, UserMemAppRolePropId, UserMemAppRolePropToken))
+
+CREATE TABLE gam.SecurityPolicyProp (RepId integer NOT NULL , SecPolId integer NOT NULL , SecPolPropId CHAR(60) NOT NULL , SecPolPropToken CHAR(40) NOT NULL , SecPolPropValue VARCHAR(2048) NOT NULL , PRIMARY KEY(RepId, SecPolId, SecPolPropId, SecPolPropToken))
+
+CREATE TABLE gam.RepositoryConnAdd (RepId integer NOT NULL , RepConName CHAR(120) NOT NULL , RepConSrvCon CHAR(60) NOT NULL , PRIMARY KEY(RepId, RepConName, RepConSrvCon))
+
+CREATE TABLE gam.RepositoryConnection (RepId integer NOT NULL , RepConName CHAR(120) NOT NULL , RepConUser CHAR(100) NOT NULL , RepConPwd CHAR(254) NOT NULL , RepConLng CHAR(3) NOT NULL , RepConType CHAR(30) NOT NULL , RepConKey CHAR(32) NOT NULL , RepConChaExpire integer NOT NULL , RepConSrvSpecify BOOLEAN NOT NULL , RepConChaSrv CHAR(60) , RepConChaDate timestamp without time zone , RepConCha CHAR(254) , RepConCreDate timestamp without time zone NOT NULL , RepConCreUser VARCHAR(250) NOT NULL , RepConUpdDate timestamp without time zone NOT NULL , RepConUpdUser VARCHAR(250) NOT NULL , PRIMARY KEY(RepId, RepConName))
+CREATE UNIQUE INDEX UREPOSITORYCONNUSER ON gam.RepositoryConnection (RepId ,RepConUser )
+
+CREATE TABLE gam.UserAppPrmProp (RepId integer NOT NULL , UserGUID CHAR(40) NOT NULL , AppId bigint NOT NULL , AppPrmGUID CHAR(40) NOT NULL , UserAppPrmToken CHAR(254) NOT NULL , UserAppPrmPropId CHAR(60) NOT NULL , UserAppPrmPropToken CHAR(40) NOT NULL , UserAppPrmPropValue VARCHAR(2048) , UserAppPrmPropCreDate timestamp without time zone , UserAppPrmPropCreUser VARCHAR(250) , UserAppPrmPropUpdDate timestamp without time zone , UserAppPrmPropUpdUser VARCHAR(250) , PRIMARY KEY(RepId, UserGUID, AppId, AppPrmGUID, UserAppPrmToken, UserAppPrmPropId, UserAppPrmPropToken))
+
+CREATE TABLE gam.UserAppPrm (RepId integer NOT NULL , UserGUID CHAR(40) NOT NULL , AppId bigint NOT NULL , AppPrmGUID CHAR(40) NOT NULL , UserAppPrmToken CHAR(254) NOT NULL , UserAppPrmType CHAR(1) NOT NULL , UserAppPrmInh BOOLEAN NOT NULL , UserAppPrmCreDate timestamp without time zone , UserAppPrmCreUser VARCHAR(250) , UserAppPrmUpdDate timestamp without time zone , UserAppPrmUpdUser VARCHAR(250) , AppPrmName CHAR(254) NOT NULL , PRIMARY KEY(RepId, UserGUID, AppId, AppPrmGUID, UserAppPrmToken))
+CREATE INDEX IUSERAPPPRM1 ON gam.UserAppPrm (RepId ,AppId ,AppPrmGUID )
+CREATE INDEX IUSERAPPPRM2 ON gam.UserAppPrm (UserGUID ,RepId )
+
+CREATE TABLE gam.UserMemAppRoleRest (UserGUID CHAR(40) NOT NULL , RepId integer NOT NULL , UserMemAppRoleAppId bigint NOT NULL , UserMemAppRoleRoleId bigint NOT NULL , UserMemAppRoleRestToken CHAR(40) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemAppRoleAppId, UserMemAppRoleRoleId, UserMemAppRoleRestToken))
+
+CREATE TABLE gam.AppRoleRest (RepId integer NOT NULL , AppRoleAppId bigint NOT NULL , AppRoleRoleId bigint NOT NULL , AppRoleRestToken CHAR(40) NOT NULL , PRIMARY KEY(RepId, AppRoleAppId, AppRoleRoleId, AppRoleRestToken))
+
+CREATE TABLE gam.OauthGrantUserApp (RepId integer NOT NULL , OGUserAppCode CHAR(120) NOT NULL , AppId bigint NOT NULL , UserGUID CHAR(40) NOT NULL , OGUserAppSesToken CHAR(120) , OGUserAppRefreshToken CHAR(40) , OGUserAppGrantDate timestamp without time zone , OGUserAppRevokedDate timestamp without time zone , OGUserAppCreDate timestamp without time zone , OGUserAppCreUser VARCHAR(250) , OGUserAppUpdDate timestamp without time zone , OGUserAppUpdUser VARCHAR(250) , AppPrmGUID CHAR(40) NOT NULL , OGUserAppExpire timestamp without time zone , OGUserAppStatus CHAR(1) NOT NULL , PRIMARY KEY(RepId, OGUserAppCode))
+CREATE INDEX IOAUTHGRANTUSERAPP1 ON gam.OauthGrantUserApp (UserGUID ,RepId )
+CREATE INDEX IOAUTHGRANTUSERAPP2 ON gam.OauthGrantUserApp (RepId ,AppId ,AppPrmGUID )
+CREATE INDEX UOAUTHGRANTUSERAPPTOKEN ON gam.OauthGrantUserApp (RepId ,OGUserAppSesToken )
+CREATE INDEX UOAUTHGRANTUSERAPP ON gam.OauthGrantUserApp (RepId ,UserGUID ,AppId ,OGUserAppStatus )
+
+CREATE TABLE gam.RoleAppPrmProp (RepId integer NOT NULL , RoleId bigint NOT NULL , AppId bigint NOT NULL , AppPrmGUID CHAR(40) NOT NULL , RoleAppPrmToken CHAR(254) NOT NULL , RoleAppPrmPropId CHAR(60) NOT NULL , RoleAppPrmPropToken CHAR(40) NOT NULL , RoleAppPrmPropValue VARCHAR(2048) NOT NULL , RoleAppPrmPropCreDate timestamp without time zone NOT NULL , RoleAppPrmPropCreUser VARCHAR(250) NOT NULL , RoleAppPrmPropUpdDate timestamp without time zone NOT NULL , RoleAppPrmPropUpdUser VARCHAR(250) NOT NULL , PRIMARY KEY(RepId, RoleId, AppId, AppPrmGUID, RoleAppPrmToken, RoleAppPrmPropId, RoleAppPrmPropToken))
+
+CREATE TABLE gam.AppAuthReq (RepId integer NOT NULL , AppAuthReqId CHAR(254) NOT NULL , AppAuthReqRedirURL VARCHAR(2048) NOT NULL , AppAuthReqResponseType CHAR(5) NOT NULL , AppAuthReqAuthorized timestamp without time zone , AppAuthReqRevoked timestamp without time zone , AppId bigint NOT NULL , AppPrmGUID CHAR(40) NOT NULL , AppAuthReqCreated timestamp without time zone NOT NULL , AppAuthReqUserAppPrmCode CHAR(80) , AppAuthReqSesToken CHAR(120) , PRIMARY KEY(RepId, AppAuthReqId))
+CREATE INDEX IAPPAUTHREQ1 ON gam.AppAuthReq (RepId ,AppId ,AppPrmGUID )
+
+CREATE TABLE gam.AppPermissionProp (RepId integer NOT NULL , AppId bigint NOT NULL , AppPrmGUID CHAR(40) NOT NULL , AppPrmPropId CHAR(60) NOT NULL , AppPrmPropToken CHAR(40) NOT NULL , AppPrmPropValue VARCHAR(2048) NOT NULL , AppPrmPropCreDate timestamp without time zone , AppPrmPropCreUser VARCHAR(250) , AppPrmPropUpdDate timestamp without time zone , AppPrmPropUpdUser VARCHAR(250) , PRIMARY KEY(RepId, AppId, AppPrmGUID, AppPrmPropId, AppPrmPropToken))
+
+CREATE TABLE gam.AppPrmTokenTypeEle (RepId integer NOT NULL , AppId bigint NOT NULL , AppPrmTokenTypeGUID CHAR(40) NOT NULL , AppPrmTokenEleName CHAR(60) NOT NULL , AppPrmTokenEleDsc CHAR(254) NOT NULL , AppPrmTokenEleWSHost CHAR(254) NOT NULL , AppPrmTokenELWSName CHAR(254) NOT NULL , AppPrmTokenEleOrder integer NOT NULL , PRIMARY KEY(RepId, AppId, AppPrmTokenTypeGUID, AppPrmTokenEleName))
+CREATE INDEX UAPPPRMTOKENTYPEELE ON gam.AppPrmTokenTypeEle (RepId ,AppId ,AppPrmTokenTypeGUID ,AppPrmTokenEleOrder )
+
+CREATE TABLE gam.RoleAppPrm (RepId integer NOT NULL , RoleId bigint NOT NULL , AppId bigint NOT NULL , AppPrmGUID CHAR(40) NOT NULL , RoleAppPrmToken CHAR(254) NOT NULL , RoleAppPrmType CHAR(1) NOT NULL , RoleAppPrmInh BOOLEAN NOT NULL , RoleAppPrmCreDate timestamp without time zone , RoleAppPrmCreUser VARCHAR(250) , RoleAppPrmUpdDate timestamp without time zone , RoleAppPrmUpdUser VARCHAR(250) , AppPrmName CHAR(254) NOT NULL , PRIMARY KEY(RepId, RoleId, AppId, AppPrmGUID, RoleAppPrmToken))
+CREATE INDEX IROLEAPPPRM3 ON gam.RoleAppPrm (RepId ,AppId ,AppPrmGUID )
+
+CREATE TABLE gam.AppPermissionLng (RepId integer NOT NULL , AppId bigint NOT NULL , AppPrmGUID CHAR(40) NOT NULL , AppPrmLngId CHAR(3) NOT NULL , AppPrmDscLng CHAR(254) NOT NULL , AppPrmNameLng CHAR(254) NOT NULL , PRIMARY KEY(RepId, AppId, AppPrmGUID, AppPrmLngId))
+
+CREATE TABLE gam.AppPermission (RepId integer NOT NULL , AppId bigint NOT NULL , AppPrmGUID CHAR(40) NOT NULL , AppPrmName CHAR(254) NOT NULL , AppPrmDsc CHAR(254) , AppPrmPgmName CHAR(254) , AppPrmDefType CHAR(1) NOT NULL , AppPrmTokenTypeGUID CHAR(40) , AppPrmCreDate timestamp without time zone , AppPrmCreUser VARCHAR(250) , AppPrmUpdDate timestamp without time zone , AppPrmUpdUser VARCHAR(250) , AppPrmCurEnvId bigint , AppPrmPgmPar CHAR(254) , AppPrmIsGXAuto BOOLEAN NOT NULL , PRIMARY KEY(RepId, AppId, AppPrmGUID))
+CREATE UNIQUE INDEX UAPPPERMISSIONNAME ON gam.AppPermission (RepId ,AppId ,AppPrmName )
+CREATE INDEX IAPPPERMISSION1 ON gam.AppPermission (RepId ,AppId ,AppPrmTokenTypeGUID )
+CREATE INDEX IAPPPERMISSION2 ON gam.AppPermission (RepId ,AppId ,AppPrmCurEnvId )
+
+CREATE TABLE gam.AppPrmTokenTypeLng (RepId integer NOT NULL , AppId bigint NOT NULL , AppPrmTokenTypeGUID CHAR(40) NOT NULL , AppPrmTokenTypeLngId CHAR(3) NOT NULL , AppPrmTokenTypeNameLng CHAR(254) NOT NULL , AppPrmTokenTypeDscLng CHAR(254) , PRIMARY KEY(RepId, AppId, AppPrmTokenTypeGUID, AppPrmTokenTypeLngId))
+
+CREATE TABLE gam.AppPrmTokenType (RepId integer NOT NULL , AppId bigint NOT NULL , AppPrmTokenTypeGUID CHAR(40) NOT NULL , AppPrmTokenTypeName CHAR(254) NOT NULL , AppPrmTokenTypeDsc CHAR(254) , AppPrmTokenTypeCreDate timestamp without time zone , AppPrmTokenTypeCreUser VARCHAR(250) , AppPrmTokenTypeUpdDate timestamp without time zone , AppPrmTokenTypeUpdUser VARCHAR(250) , PRIMARY KEY(RepId, AppId, AppPrmTokenTypeGUID))
+
+CREATE TABLE gam.RepositoryCountry (RepId integer NOT NULL , CountryId CHAR(9) NOT NULL , RepCountryCreDate timestamp without time zone , RepCountryCreUser VARCHAR(250) , RepCountryUpdDate timestamp without time zone , RepCountryUpdUser VARCHAR(250) , PRIMARY KEY(RepId, CountryId))
+CREATE INDEX IREPOSITORYCOUNTRY1 ON gam.RepositoryCountry (CountryId )
+
+CREATE TABLE gam.RepQuestionUserLng (RepId integer NOT NULL , QstUserId integer NOT NULL , QstUserLngId CHAR(3) NOT NULL , QstUserNameLng CHAR(254) , QstUserDscLng CHAR(254) , PRIMARY KEY(RepId, QstUserId, QstUserLngId))
+
+CREATE TABLE gam.RepQuestionUser (RepId integer NOT NULL , QstUserId integer NOT NULL , QstUserName CHAR(254) , QstUserDsc CHAR(254) , QstUserCreDate timestamp without time zone NOT NULL , QstUserCreUser VARCHAR(250) NOT NULL , QstUserUpdDate timestamp without time zone NOT NULL , QstUserUpdUser VARCHAR(250) NOT NULL , QstUserGUID CHAR(40) NOT NULL , PRIMARY KEY(RepId, QstUserId))
+CREATE UNIQUE INDEX UREPQSTUSERGUID ON gam.RepQuestionUser (RepId ,QstUserGUID )
+
+CREATE TABLE gam.AuthenticationTypeProp (RepId integer NOT NULL , AutTypeName CHAR(60) NOT NULL , AutTypePropId CHAR(60) NOT NULL , AutTypePropToken CHAR(40) NOT NULL , AutTypePropValue VARCHAR(2048) , PRIMARY KEY(RepId, AutTypeName, AutTypePropId, AutTypePropToken))
+
+CREATE TABLE gam.AuthenticationTypeLng (RepId integer NOT NULL , AutTypeName CHAR(60) NOT NULL , AutTypeLngId CHAR(3) NOT NULL , AutTypeNameLng CHAR(254) , AutTypeDscLng CHAR(254) , PRIMARY KEY(RepId, AutTypeName, AutTypeLngId))
+
+CREATE TABLE gam.CountryLng (CountryId CHAR(9) NOT NULL , CountryLngId CHAR(3) NOT NULL , CountryNameLng CHAR(120) NOT NULL , PRIMARY KEY(CountryId, CountryLngId))
+
+CREATE TABLE gam.Country (CountryId CHAR(9) NOT NULL , CountryName CHAR(120) NOT NULL , Country_iso_3 CHAR(3) NOT NULL , CountryCreDate timestamp without time zone , CountryCreUser VARCHAR(250) , CountryUpdDate timestamp without time zone , CountryUpdUser VARCHAR(250) , PRIMARY KEY(CountryId))
+
+CREATE TABLE gam.UserMemRole (UserGUID CHAR(40) NOT NULL , RepId integer NOT NULL , UserMemRoleRoleId bigint NOT NULL , UserMemRoleCreDate timestamp without time zone , UserMemRoleCreUser VARCHAR(250) , UserMemRoleUpdDate timestamp without time zone , UserMemRoleUpdUser VARCHAR(250) , PRIMARY KEY(UserGUID, RepId, UserMemRoleRoleId))
+CREATE INDEX IUSERMEMROLEROLE ON gam.UserMemRole (RepId ,UserMemRoleRoleId )
+
+CREATE TABLE gam.UserMemAppRole (UserGUID CHAR(40) NOT NULL , RepId integer NOT NULL , UserMemAppRoleAppId bigint NOT NULL , UserMemAppRoleRoleId bigint NOT NULL , UserMemAppRoleCreDate timestamp without time zone , UserMemAppRoleCreUser VARCHAR(250) , UserMemAppRoleUpdDate timestamp without time zone , UserMemAppRoleUpdUser VARCHAR(250) , PRIMARY KEY(UserGUID, RepId, UserMemAppRoleAppId, UserMemAppRoleRoleId))
+CREATE INDEX IUSERMEMAPPROLEAPP ON gam.UserMemAppRole (RepId ,UserMemAppRoleAppId )
+CREATE INDEX IUSERMEMAPPROLEROLE ON gam.UserMemAppRole (RepId ,UserMemAppRoleRoleId )
+
+CREATE TABLE gam.UserAttMultiValue (UserGUID CHAR(40) NOT NULL , UserAttId CHAR(60) NOT NULL , UserAttMVId CHAR(60) NOT NULL , UserAttMVVal VARCHAR(2048) , PRIMARY KEY(UserGUID, UserAttId, UserAttMVId))
+
+CREATE TABLE gam.UserAtt (UserGUID CHAR(40) NOT NULL , UserAttId CHAR(60) NOT NULL , UserAttIsMV BOOLEAN NOT NULL , UserAttVal VARCHAR(2048) , UserAttToken CHAR(40) , PRIMARY KEY(UserGUID, UserAttId))
+
+CREATE TABLE gam.UserRepository (UserGUID CHAR(40) NOT NULL , RepId integer NOT NULL , UserRepSecPolId integer , UserRepMainRoleId bigint , UserRepCreDate timestamp without time zone , UserRepCreUser VARCHAR(250) , UserRepUpdDate timestamp without time zone , UserRepUpdUser VARCHAR(250) , UserRepRecPwdAns CHAR(254) , UserRepQstUserId integer , PRIMARY KEY(UserGUID, RepId))
+CREATE INDEX IUSERREPOSITORY1 ON gam.UserRepository (RepId ,UserRepSecPolId )
+CREATE INDEX IUSERREPOSITORY2 ON gam.UserRepository (RepId ,UserRepMainRoleId )
+CREATE INDEX IUSERREPOSITORY ON gam.UserRepository (RepId ,UserRepQstUserId )
+
+CREATE TABLE gam.UserHisPwd (UserGUID CHAR(40) NOT NULL , UserHisPwdDate timestamp without time zone NOT NULL , UserHisPwdPwd CHAR(254) NOT NULL , PRIMARY KEY(UserGUID, UserHisPwdDate))
+CREATE INDEX UUSERHISPWD ON gam.UserHisPwd (UserGUID ,UserHisPwdDate DESC)
+
+CREATE TABLE gam."User" (UserGUID CHAR(40) NOT NULL , UserNameSpace CHAR(60) NOT NULL , UserAutTypeName CHAR(60) NOT NULL , UserName VARCHAR(100) NOT NULL , UserEMail VARCHAR(100) NOT NULL , UserExtId VARCHAR(100) , UserPwd CHAR(254) NOT NULL , UserFirstName CHAR(60) , UserLastName CHAR(60) , UserBirthday date , UserGender CHAR(1) NOT NULL , UserPhone CHAR(254) , UserAddress CHAR(254) , UserAddress2 CHAR(254) , UserCity CHAR(254) , UserState CHAR(254) , CountryId CHAR(9) , UserPostCode CHAR(60) , UserLng CHAR(3) , UserTimeZone CHAR(60) , UserPhoto BYTEA , UserPhoto_GXI VARCHAR(2048) , UserNotRcvInf BOOLEAN NOT NULL , UserIsBlk BOOLEAN NOT NULL , UserBlkLastDate timestamp without time zone , UserIsAct BOOLEAN NOT NULL , UserActKey CHAR(254) , UserActDate timestamp without time zone , UserNotChgPwd BOOLEAN NOT NULL , UserChgPwdNexLog BOOLEAN NOT NULL , UserPwdNevExp BOOLEAN NOT NULL , UserRecPwdKey CHAR(254) , UserRecPwdKeyExp timestamp without time zone , UserDateLastChgPwd timestamp without time zone , UserIsDlt BOOLEAN NOT NULL , UserDateLastAuth timestamp without time zone , UserCreDate timestamp without time zone , UserCreUser VARCHAR(250) , UserUpdDate timestamp without time zone , UserUpdUser VARCHAR(250) , UserURLImage VARCHAR(2048) , UserURLProf VARCHAR(2048) , UserDataReqComplete BOOLEAN NOT NULL , UserDataReqCompleteKey CHAR(254) , UserIsDevice BOOLEAN NOT NULL , UserPwdEncryption CHAR(3) , UserEnableTwoFactorAuth BOOLEAN , UserOTPNumberLocked smallint , UserOTPLastLockedDate timestamp without time zone , UserOTPDailyNumberCodes smallint , UserOTPLastDateRequestCode date , UserOTPFailedAttempts smallint , UserFailedLoginAttempts smallint , UserLastFailedLoginAttempt timestamp without time zone , UserRecPwdKeyDailyNumber smallint , UserRecPwdKeyMonthNumber smallint , UserRecPwdKeyLastDate date , UserTOTPEnable BOOLEAN , UserTOTPSecretKey VARCHAR(120) , PRIMARY KEY(UserGUID))
+CREATE INDEX UUSERLOGIN ON gam."User" (UserNameSpace ,UserAutTypeName ,UserName ,UserIsDlt )
+CREATE INDEX IUSERCOUNTRY ON gam."User" (CountryId )
+CREATE INDEX UUSEREMAIL ON gam."User" (UserNameSpace ,UserAutTypeName ,UserEMail ,UserIsDlt )
+CREATE INDEX UUSEREXTID ON gam."User" (UserNameSpace ,UserAutTypeName ,UserExtId ,UserIsDlt )
+CREATE INDEX UEMAIL ON gam."User" (UserEMail )
+CREATE INDEX UACTIVATIONKEY ON gam."User" (UserActKey )
+
+CREATE TABLE gam.AppEnvironmentLng (RepId integer NOT NULL , AppId bigint NOT NULL , AppEnvId bigint NOT NULL , AppEnvLngId CHAR(3) NOT NULL , AppEnvNameLng CHAR(120) , AppEnvDscLng CHAR(254) , PRIMARY KEY(RepId, AppId, AppEnvId, AppEnvLngId))
+
+CREATE TABLE gam.RepositoryProp (RepId integer NOT NULL , RepPropId CHAR(60) NOT NULL , RepPropToken CHAR(40) NOT NULL , RepPropVal VARCHAR(2048) , PRIMARY KEY(RepId, RepPropId, RepPropToken))
+
+CREATE TABLE gam.ApplicationProp (RepId integer NOT NULL , AppId bigint NOT NULL , AppPropId CHAR(60) NOT NULL , AppPropToken CHAR(40) NOT NULL , AppPropValue VARCHAR(2048) , PRIMARY KEY(RepId, AppId, AppPropId, AppPropToken))
+
+CREATE TABLE gam.RoleProp (RepId integer NOT NULL , RoleId bigint NOT NULL , RolePropId CHAR(60) NOT NULL , RolePropToken CHAR(40) NOT NULL , RolePropValue VARCHAR(2048) , PRIMARY KEY(RepId, RoleId, RolePropId, RolePropToken))
+
+CREATE TABLE gam.AppMenuOptionProp (RepId integer NOT NULL , AppId bigint NOT NULL , AppMnuId bigint NOT NULL , AppMnuOptId bigint NOT NULL , AppMnuOptPropId CHAR(60) NOT NULL , AppMnuOptPropToken CHAR(40) NOT NULL , AppMnuOptPropValue VARCHAR(2048) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuOptId, AppMnuOptPropId, AppMnuOptPropToken))
+
+CREATE TABLE gam.AppMenuOptionLng (RepId integer NOT NULL , AppId bigint NOT NULL , AppMnuId bigint NOT NULL , AppMnuOptId bigint NOT NULL , AppMnuOptLngId CHAR(3) NOT NULL , AppMnuOptNameLng CHAR(254) , AppMnuOptDscLng CHAR(254) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuOptId, AppMnuOptLngId))
+
+CREATE TABLE gam.AppMenuOption (RepId integer NOT NULL , AppId bigint NOT NULL , AppMnuId bigint NOT NULL , AppMnuOptId bigint NOT NULL , AppMnuOptGUID CHAR(40) NOT NULL , AppMnuOptName CHAR(254) , AppMnuOptDsc CHAR(254) , AppMnuOptCreDate timestamp without time zone , AppMnuOptCreUser VARCHAR(250) , AppMnuOptUpdDate timestamp without time zone , AppMnuOptUpdUser VARCHAR(250) , AppMnuOptOrder integer NOT NULL , AppMnuOptType CHAR(1) NOT NULL , AppMnuOptRelAppId bigint , AppMnuOptRelPrmPar VARCHAR(2048) , AppMnuOptRelMnuId bigint , AppMnuOptRelPrmGUID CHAR(40) , AppMnuOptResource VARCHAR(2048) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuOptId))
+CREATE INDEX IAPPMENUOPTION2 ON gam.AppMenuOption (RepId ,AppMnuOptRelAppId ,AppMnuOptRelMnuId )
+CREATE INDEX IAPPMENUOPTION3 ON gam.AppMenuOption (RepId ,AppMnuOptRelAppId ,AppMnuOptRelPrmGUID )
+CREATE INDEX UAPPMENUOPTION ON gam.AppMenuOption (RepId ,AppId ,AppMnuId ,AppMnuOptOrder )
+
+CREATE TABLE gam.AuditoryActionLng (AudActId bigint NOT NULL , AudActLngId CHAR(3) NOT NULL , AudActDscLng CHAR(254) NOT NULL , PRIMARY KEY(AudActId, AudActLngId))
+
+CREATE TABLE gam.AppMenuLng (RepId integer NOT NULL , AppId bigint NOT NULL , AppMnuId bigint NOT NULL , AppMnuLngId CHAR(3) NOT NULL , AppMnuNameLng CHAR(254) , AppMnuDscLng CHAR(254) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuLngId))
+
+CREATE TABLE gam.SecurityPolicyLng (RepId integer NOT NULL , SecPolId integer NOT NULL , SecPolLngId CHAR(3) NOT NULL , SecPolNameLng CHAR(254) NOT NULL , SecPolDscLng CHAR(254) , PRIMARY KEY(RepId, SecPolId, SecPolLngId))
+
+CREATE TABLE gam.RoleLng (RepId integer NOT NULL , RoleId bigint NOT NULL , RoleLngId CHAR(3) NOT NULL , RoleNameLng CHAR(254) , RoleDscLng CHAR(254) , PRIMARY KEY(RepId, RoleId, RoleLngId))
+
+CREATE TABLE gam.RepositoryLng (RepId integer NOT NULL , RepLngId CHAR(3) NOT NULL , RepNameLng CHAR(254) , RepDscLng CHAR(254) , PRIMARY KEY(RepId, RepLngId))
+
+CREATE TABLE gam.ApplicationNum (RepId integer NOT NULL , AppId bigint NOT NULL , AppNumId CHAR(30) NOT NULL , AppNumLast bigint NOT NULL , AppNumDate date NOT NULL , PRIMARY KEY(RepId, AppId, AppNumId))
+
+CREATE TABLE gam.AppPrmMemPrm (RepId integer NOT NULL , AppId bigint NOT NULL , AppPrmMemPrmParent CHAR(40) NOT NULL , AppPrmMemPrmChild CHAR(40) NOT NULL , AppPrmMemPrmCreDate timestamp without time zone , AppPrmMemPrmCreUser VARCHAR(250) , AppPrmMemPrmUpdDate timestamp without time zone , AppPrmMemPrmUpdUser VARCHAR(250) , PRIMARY KEY(RepId, AppId, AppPrmMemPrmParent, AppPrmMemPrmChild))
+CREATE INDEX IAPPPRMMEMPRM2 ON gam.AppPrmMemPrm (RepId ,AppId ,AppPrmMemPrmChild )
+
+CREATE TABLE gam.AppType (RepId integer NOT NULL , AppTypeId bigint NOT NULL , AppTypeGUID CHAR(40) NOT NULL , AppTypeName CHAR(254) NOT NULL , AppTypeDsc CHAR(254) NOT NULL , AppTypeCreDate timestamp without time zone , AppTypeCreUser VARCHAR(250) , AppTypeUpdDate timestamp without time zone , AppTypeUpdUser VARCHAR(250) , PRIMARY KEY(RepId, AppTypeId))
+
+CREATE TABLE gam.Application (RepId integer NOT NULL , AppId bigint NOT NULL , AppName CHAR(254) , AppGUID CHAR(40) NOT NULL , AppVer CHAR(60) NOT NULL , AppComName CHAR(254) , AppTypeId bigint , AppParAppId bigint , AppDsc CHAR(254) , AppCopyright CHAR(254) , AppOrder integer NOT NULL , AppRetMnuOptWithoutPrm BOOLEAN NOT NULL , AppCurEnvId bigint , AppBaseAppId bigint , AppCreDate timestamp without time zone , AppCreUser VARCHAR(250) , AppUpdDate timestamp without time zone , AppUpdUser VARCHAR(250) , AppIsBaseApplication BOOLEAN NOT NULL , AppCliId CHAR(40) , AppCliSecret CHAR(120) , AppCliUserGUID CHAR(40) , AppCliImageURL VARCHAR(2048) , AppCliSiteURL VARCHAR(2048) , AppCliSiteDomain VARCHAR(2048) , AppCliRevoked timestamp without time zone , AppType smallint NOT NULL , AppCliEncKey CHAR(32) NOT NULL , AppCliDefPrmGUID CHAR(40) , AppAccessReqPrm BOOLEAN NOT NULL , AppCliAccessUniqueByUser BOOLEAN NOT NULL , AppCliAutoRegAnomymousUser BOOLEAN NOT NULL , AppCliAllowRemoteAuth BOOLEAN , AppCliAllowGetUserRoles BOOLEAN , AppCliAllowGetUserAdditionalDa BOOLEAN , AppCliLocalLoginURL VARCHAR(2048) , PRIMARY KEY(RepId, AppId))
+CREATE UNIQUE INDEX UAPPLICATIONGUID ON gam.Application (RepId ,AppGUID )
+CREATE UNIQUE INDEX UAPPLICATIONCLIID ON gam.Application (RepId ,AppCliId )
+CREATE INDEX IAPPLICATIONPAR ON gam.Application (RepId ,AppParAppId )
+CREATE INDEX IAPPLICATIONBASE ON gam.Application (RepId ,AppBaseAppId )
+CREATE INDEX IAPPLICATIONTYPE ON gam.Application (RepId ,AppTypeId )
+CREATE INDEX UAPPLICATIONNAME ON gam.Application (RepId ,AppName )
+CREATE INDEX IAPPLICATIONENV ON gam.Application (RepId ,AppId ,AppCurEnvId )
+
+CREATE TABLE gam.AppMenu (RepId integer NOT NULL , AppId bigint NOT NULL , AppMnuId bigint NOT NULL , AppMnuGUID CHAR(40) NOT NULL , AppMnuName CHAR(254) , AppMnuSerOpt bigint NOT NULL , AppMnuCreDate timestamp without time zone NOT NULL , AppMnuCreUser VARCHAR(250) NOT NULL , AppMnuUpdDate timestamp without time zone NOT NULL , AppMnuUpdUser VARCHAR(250) NOT NULL , AppMnuDsc CHAR(254) , AppMnuToken CHAR(40) NOT NULL , PRIMARY KEY(RepId, AppId, AppMnuId))
+CREATE UNIQUE INDEX UAPPMENUGUID ON gam.AppMenu (RepId ,AppId ,AppMnuGUID )
+CREATE UNIQUE INDEX UAPPMENUTOKEN ON gam.AppMenu (RepId ,AppId ,AppMnuToken )
+
+CREATE TABLE gam.ApplicationLng (RepId integer NOT NULL , AppId bigint NOT NULL , AppLngId CHAR(3) NOT NULL , AppNameLng CHAR(254) NOT NULL , AppDscLng CHAR(254) , PRIMARY KEY(RepId, AppId, AppLngId))
+
+CREATE TABLE gam.Auditory (RepId integer NOT NULL , AudId integer NOT NULL , AudSesRepId integer NOT NULL , AudSesToken CHAR(120) NOT NULL , AudDate timestamp without time zone NOT NULL , AudActId bigint NOT NULL , AudPgmName CHAR(254) NOT NULL , AudActKey1 bigint , AudActKey2 bigint , AudActKey3 bigint , AudActKey4 bigint , AudActPreDet VARCHAR(2048) , AudActCurDet VARCHAR(2048) , AudActionKeyGUID1 CHAR(40) , AudActionKeyGUID2 CHAR(40) , AudActionKeyChar1 CHAR(254) , PRIMARY KEY(RepId, AudId))
+CREATE INDEX IAUDITORY1 ON gam.Auditory (AudActId )
+
+CREATE TABLE gam.AuditoryAction (AudActId bigint NOT NULL , AudActDsc CHAR(254) NOT NULL , PRIMARY KEY(AudActId))
+
+CREATE TABLE gam.AppMenuProp (RepId integer NOT NULL , AppId bigint NOT NULL , AppMnuId bigint NOT NULL , AppMnuPropId CHAR(60) NOT NULL , AppMnuPropToken CHAR(40) NOT NULL , APPMnuPropValue VARCHAR(2048) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuPropId, AppMnuPropToken))
+
+CREATE TABLE gam.AppEnvironment (RepId integer NOT NULL , AppId bigint NOT NULL , AppEnvId bigint NOT NULL , AppEnvGUID CHAR(40) NOT NULL , AppEnvSrvHost CHAR(120) NOT NULL , AppEnvSrvPort integer , AppEnvSrvVirDir CHAR(120) , AppEnvSrvHttps BOOLEAN NOT NULL , AppEnvSrvPgmPac CHAR(254) , AppEnvSrvPgmExt CHAR(60) , AppEnvOrder integer NOT NULL , AppEnvName CHAR(120) , AppEnvCreDate timestamp without time zone , AppEnvCreUser VARCHAR(250) , AppEnvUpdDate timestamp without time zone , AppEnvUpdUser VARCHAR(250) , PRIMARY KEY(RepId, AppId, AppEnvId))
+
+CREATE TABLE gam.SessionHistoryLogAtt (RepId integer NOT NULL , SesHisToken CHAR(120) NOT NULL , SesHisAttUserLog VARCHAR(250) NOT NULL , SesHisAttQtyLog smallint NOT NULL , PRIMARY KEY(RepId, SesHisToken, SesHisAttUserLog))
+
+CREATE TABLE gam.SessionHistory (RepId integer NOT NULL , SesHisToken CHAR(120) NOT NULL , SesHisLogin VARCHAR(250) NOT NULL , SesHisDate timestamp without time zone NOT NULL , SesHisSts CHAR(1) NOT NULL , SesHisType smallint NOT NULL , SesHisURL VARCHAR(2048) NOT NULL , SesHisIPAdd CHAR(60) NOT NULL , BrwId smallint , OpeSysId smallint , SesHisLastAcc timestamp without time zone NOT NULL , SesHisLastURL VARCHAR(2048) NOT NULL , SesHisTimeOut smallint NOT NULL , SesHisExtToken CHAR(120) NOT NULL , SesHisLogAtt integer NOT NULL , SesHisLogDate timestamp without time zone NOT NULL , SesHisSharedData TEXT NOT NULL , SesHisEndDate timestamp without time zone NOT NULL , UserGUID CHAR(40) NOT NULL , SesHisExtToken2 VARCHAR(1024) , SesHisAppId bigint , SesHisRefreshToken CHAR(40) , SesHisDeviceId CHAR(40) , SesHisAppTokenExp timestamp without time zone , SesHisOauthTokenMaxRenew smallint , SesHisOauthTokenExpires integer , SesHisOauthScope VARCHAR(2048) , SesHisExtToken3 TEXT , SesHisExtTokenExpires timestamp without time zone , SesHisExtTokenRefresh VARCHAR(2000) , SesHisAutTypeName CHAR(60) , SesHisJson TEXT , SesHisIdToken VARCHAR(4096) , SesHisEndedByOtherLogin BOOLEAN , PRIMARY KEY(RepId, SesHisToken))
+CREATE INDEX ISESHISTORYOS ON gam.SessionHistory (OpeSysId )
+CREATE INDEX ISESHISTORYBRW ON gam.SessionHistory (BrwId )
+CREATE INDEX ISESHISUSER ON gam.SessionHistory (UserGUID ,RepId )
+
+CREATE TABLE gam.OperatingSystem (OpeSysId smallint NOT NULL , OpeSysDsc CHAR(60) NOT NULL , OpeSysVer CHAR(60) NOT NULL , OpeSysCreDate timestamp without time zone , OpeSysCreUser VARCHAR(250) , OpeSysUpdDate timestamp without time zone , OpeSysUpdUser VARCHAR(250) , PRIMARY KEY(OpeSysId))
+
+CREATE TABLE gam.RoleAppTypePrmProp (RepId integer NOT NULL , RoleId bigint NOT NULL , AppTypeId bigint NOT NULL , AppTypePrmId bigint NOT NULL , RoleAppTypePrmPropId CHAR(60) NOT NULL , RoleAppTypePrmPropValue VARCHAR(2048) NOT NULL , RoleAppTypePrmPropCreDate timestamp without time zone NOT NULL , RoleAppTypePrmPropCreUser VARCHAR(250) NOT NULL , RoleAppTypePrmPropUpdDate timestamp without time zone NOT NULL , RoleAppTypePrmPropUpdUser VARCHAR(250) NOT NULL , PRIMARY KEY(RepId, RoleId, AppTypeId, AppTypePrmId, RoleAppTypePrmPropId))
+
+CREATE TABLE gam.AppRole (RepId integer NOT NULL , AppRoleAppId bigint NOT NULL , AppRoleRoleId bigint NOT NULL , AppRoleCreDate timestamp without time zone , AppRoleCreUser VARCHAR(250) , AppRoleUpdDate timestamp without time zone , AppRoleUpdUser VARCHAR(250) , AppRoleTokenTypeGUID CHAR(40) , PRIMARY KEY(RepId, AppRoleAppId, AppRoleRoleId))
+CREATE INDEX IAPPROLEROLE ON gam.AppRole (RepId ,AppRoleRoleId )
+CREATE INDEX IAPPROLE1 ON gam.AppRole (RepId ,AppRoleAppId ,AppRoleTokenTypeGUID )
+
+CREATE TABLE gam.AppTypePrmMemPrm (RepId integer NOT NULL , AppTypeId bigint NOT NULL , AppTypePrmMemPrmParId bigint NOT NULL , AppTypePrmMemPrmChiId bigint NOT NULL , AppTypePrmMemPrmCreDate timestamp without time zone , AppTypePrmMemPrmCreUser VARCHAR(250) , AppTypePrmMemPrmUpdDate timestamp without time zone , AppTypePrmMemPrmUpdUser VARCHAR(250) , PRIMARY KEY(RepId, AppTypeId, AppTypePrmMemPrmParId, AppTypePrmMemPrmChiId))
+
+CREATE TABLE gam.AppTypePermission (RepId integer NOT NULL , AppTypeId bigint NOT NULL , AppTypePrmId bigint NOT NULL , AppTypePrmGUID CHAR(40) NOT NULL , AppTypeResId bigint NOT NULL , AppTypeActId bigint NOT NULL , AppTypePrmIsParent BOOLEAN NOT NULL , AppTypePrmCreDate timestamp without time zone , AppTypePrmCreUser VARCHAR(250) , AppTypePrmUpdDate timestamp without time zone , AppTypePrmUpdUser VARCHAR(250) , PRIMARY KEY(RepId, AppTypeId, AppTypePrmId))
+CREATE INDEX IAPPTYPEPERMISSION1 ON gam.AppTypePermission (RepId ,AppTypeId ,AppTypeActId )
+CREATE INDEX IAPPTYPEPERMISSION2 ON gam.AppTypePermission (RepId ,AppTypeId ,AppTypeResId )
+
+CREATE TABLE gam.SecurityPolicy (RepId integer NOT NULL , SecPolId integer NOT NULL , SecPolPerChgPwd smallint NOT NULL , SecPolSesTimeOut integer NOT NULL , SecPolMinLenPwd smallint NOT NULL , SecPolAmoCharNumericPwd smallint NOT NULL , SecPolAmoHisPwd smallint NOT NULL , SecPolName CHAR(254) , SecPolGUID CHAR(40) NOT NULL , SecPolCreDate timestamp without time zone , SecPolCreUser VARCHAR(250) , SecPolUpdDate timestamp without time zone , SecPolUpdUser VARCHAR(250) , SecPolDsc CHAR(254) , SecPolOauthTokenExpire integer NOT NULL , SecPolAmoCharUpperCasePwd smallint NOT NULL , SecPolAmoCharSpecialPwd smallint NOT NULL , SecPolOauthGrantExpire integer NOT NULL , SecPolActSesPerUser smallint NOT NULL , SecPolOauthTokenMaxRenew smallint NOT NULL , SecPolFrecMinChangePwd integer NOT NULL , PRIMARY KEY(RepId, SecPolId))
+
+CREATE TABLE gam.RepositoryNum (RepId integer NOT NULL , RepNumId CHAR(30) NOT NULL , RepNumLast bigint NOT NULL , RepNumDate timestamp without time zone NOT NULL , PRIMARY KEY(RepId, RepNumId))
+
+CREATE TABLE gam.AuthenticationType (RepId integer NOT NULL , AutTypeName CHAR(60) NOT NULL , AutTypeType CHAR(30) NOT NULL , AutTypeFunc CHAR(30) NOT NULL , AutTypeIsEna BOOLEAN NOT NULL , AutTypeDsc CHAR(120) , AutTypeCreDate timestamp without time zone NOT NULL , AutTypeCreUser VARCHAR(250) NOT NULL , AutTypeUpdDate timestamp without time zone NOT NULL , AutTypeUpdUser VARCHAR(250) NOT NULL , PRIMARY KEY(RepId, AutTypeName))
+CREATE INDEX UAUTTYPEDSC ON gam.AuthenticationType (RepId ,AutTypeDsc )
+
+CREATE TABLE gam.AppTypeAction (RepId integer NOT NULL , AppTypeId bigint NOT NULL , AppTypeActId bigint NOT NULL , AppTypeActGUID CHAR(40) NOT NULL , AppTypeActName CHAR(254) NOT NULL , AppTypeActDsc CHAR(254) , AppTypeActCreDate timestamp without time zone , AppTypeActCreUser VARCHAR(250) , AppTypeActUpdDate timestamp without time zone , AppTypeActUpdUser VARCHAR(250) , PRIMARY KEY(RepId, AppTypeId, AppTypeActId))
+CREATE UNIQUE INDEX UAPPTYPEACTGUID ON gam.AppTypeAction (RepId ,AppTypeActGUID )
+
+CREATE TABLE gam.AppTypeResource (RepId integer NOT NULL , AppTypeId bigint NOT NULL , AppTypeResId bigint NOT NULL , AppTypeResGUID CHAR(40) NOT NULL , AppTypeResName CHAR(254) NOT NULL , AppTypeResDsc CHAR(254) , AppTypeResCreDate timestamp without time zone , AppTypeResCreUser VARCHAR(250) , AppTypeResUpdDate timestamp without time zone , AppTypeResUpdUser VARCHAR(250) , PRIMARY KEY(RepId, AppTypeId, AppTypeResId))
+CREATE UNIQUE INDEX UAPPTYPERESGUID ON gam.AppTypeResource (RepId ,AppTypeResGUID )
+
+CREATE TABLE gam.RoleAppTypePrm (RepId integer NOT NULL , RoleId bigint NOT NULL , AppTypeId bigint NOT NULL , AppTypePrmId bigint NOT NULL , RoleAppTypePrmType CHAR(1) NOT NULL , RoleAppTypePrmInh BOOLEAN NOT NULL , RoleAppTypePrmAllItems BOOLEAN NOT NULL , RoleAppTypePrmCreDate timestamp without time zone , RoleAppTypePrmCreUser VARCHAR(250) , RoleAppTypePrmUpdDate timestamp without time zone , RoleAppTypePrmUpdUser VARCHAR(250) , PRIMARY KEY(RepId, RoleId, AppTypeId, AppTypePrmId))
+CREATE INDEX IROLEAPPPRM14 ON gam.RoleAppTypePrm (RepId ,AppTypeId ,AppTypePrmId )
+
+CREATE TABLE gam.SessionLogAtt (RepId integer NOT NULL , SesToken CHAR(120) NOT NULL , SesAttUserLog VARCHAR(250) NOT NULL , SesAttQtyLog smallint NOT NULL , PRIMARY KEY(RepId, SesToken, SesAttUserLog))
+
+CREATE TABLE gam.Session (RepId integer NOT NULL , SesToken CHAR(120) NOT NULL , SesDate timestamp without time zone NOT NULL , SesSts CHAR(1) NOT NULL , SesType smallint NOT NULL , SesURL VARCHAR(2048) NOT NULL , SesIPAdd CHAR(60) NOT NULL , OpeSysId smallint , SesLastAcc timestamp without time zone NOT NULL , SesTimeOut smallint NOT NULL , SesLogAtt integer NOT NULL , SesLogDate timestamp without time zone NOT NULL , SesSharedData TEXT NOT NULL , SesEndDate timestamp without time zone NOT NULL , SesReload BOOLEAN NOT NULL , BrwId smallint , SesLastURL VARCHAR(2048) NOT NULL , SesLogin VARCHAR(250) NOT NULL , SesExtToken CHAR(120) NOT NULL , UserGUID CHAR(40) , SesAppTokenExp timestamp without time zone , SesRefreshToken CHAR(40) , SesAppId bigint , SesDeviceId CHAR(40) , SesExtToken2 VARCHAR(1024) , SesAutTypeName CHAR(60) , SesOauthTokenMaxRenew smallint , SesOauthTokenExpires integer , SesOauthScope VARCHAR(2048) , SesExtToken3 TEXT , SesExtTokenExpires timestamp without time zone , SesExtTokenRefresh VARCHAR(2000) , SesJson TEXT , SesIdToken VARCHAR(4096) , SesOTP VARCHAR(250) , SesOTPExpire timestamp without time zone , SesEndedByOtherLogin BOOLEAN , PRIMARY KEY(RepId, SesToken))
+CREATE INDEX ISESBRW ON gam.Session (BrwId )
+CREATE INDEX ISESOPESYS ON gam.Session (OpeSysId )
+CREATE INDEX ISESUSER ON gam.Session (UserGUID ,RepId )
+CREATE INDEX USESTOKEN ON gam.Session (SesToken )
+CREATE INDEX USESREPPARENTTOKENUSERSTS ON gam.Session (RepId ,SesExtToken ,UserGUID ,SesSts )
+CREATE INDEX USESREFRESHTOKEN ON gam.Session (RepId ,SesType ,SesSts ,SesAppId ,SesRefreshToken )
+CREATE INDEX USESUSERAPPPARENT ON gam.Session (UserGUID ,SesAppId ,SesExtToken )
+CREATE INDEX USESPARENTTOKENUSERSTS ON gam.Session (SesExtToken ,UserGUID ,SesSts )
+CREATE INDEX USESSIONUSEROTPCODE ON gam.Session (RepId ,SesAppId ,SesAutTypeName ,UserGUID ,SesSts ,SesOTP ,SesDate DESC)
+
+CREATE TABLE gam.Repository (RepId integer NOT NULL , RepVer CHAR(60) NOT NULL , RepUpg CHAR(60) NOT NULL , RepDefAutTypeName CHAR(60) , RepUserActType CHAR(1) NOT NULL , RepUserActTimeOut integer NOT NULL , RepDefSecPolId integer , RepGenAud CHAR(20) NOT NULL , RepUserRemMeTimeOut smallint NOT NULL , RepGenSesSta CHAR(20) NOT NULL , RepUserChrMinLog smallint NOT NULL , RepGUID CHAR(40) NOT NULL , RepCanRegUser BOOLEAN NOT NULL , RepUserRemMeType CHAR(6) NOT NULL , RepGiveAnoSes BOOLEAN NOT NULL , RepAnoUserGUID CHAR(40) , RepDefRoleId bigint , RepCreDate timestamp without time zone NOT NULL , RepCreUser VARCHAR(250) NOT NULL , RepUpdDate timestamp without time zone NOT NULL , RepUpdUser VARCHAR(250) NOT NULL , RepNameSpace CHAR(60) NOT NULL , RepUserRecPwdKeyTimeOut integer NOT NULL , RepUserReqPwd BOOLEAN NOT NULL , RepUserReqEmail BOOLEAN NOT NULL , RepUserReqFirstName BOOLEAN NOT NULL , RepUserReqLastName BOOLEAN NOT NULL , RepUserReqBir BOOLEAN NOT NULL , RepUserReqGen BOOLEAN NOT NULL , RepUserReqPhone BOOLEAN NOT NULL , RepUserReqAddress BOOLEAN NOT NULL , RepUserReqCity BOOLEAN NOT NULL , RepUserReqState BOOLEAN NOT NULL , RepUserReqCountry BOOLEAN NOT NULL , RepUserReqPostCode BOOLEAN NOT NULL , RepUserReqLng BOOLEAN NOT NULL , RepUserReqTimeZone BOOLEAN NOT NULL , RepUserReqPhoto BOOLEAN NOT NULL , RepUserAttLogLockUser smallint NOT NULL , RepUserAttLogLockSession smallint NOT NULL , RepDsc CHAR(254) , RepUserEmailSecAdm CHAR(254) , RepUserTimeToUnblock integer NOT NULL , RepName CHAR(60) NOT NULL , RepUserEmailUnique BOOLEAN NOT NULL , RepAllowOauthAccess BOOLEAN NOT NULL , RepUserIdentification CHAR(6) NOT NULL , RepKeepSesOnlyOriIP BOOLEAN NOT NULL , RepUserSessionCacheTimeout integer NOT NULL , RepAnoUserSDRoleId bigint , PRIMARY KEY(RepId))
+CREATE UNIQUE INDEX UREPGIUD ON gam.Repository (RepGUID )
+CREATE INDEX IREPOSITORYROLE ON gam.Repository (RepId ,RepDefRoleId )
+CREATE INDEX IREPOSITORYATYPE ON gam.Repository (RepId ,RepDefAutTypeName )
+CREATE INDEX IREPOSITORYSECPOL ON gam.Repository (RepId ,RepDefSecPolId )
+CREATE INDEX IREPOSITORY ON gam.Repository (RepId ,RepAnoUserSDRoleId )
+
+CREATE TABLE gam.Browser (BrwId smallint NOT NULL , BrwDsc CHAR(60) , BrwVer CHAR(60) , PRIMARY KEY(BrwId))
+
+CREATE TABLE gam.SysPar (SysParId CHAR(30) NOT NULL , SysParVal CHAR(254) NOT NULL , PRIMARY KEY(SysParId))
+
+CREATE TABLE gam.RoleMemRole (RepId integer NOT NULL , RoleMemRoleParent bigint NOT NULL , RoleMemRoleChild bigint NOT NULL , RoleMemRoleCreDate timestamp without time zone , RoleMemRoleCreUser VARCHAR(250) , RoleMemRoleUpdDate timestamp without time zone , RoleMemRoleUpdUser VARCHAR(250) , PRIMARY KEY(RepId, RoleMemRoleParent, RoleMemRoleChild))
+CREATE INDEX IROLEMEMROLE2 ON gam.RoleMemRole (RepId ,RoleMemRoleChild )
+
+CREATE TABLE gam.Role (RepId integer NOT NULL , RoleId bigint NOT NULL , RoleExtId VARCHAR(100) , RoleSecPolId integer , RoleGUID CHAR(40) NOT NULL , RoleName CHAR(254) , RoleDsc CHAR(254) , RoleCreDate timestamp without time zone , RoleCreUser VARCHAR(250) , RoleUpdDate timestamp without time zone , RoleUpdUser VARCHAR(250) , PRIMARY KEY(RepId, RoleId))
+CREATE UNIQUE INDEX UROLEGUID ON gam.Role (RepId ,RoleGUID )
+CREATE INDEX UROLEEXTID ON gam.Role (RepId ,RoleExtId )
+CREATE INDEX IROLESECPOL ON gam.Role (RepId ,RoleSecPolId )
+

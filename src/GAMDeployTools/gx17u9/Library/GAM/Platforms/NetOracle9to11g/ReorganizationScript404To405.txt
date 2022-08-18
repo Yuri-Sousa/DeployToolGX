@@ -1,0 +1,30 @@
+ALTER TABLE Repository MODIFY RepUserSessionCacheTimeout NUMERIC(8)
+ALTER TABLE Repository MODIFY RepUserTimeToUnblock NUMERIC(8)
+ALTER TABLE Repository MODIFY RepUserRecPwdKeyTimeOut NUMERIC(8)
+ALTER TABLE Repository MODIFY RepUserActTimeOut NUMERIC(8)
+
+ALTER TABLE "Session" ADD (SesEndedByOtherLogin NUMERIC(1) , SesOTPExpire DATE , SesOTP NVARCHAR2(250) , SesIdToken NVARCHAR2(2000) )
+DROP INDEX ISESSION1
+DROP INDEX ISESSION
+CREATE INDEX ISESOPESYS ON "Session" (OpeSysId )
+CREATE INDEX ISESUSER ON "Session" (UserGUID ,RepId )
+CREATE INDEX USESTOKEN ON "Session" (SesToken )
+CREATE INDEX USESREPPARENTTOKENUSERSTS ON "Session" (RepId ,SesExtToken ,UserGUID ,SesSts )
+CREATE INDEX USESREFRESHTOKEN ON "Session" (RepId ,SesType ,SesSts ,SesAppId ,SesRefreshToken )
+CREATE INDEX USESUSERAPPPARENT ON "Session" (UserGUID ,SesAppId ,SesExtToken )
+CREATE INDEX USESPARENTTOKENUSERSTS ON "Session" (SesExtToken ,UserGUID ,SesSts )
+CREATE INDEX USESSIONUSEROTPCODE ON "Session" (RepId ,SesAppId ,SesAutTypeName ,UserGUID ,SesSts ,SesOTP ,SesDate DESC)
+
+ALTER TABLE SecurityPolicy MODIFY SecPolFrecMinChangePwd NUMERIC(8)
+ALTER TABLE SecurityPolicy MODIFY SecPolOauthTokenExpire NUMERIC(8)
+ALTER TABLE SecurityPolicy MODIFY SecPolSesTimeOut NUMERIC(8)
+
+ALTER TABLE SessionHistory ADD (SesHisEndedByOtherLogin NUMERIC(1) , SesHisIdToken NVARCHAR2(2000) )
+
+ALTER TABLE "User" ADD (UserLastFailedLoginAttempt DATE , UserFailedLoginAttempts NUMERIC(3) , UserOTPFailedAttempts NUMERIC(3) , UserOTPLastDateRequestCode DATE , UserOTPDailyNumberCodes NUMERIC(4) , UserOTPLastLockedDate DATE , UserOTPNumberLocked NUMERIC(3) , UserEnableTwoFactorAuth NUMERIC(1) )
+
+CREATE TABLE SysConnectionConfig (SysConnCfgKey NCHAR(40) NOT NULL , SysConnCfgRep NCHAR(40) NOT NULL , SysConnCfgName NVARCHAR2(120) NOT NULL , SysConnCfgUser NVARCHAR2(100) , SysConnCfgPwd NCHAR(254) NOT NULL , SysConnCfgJson NCLOB , PRIMARY KEY(SysConnCfgKey, SysConnCfgRep, SysConnCfgName))
+
+DROP INDEX UEVENTSUSCRIPTION
+CREATE INDEX UEVENTSUSCRIPTION ON EventSuscription (RepId ,EveSusEntity ,EveSusStatus ,EveSusDsc )
+

@@ -1,0 +1,5 @@
+Run conversion program for table EventSuscriptionProp
+
+
+
+UPDATE gam.SysPar SET SysParVal='4.0.2' WHERE SysParId='GAMVersion'

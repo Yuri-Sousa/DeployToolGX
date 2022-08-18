@@ -1,0 +1,238 @@
+CREATE TABLE UserProp (UserGUID NCHAR(40) NOT NULL , UserPropID NCHAR(60) NOT NULL , UserPropToken NCHAR(40) NOT NULL , UserPropValue NVARCHAR2(2000) , PRIMARY KEY(UserGUID, UserPropID, UserPropToken))
+
+CREATE TABLE SysConnectionConfig (SysConnCfgKey NCHAR(40) NOT NULL , SysConnCfgRep NCHAR(40) NOT NULL , SysConnCfgName NVARCHAR2(120) NOT NULL , SysConnCfgUser NVARCHAR2(100) , SysConnCfgPwd NCHAR(254) NOT NULL , SysConnCfgJson NCLOB , PRIMARY KEY(SysConnCfgKey, SysConnCfgRep, SysConnCfgName))
+
+CREATE TABLE SessionHistoryLog (RepId NUMERIC(9) NOT NULL , SesHisToken NCHAR(120) NOT NULL , SesHisLogGuid NCHAR(40) NOT NULL , SesHisLogDateTime DATE NOT NULL , SesHisLogType NCHAR(30) NOT NULL , SesHisLogDetail NCLOB , PRIMARY KEY(RepId, SesHisToken, SesHisLogGuid))
+
+CREATE TABLE UserRepositoryProp (UserGUID NCHAR(40) NOT NULL , RepId NUMERIC(9) NOT NULL , UserRepPropId NCHAR(60) NOT NULL , UserRepPropToken NCHAR(40) NOT NULL , UserRepPropValue NVARCHAR2(2000) , PRIMARY KEY(UserGUID, RepId, UserRepPropId, UserRepPropToken))
+
+CREATE TABLE SessionLog (RepId NUMERIC(9) NOT NULL , SesToken NCHAR(120) NOT NULL , SesLogGuid NCHAR(40) NOT NULL , SesLogDateTime DATE NOT NULL , SesLogType NCHAR(30) NOT NULL , SesLogDetail NCLOB , PRIMARY KEY(RepId, SesToken, SesLogGuid))
+
+CREATE TABLE LoginTmp (LoginTmpTokenState NCHAR(60) NOT NULL , LoginTmpDateTime DATE NOT NULL , LoginTmpData NVARCHAR2(2000) NOT NULL , PRIMARY KEY(LoginTmpTokenState))
+
+CREATE TABLE EventSuscriptionProp (RepId NUMERIC(9) NOT NULL , EveSusId NCHAR(40) NOT NULL , EveSusPropId NCHAR(60) NOT NULL , EveSusPropToken NCHAR(40) NOT NULL , EveSusPropValue NVARCHAR2(2000) , PRIMARY KEY(RepId, EveSusId, EveSusPropId, EveSusPropToken))
+
+CREATE TABLE EventSuscription (RepId NUMERIC(9) NOT NULL , EveSusId NCHAR(40) NOT NULL , EveSusDsc NCHAR(254) NOT NULL , EveSusStatus NCHAR(1) NOT NULL , EveSusEntity NCHAR(60) NOT NULL , EveSusAction NCHAR(20) NOT NULL , EveSusClassName NCHAR(60) NOT NULL , EveSusCreDate DATE , EveSusCreUser NVARCHAR2(250) , EveSusUpdDate DATE , EveSusUpdUser NVARCHAR2(250) , EveSusFileName NCHAR(254) NOT NULL , EveSusMethodName NCHAR(60) NOT NULL , PRIMARY KEY(RepId, EveSusId))
+CREATE INDEX UEVENTSUSCRIPTION ON EventSuscription (RepId ,EveSusEntity ,EveSusStatus ,EveSusDsc )
+
+CREATE TABLE UserMemRoleProp (UserGUID NCHAR(40) NOT NULL , RepId NUMERIC(9) NOT NULL , UserMemRoleRoleId NUMERIC(12) NOT NULL , UserMemRolePropId NCHAR(60) NOT NULL , UserMemRolePropToken NCHAR(40) NOT NULL , UserMemRolePropValue NVARCHAR2(2000) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemRoleRoleId, UserMemRolePropId, UserMemRolePropToken))
+
+CREATE TABLE UserMemAppRoleProp (UserGUID NCHAR(40) NOT NULL , RepId NUMERIC(9) NOT NULL , UserMemAppRoleAppId NUMERIC(12) NOT NULL , UserMemAppRoleRoleId NUMERIC(12) NOT NULL , UserMemAppRolePropId NCHAR(60) NOT NULL , UserMemAppRolePropToken NCHAR(40) NOT NULL , UserMemAppRolePropValue NVARCHAR2(2000) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemAppRoleAppId, UserMemAppRoleRoleId, UserMemAppRolePropId, UserMemAppRolePropToken))
+
+CREATE TABLE SecurityPolicyProp (RepId NUMERIC(9) NOT NULL , SecPolId NUMERIC(9) NOT NULL , SecPolPropId NCHAR(60) NOT NULL , SecPolPropToken NCHAR(40) NOT NULL , SecPolPropValue NVARCHAR2(2000) NOT NULL , PRIMARY KEY(RepId, SecPolId, SecPolPropId, SecPolPropToken))
+
+CREATE TABLE RepositoryConnAdd (RepId NUMERIC(9) NOT NULL , RepConName NCHAR(120) NOT NULL , RepConSrvCon NCHAR(60) NOT NULL , PRIMARY KEY(RepId, RepConName, RepConSrvCon))
+
+CREATE TABLE RepositoryConnection (RepId NUMERIC(9) NOT NULL , RepConName NCHAR(120) NOT NULL , RepConUser NCHAR(100) NOT NULL , RepConPwd NCHAR(254) NOT NULL , RepConLng NCHAR(3) NOT NULL , RepConType NCHAR(30) NOT NULL , RepConKey NCHAR(32) NOT NULL , RepConChaExpire NUMERIC(6) NOT NULL , RepConSrvSpecify NUMERIC(1) NOT NULL , RepConChaSrv NCHAR(60) , RepConChaDate DATE , RepConCha NCHAR(254) , RepConCreDate DATE NOT NULL , RepConCreUser NVARCHAR2(250) NOT NULL , RepConUpdDate DATE NOT NULL , RepConUpdUser NVARCHAR2(250) NOT NULL , PRIMARY KEY(RepId, RepConName))
+CREATE UNIQUE INDEX UREPOSITORYCONNUSER ON RepositoryConnection (RepId ,RepConUser )
+
+CREATE TABLE UserAppPrmProp (RepId NUMERIC(9) NOT NULL , UserGUID NCHAR(40) NOT NULL , AppId NUMERIC(12) NOT NULL , AppPrmGUID NCHAR(40) NOT NULL , UserAppPrmToken NCHAR(254) NOT NULL , UserAppPrmPropId NCHAR(60) NOT NULL , UserAppPrmPropToken NCHAR(40) NOT NULL , UserAppPrmPropValue NVARCHAR2(2000) , UserAppPrmPropCreDate DATE , UserAppPrmPropCreUser NVARCHAR2(250) , UserAppPrmPropUpdDate DATE , UserAppPrmPropUpdUser NVARCHAR2(250) , PRIMARY KEY(RepId, UserGUID, AppId, AppPrmGUID, UserAppPrmToken, UserAppPrmPropId, UserAppPrmPropToken))
+
+CREATE TABLE UserAppPrm (RepId NUMERIC(9) NOT NULL , UserGUID NCHAR(40) NOT NULL , AppId NUMERIC(12) NOT NULL , AppPrmGUID NCHAR(40) NOT NULL , UserAppPrmToken NCHAR(254) NOT NULL , UserAppPrmType NCHAR(1) NOT NULL , UserAppPrmInh NUMERIC(1) NOT NULL , UserAppPrmCreDate DATE , UserAppPrmCreUser NVARCHAR2(250) , UserAppPrmUpdDate DATE , UserAppPrmUpdUser NVARCHAR2(250) , AppPrmName NCHAR(254) NOT NULL , PRIMARY KEY(RepId, UserGUID, AppId, AppPrmGUID, UserAppPrmToken))
+CREATE INDEX IUSERAPPPRM1 ON UserAppPrm (RepId ,AppId ,AppPrmGUID )
+CREATE INDEX IUSERAPPPRM2 ON UserAppPrm (UserGUID ,RepId )
+
+CREATE TABLE UserMemAppRoleRest (UserGUID NCHAR(40) NOT NULL , RepId NUMERIC(9) NOT NULL , UserMemAppRoleAppId NUMERIC(12) NOT NULL , UserMemAppRoleRoleId NUMERIC(12) NOT NULL , UserMemAppRoleRestToken NCHAR(40) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemAppRoleAppId, UserMemAppRoleRoleId, UserMemAppRoleRestToken))
+
+CREATE TABLE AppRoleRest (RepId NUMERIC(9) NOT NULL , AppRoleAppId NUMERIC(12) NOT NULL , AppRoleRoleId NUMERIC(12) NOT NULL , AppRoleRestToken NCHAR(40) NOT NULL , PRIMARY KEY(RepId, AppRoleAppId, AppRoleRoleId, AppRoleRestToken))
+
+CREATE TABLE OauthGrantUserApp (RepId NUMERIC(9) NOT NULL , OGUserAppCode NCHAR(120) NOT NULL , AppId NUMERIC(12) NOT NULL , UserGUID NCHAR(40) NOT NULL , OGUserAppSesToken NCHAR(120) , OGUserAppRefreshToken NCHAR(40) , OGUserAppGrantDate DATE , OGUserAppRevokedDate DATE , OGUserAppCreDate DATE , OGUserAppCreUser NVARCHAR2(250) , OGUserAppUpdDate DATE , OGUserAppUpdUser NVARCHAR2(250) , AppPrmGUID NCHAR(40) NOT NULL , OGUserAppExpire DATE , OGUserAppStatus NCHAR(1) NOT NULL , PRIMARY KEY(RepId, OGUserAppCode))
+CREATE INDEX IOAUTHGRANTUSERAPP1 ON OauthGrantUserApp (UserGUID ,RepId )
+CREATE INDEX IOAUTHGRANTUSERAPP2 ON OauthGrantUserApp (RepId ,AppId ,AppPrmGUID )
+CREATE INDEX UOAUTHGRANTUSERAPPTOKEN ON OauthGrantUserApp (RepId ,OGUserAppSesToken )
+CREATE INDEX UOAUTHGRANTUSERAPP ON OauthGrantUserApp (RepId ,UserGUID ,AppId ,OGUserAppStatus )
+
+CREATE TABLE RoleAppPrmProp (RepId NUMERIC(9) NOT NULL , RoleId NUMERIC(12) NOT NULL , AppId NUMERIC(12) NOT NULL , AppPrmGUID NCHAR(40) NOT NULL , RoleAppPrmToken NCHAR(254) NOT NULL , RoleAppPrmPropId NCHAR(60) NOT NULL , RoleAppPrmPropToken NCHAR(40) NOT NULL , RoleAppPrmPropValue NVARCHAR2(2000) NOT NULL , RoleAppPrmPropCreDate DATE NOT NULL , RoleAppPrmPropCreUser NVARCHAR2(250) NOT NULL , RoleAppPrmPropUpdDate DATE NOT NULL , RoleAppPrmPropUpdUser NVARCHAR2(250) NOT NULL , PRIMARY KEY(RepId, RoleId, AppId, AppPrmGUID, RoleAppPrmToken, RoleAppPrmPropId, RoleAppPrmPropToken))
+
+CREATE TABLE AppAuthReq (RepId NUMERIC(9) NOT NULL , AppAuthReqId NCHAR(254) NOT NULL , AppAuthReqRedirURL NVARCHAR2(2000) NOT NULL , AppAuthReqResponseType NCHAR(5) NOT NULL , AppAuthReqAuthorized DATE , AppAuthReqRevoked DATE , AppId NUMERIC(12) NOT NULL , AppPrmGUID NCHAR(40) NOT NULL , AppAuthReqCreated DATE NOT NULL , AppAuthReqUserAppPrmCode NCHAR(80) , AppAuthReqSesToken NCHAR(120) , PRIMARY KEY(RepId, AppAuthReqId))
+CREATE INDEX IAPPAUTHREQ1 ON AppAuthReq (RepId ,AppId ,AppPrmGUID )
+
+CREATE TABLE AppPermissionProp (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppPrmGUID NCHAR(40) NOT NULL , AppPrmPropId NCHAR(60) NOT NULL , AppPrmPropToken NCHAR(40) NOT NULL , AppPrmPropValue NVARCHAR2(2000) NOT NULL , AppPrmPropCreDate DATE , AppPrmPropCreUser NVARCHAR2(250) , AppPrmPropUpdDate DATE , AppPrmPropUpdUser NVARCHAR2(250) , PRIMARY KEY(RepId, AppId, AppPrmGUID, AppPrmPropId, AppPrmPropToken))
+
+CREATE TABLE AppPrmTokenTypeEle (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppPrmTokenTypeGUID NCHAR(40) NOT NULL , AppPrmTokenEleName NCHAR(60) NOT NULL , AppPrmTokenEleDsc NCHAR(254) NOT NULL , AppPrmTokenEleWSHost NCHAR(254) NOT NULL , AppPrmTokenELWSName NCHAR(254) NOT NULL , AppPrmTokenEleOrder NUMERIC(9) NOT NULL , PRIMARY KEY(RepId, AppId, AppPrmTokenTypeGUID, AppPrmTokenEleName))
+CREATE INDEX UAPPPRMTOKENTYPEELE ON AppPrmTokenTypeEle (RepId ,AppId ,AppPrmTokenTypeGUID ,AppPrmTokenEleOrder )
+
+CREATE TABLE RoleAppPrm (RepId NUMERIC(9) NOT NULL , RoleId NUMERIC(12) NOT NULL , AppId NUMERIC(12) NOT NULL , AppPrmGUID NCHAR(40) NOT NULL , RoleAppPrmToken NCHAR(254) NOT NULL , RoleAppPrmType NCHAR(1) NOT NULL , RoleAppPrmInh NUMERIC(1) NOT NULL , RoleAppPrmCreDate DATE , RoleAppPrmCreUser NVARCHAR2(250) , RoleAppPrmUpdDate DATE , RoleAppPrmUpdUser NVARCHAR2(250) , AppPrmName NCHAR(254) NOT NULL , PRIMARY KEY(RepId, RoleId, AppId, AppPrmGUID, RoleAppPrmToken))
+CREATE INDEX IROLEAPPPRM3 ON RoleAppPrm (RepId ,AppId ,AppPrmGUID )
+
+CREATE TABLE AppPermissionLng (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppPrmGUID NCHAR(40) NOT NULL , AppPrmLngId NCHAR(3) NOT NULL , AppPrmDscLng NCHAR(254) NOT NULL , AppPrmNameLng NCHAR(254) NOT NULL , PRIMARY KEY(RepId, AppId, AppPrmGUID, AppPrmLngId))
+
+CREATE TABLE AppPermission (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppPrmGUID NCHAR(40) NOT NULL , AppPrmName NCHAR(254) NOT NULL , AppPrmDsc NCHAR(254) , AppPrmPgmName NCHAR(254) , AppPrmDefType NCHAR(1) NOT NULL , AppPrmTokenTypeGUID NCHAR(40) , AppPrmCreDate DATE , AppPrmCreUser NVARCHAR2(250) , AppPrmUpdDate DATE , AppPrmUpdUser NVARCHAR2(250) , AppPrmCurEnvId NUMERIC(12) , AppPrmPgmPar NCHAR(254) , AppPrmIsGXAuto NUMERIC(1) NOT NULL , PRIMARY KEY(RepId, AppId, AppPrmGUID))
+CREATE UNIQUE INDEX UAPPPERMISSIONNAME ON AppPermission (RepId ,AppId ,AppPrmName )
+CREATE INDEX IAPPPERMISSION1 ON AppPermission (RepId ,AppId ,AppPrmTokenTypeGUID )
+CREATE INDEX IAPPPERMISSION2 ON AppPermission (RepId ,AppId ,AppPrmCurEnvId )
+
+CREATE TABLE AppPrmTokenTypeLng (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppPrmTokenTypeGUID NCHAR(40) NOT NULL , AppPrmTokenTypeLngId NCHAR(3) NOT NULL , AppPrmTokenTypeNameLng NCHAR(254) NOT NULL , AppPrmTokenTypeDscLng NCHAR(254) , PRIMARY KEY(RepId, AppId, AppPrmTokenTypeGUID, AppPrmTokenTypeLngId))
+
+CREATE TABLE AppPrmTokenType (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppPrmTokenTypeGUID NCHAR(40) NOT NULL , AppPrmTokenTypeName NCHAR(254) NOT NULL , AppPrmTokenTypeDsc NCHAR(254) , AppPrmTokenTypeCreDate DATE , AppPrmTokenTypeCreUser NVARCHAR2(250) , AppPrmTokenTypeUpdDate DATE , AppPrmTokenTypeUpdUser NVARCHAR2(250) , PRIMARY KEY(RepId, AppId, AppPrmTokenTypeGUID))
+
+CREATE TABLE RepositoryCountry (RepId NUMERIC(9) NOT NULL , CountryId NCHAR(9) NOT NULL , RepCountryCreDate DATE , RepCountryCreUser NVARCHAR2(250) , RepCountryUpdDate DATE , RepCountryUpdUser NVARCHAR2(250) , PRIMARY KEY(RepId, CountryId))
+CREATE INDEX IREPOSITORYCOUNTRY1 ON RepositoryCountry (CountryId )
+
+CREATE TABLE RepQuestionUserLng (RepId NUMERIC(9) NOT NULL , QstUserId NUMERIC(9) NOT NULL , QstUserLngId NCHAR(3) NOT NULL , QstUserNameLng NCHAR(254) , QstUserDscLng NCHAR(254) , PRIMARY KEY(RepId, QstUserId, QstUserLngId))
+
+CREATE TABLE RepQuestionUser (RepId NUMERIC(9) NOT NULL , QstUserId NUMERIC(9) NOT NULL , QstUserName NCHAR(254) , QstUserDsc NCHAR(254) , QstUserCreDate DATE NOT NULL , QstUserCreUser NVARCHAR2(250) NOT NULL , QstUserUpdDate DATE NOT NULL , QstUserUpdUser NVARCHAR2(250) NOT NULL , QstUserGUID NCHAR(40) NOT NULL , PRIMARY KEY(RepId, QstUserId))
+CREATE UNIQUE INDEX UREPQSTUSERGUID ON RepQuestionUser (RepId ,QstUserGUID )
+
+CREATE TABLE AuthenticationTypeProp (RepId NUMERIC(9) NOT NULL , AutTypeName NCHAR(60) NOT NULL , AutTypePropId NCHAR(60) NOT NULL , AutTypePropToken NCHAR(40) NOT NULL , AutTypePropValue NVARCHAR2(2000) , PRIMARY KEY(RepId, AutTypeName, AutTypePropId, AutTypePropToken))
+
+CREATE TABLE AuthenticationTypeLng (RepId NUMERIC(9) NOT NULL , AutTypeName NCHAR(60) NOT NULL , AutTypeLngId NCHAR(3) NOT NULL , AutTypeNameLng NCHAR(254) , AutTypeDscLng NCHAR(254) , PRIMARY KEY(RepId, AutTypeName, AutTypeLngId))
+
+CREATE TABLE CountryLng (CountryId NCHAR(9) NOT NULL , CountryLngId NCHAR(3) NOT NULL , CountryNameLng NCHAR(120) NOT NULL , PRIMARY KEY(CountryId, CountryLngId))
+
+CREATE TABLE Country (CountryId NCHAR(9) NOT NULL , CountryName NCHAR(120) NOT NULL , Country_iso_3 NCHAR(3) NOT NULL , CountryCreDate DATE , CountryCreUser NVARCHAR2(250) , CountryUpdDate DATE , CountryUpdUser NVARCHAR2(250) , PRIMARY KEY(CountryId))
+
+CREATE TABLE UserMemRole (UserGUID NCHAR(40) NOT NULL , RepId NUMERIC(9) NOT NULL , UserMemRoleRoleId NUMERIC(12) NOT NULL , UserMemRoleCreDate DATE , UserMemRoleCreUser NVARCHAR2(250) , UserMemRoleUpdDate DATE , UserMemRoleUpdUser NVARCHAR2(250) , PRIMARY KEY(UserGUID, RepId, UserMemRoleRoleId))
+CREATE INDEX IUSERMEMROLEROLE ON UserMemRole (RepId ,UserMemRoleRoleId )
+
+CREATE TABLE UserMemAppRole (UserGUID NCHAR(40) NOT NULL , RepId NUMERIC(9) NOT NULL , UserMemAppRoleAppId NUMERIC(12) NOT NULL , UserMemAppRoleRoleId NUMERIC(12) NOT NULL , UserMemAppRoleCreDate DATE , UserMemAppRoleCreUser NVARCHAR2(250) , UserMemAppRoleUpdDate DATE , UserMemAppRoleUpdUser NVARCHAR2(250) , PRIMARY KEY(UserGUID, RepId, UserMemAppRoleAppId, UserMemAppRoleRoleId))
+CREATE INDEX IUSERMEMAPPROLEAPP ON UserMemAppRole (RepId ,UserMemAppRoleAppId )
+CREATE INDEX IUSERMEMAPPROLEROLE ON UserMemAppRole (RepId ,UserMemAppRoleRoleId )
+
+CREATE TABLE UserAttMultiValue (UserGUID NCHAR(40) NOT NULL , UserAttId NCHAR(60) NOT NULL , UserAttMVId NCHAR(60) NOT NULL , UserAttMVVal NVARCHAR2(2000) , PRIMARY KEY(UserGUID, UserAttId, UserAttMVId))
+
+CREATE TABLE UserAtt (UserGUID NCHAR(40) NOT NULL , UserAttId NCHAR(60) NOT NULL , UserAttIsMV NUMERIC(1) NOT NULL , UserAttVal NVARCHAR2(2000) , UserAttToken NCHAR(40) , PRIMARY KEY(UserGUID, UserAttId))
+
+CREATE TABLE UserRepository (UserGUID NCHAR(40) NOT NULL , RepId NUMERIC(9) NOT NULL , UserRepSecPolId NUMERIC(9) , UserRepMainRoleId NUMERIC(12) , UserRepCreDate DATE , UserRepCreUser NVARCHAR2(250) , UserRepUpdDate DATE , UserRepUpdUser NVARCHAR2(250) , UserRepRecPwdAns NCHAR(254) , UserRepQstUserId NUMERIC(9) , PRIMARY KEY(UserGUID, RepId))
+CREATE INDEX IUSERREPOSITORY1 ON UserRepository (RepId ,UserRepSecPolId )
+CREATE INDEX IUSERREPOSITORY2 ON UserRepository (RepId ,UserRepMainRoleId )
+CREATE INDEX IUSERREPOSITORY ON UserRepository (RepId ,UserRepQstUserId )
+
+CREATE TABLE UserHisPwd (UserGUID NCHAR(40) NOT NULL , UserHisPwdDate DATE NOT NULL , UserHisPwdPwd NCHAR(254) NOT NULL , PRIMARY KEY(UserGUID, UserHisPwdDate))
+CREATE INDEX UUSERHISPWD ON UserHisPwd (UserGUID ,UserHisPwdDate DESC)
+
+CREATE TABLE "User" (UserGUID NCHAR(40) NOT NULL , UserNameSpace NCHAR(60) NOT NULL , UserAutTypeName NCHAR(60) NOT NULL , UserName NVARCHAR2(100) NOT NULL , UserEMail NVARCHAR2(100) NOT NULL , UserExtId NVARCHAR2(100) , UserPwd NCHAR(254) NOT NULL , UserFirstName NCHAR(60) , UserLastName NCHAR(60) , UserBirthday DATE , UserGender NCHAR(1) NOT NULL , UserPhone NCHAR(254) , UserAddress NCHAR(254) , UserAddress2 NCHAR(254) , UserCity NCHAR(254) , UserState NCHAR(254) , CountryId NCHAR(9) , UserPostCode NCHAR(60) , UserLng NCHAR(3) , UserTimeZone NCHAR(60) , UserPhoto BLOB , UserPhoto_GXI VARCHAR2(2000) , UserNotRcvInf NUMERIC(1) NOT NULL , UserIsBlk NUMERIC(1) NOT NULL , UserBlkLastDate DATE , UserIsAct NUMERIC(1) NOT NULL , UserActKey NCHAR(254) , UserActDate DATE , UserNotChgPwd NUMERIC(1) NOT NULL , UserChgPwdNexLog NUMERIC(1) NOT NULL , UserPwdNevExp NUMERIC(1) NOT NULL , UserRecPwdKey NCHAR(254) , UserRecPwdKeyExp DATE , UserDateLastChgPwd DATE , UserIsDlt NUMERIC(1) NOT NULL , UserDateLastAuth DATE , UserCreDate DATE , UserCreUser NVARCHAR2(250) , UserUpdDate DATE , UserUpdUser NVARCHAR2(250) , UserURLImage NVARCHAR2(2000) , UserURLProf NVARCHAR2(2000) , UserDataReqComplete NUMERIC(1) NOT NULL , UserDataReqCompleteKey NCHAR(254) , UserIsDevice NUMERIC(1) NOT NULL , UserPwdEncryption NCHAR(3) , UserEnableTwoFactorAuth NUMERIC(1) , UserOTPNumberLocked NUMERIC(3) , UserOTPLastLockedDate DATE , UserOTPDailyNumberCodes NUMERIC(4) , UserOTPLastDateRequestCode DATE , UserOTPFailedAttempts NUMERIC(3) , UserFailedLoginAttempts NUMERIC(3) , UserLastFailedLoginAttempt DATE , UserRecPwdKeyDailyNumber NUMERIC(4) , UserRecPwdKeyMonthNumber NUMERIC(4) , UserRecPwdKeyLastDate DATE , UserTOTPEnable NUMERIC(1) , UserTOTPSecretKey NVARCHAR2(120) , PRIMARY KEY(UserGUID))
+CREATE INDEX UUSERLOGIN ON "User" (UserNameSpace ,UserAutTypeName ,UserName ,UserIsDlt )
+CREATE INDEX IUSERCOUNTRY ON "User" (CountryId )
+CREATE INDEX UUSEREMAIL ON "User" (UserNameSpace ,UserAutTypeName ,UserEMail ,UserIsDlt )
+CREATE INDEX UUSEREXTID ON "User" (UserNameSpace ,UserAutTypeName ,UserExtId ,UserIsDlt )
+CREATE INDEX UEMAIL ON "User" (UserEMail )
+CREATE INDEX UACTIVATIONKEY ON "User" (UserActKey )
+
+CREATE TABLE AppEnvironmentLng (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppEnvId NUMERIC(12) NOT NULL , AppEnvLngId NCHAR(3) NOT NULL , AppEnvNameLng NCHAR(120) , AppEnvDscLng NCHAR(254) , PRIMARY KEY(RepId, AppId, AppEnvId, AppEnvLngId))
+
+CREATE TABLE RepositoryProp (RepId NUMERIC(9) NOT NULL , RepPropId NCHAR(60) NOT NULL , RepPropToken NCHAR(40) NOT NULL , RepPropVal NVARCHAR2(2000) , PRIMARY KEY(RepId, RepPropId, RepPropToken))
+
+CREATE TABLE ApplicationProp (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppPropId NCHAR(60) NOT NULL , AppPropToken NCHAR(40) NOT NULL , AppPropValue NVARCHAR2(2000) , PRIMARY KEY(RepId, AppId, AppPropId, AppPropToken))
+
+CREATE TABLE RoleProp (RepId NUMERIC(9) NOT NULL , RoleId NUMERIC(12) NOT NULL , RolePropId NCHAR(60) NOT NULL , RolePropToken NCHAR(40) NOT NULL , RolePropValue NVARCHAR2(2000) , PRIMARY KEY(RepId, RoleId, RolePropId, RolePropToken))
+
+CREATE TABLE AppMenuOptionProp (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppMnuId NUMERIC(12) NOT NULL , AppMnuOptId NUMERIC(12) NOT NULL , AppMnuOptPropId NCHAR(60) NOT NULL , AppMnuOptPropToken NCHAR(40) NOT NULL , AppMnuOptPropValue NVARCHAR2(2000) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuOptId, AppMnuOptPropId, AppMnuOptPropToken))
+
+CREATE TABLE AppMenuOptionLng (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppMnuId NUMERIC(12) NOT NULL , AppMnuOptId NUMERIC(12) NOT NULL , AppMnuOptLngId NCHAR(3) NOT NULL , AppMnuOptNameLng NCHAR(254) , AppMnuOptDscLng NCHAR(254) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuOptId, AppMnuOptLngId))
+
+CREATE TABLE AppMenuOption (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppMnuId NUMERIC(12) NOT NULL , AppMnuOptId NUMERIC(12) NOT NULL , AppMnuOptGUID NCHAR(40) NOT NULL , AppMnuOptName NCHAR(254) , AppMnuOptDsc NCHAR(254) , AppMnuOptCreDate DATE , AppMnuOptCreUser NVARCHAR2(250) , AppMnuOptUpdDate DATE , AppMnuOptUpdUser NVARCHAR2(250) , AppMnuOptOrder NUMERIC(9) NOT NULL , AppMnuOptType NCHAR(1) NOT NULL , AppMnuOptRelAppId NUMERIC(12) , AppMnuOptRelPrmPar NVARCHAR2(2000) , AppMnuOptRelMnuId NUMERIC(12) , AppMnuOptRelPrmGUID NCHAR(40) , AppMnuOptResource NVARCHAR2(2000) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuOptId))
+CREATE INDEX IAPPMENUOPTION2 ON AppMenuOption (RepId ,AppMnuOptRelAppId ,AppMnuOptRelMnuId )
+CREATE INDEX IAPPMENUOPTION3 ON AppMenuOption (RepId ,AppMnuOptRelAppId ,AppMnuOptRelPrmGUID )
+CREATE INDEX UAPPMENUOPTION ON AppMenuOption (RepId ,AppId ,AppMnuId ,AppMnuOptOrder )
+
+CREATE TABLE AuditoryActionLng (AudActId NUMERIC(12) NOT NULL , AudActLngId NCHAR(3) NOT NULL , AudActDscLng NCHAR(254) NOT NULL , PRIMARY KEY(AudActId, AudActLngId))
+
+CREATE TABLE AppMenuLng (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppMnuId NUMERIC(12) NOT NULL , AppMnuLngId NCHAR(3) NOT NULL , AppMnuNameLng NCHAR(254) , AppMnuDscLng NCHAR(254) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuLngId))
+
+CREATE TABLE SecurityPolicyLng (RepId NUMERIC(9) NOT NULL , SecPolId NUMERIC(9) NOT NULL , SecPolLngId NCHAR(3) NOT NULL , SecPolNameLng NCHAR(254) NOT NULL , SecPolDscLng NCHAR(254) , PRIMARY KEY(RepId, SecPolId, SecPolLngId))
+
+CREATE TABLE RoleLng (RepId NUMERIC(9) NOT NULL , RoleId NUMERIC(12) NOT NULL , RoleLngId NCHAR(3) NOT NULL , RoleNameLng NCHAR(254) , RoleDscLng NCHAR(254) , PRIMARY KEY(RepId, RoleId, RoleLngId))
+
+CREATE TABLE RepositoryLng (RepId NUMERIC(9) NOT NULL , RepLngId NCHAR(3) NOT NULL , RepNameLng NCHAR(254) , RepDscLng NCHAR(254) , PRIMARY KEY(RepId, RepLngId))
+
+CREATE TABLE ApplicationNum (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppNumId NCHAR(30) NOT NULL , AppNumLast NUMERIC(12) NOT NULL , AppNumDate DATE NOT NULL , PRIMARY KEY(RepId, AppId, AppNumId))
+
+CREATE TABLE AppPrmMemPrm (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppPrmMemPrmParent NCHAR(40) NOT NULL , AppPrmMemPrmChild NCHAR(40) NOT NULL , AppPrmMemPrmCreDate DATE , AppPrmMemPrmCreUser NVARCHAR2(250) , AppPrmMemPrmUpdDate DATE , AppPrmMemPrmUpdUser NVARCHAR2(250) , PRIMARY KEY(RepId, AppId, AppPrmMemPrmParent, AppPrmMemPrmChild))
+CREATE INDEX IAPPPRMMEMPRM2 ON AppPrmMemPrm (RepId ,AppId ,AppPrmMemPrmChild )
+
+CREATE TABLE AppType (RepId NUMERIC(9) NOT NULL , AppTypeId NUMERIC(12) NOT NULL , AppTypeGUID NCHAR(40) NOT NULL , AppTypeName NCHAR(254) NOT NULL , AppTypeDsc NCHAR(254) NOT NULL , AppTypeCreDate DATE , AppTypeCreUser NVARCHAR2(250) , AppTypeUpdDate DATE , AppTypeUpdUser NVARCHAR2(250) , PRIMARY KEY(RepId, AppTypeId))
+
+CREATE TABLE Application (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppName NCHAR(254) , AppGUID NCHAR(40) NOT NULL , AppVer NCHAR(60) NOT NULL , AppComName NCHAR(254) , AppTypeId NUMERIC(12) , AppParAppId NUMERIC(12) , AppDsc NCHAR(254) , AppCopyright NCHAR(254) , AppOrder NUMERIC(9) NOT NULL , AppRetMnuOptWithoutPrm NUMERIC(1) NOT NULL , AppCurEnvId NUMERIC(12) , AppBaseAppId NUMERIC(12) , AppCreDate DATE , AppCreUser NVARCHAR2(250) , AppUpdDate DATE , AppUpdUser NVARCHAR2(250) , AppIsBaseApplication NUMERIC(1) NOT NULL , AppCliId NCHAR(40) , AppCliSecret NCHAR(120) , AppCliUserGUID NCHAR(40) , AppCliImageURL NVARCHAR2(2000) , AppCliSiteURL NVARCHAR2(2000) , AppCliSiteDomain NVARCHAR2(2000) , AppCliRevoked DATE , AppType NUMERIC(1) NOT NULL , AppCliEncKey NCHAR(32) NOT NULL , AppCliDefPrmGUID NCHAR(40) , AppAccessReqPrm NUMERIC(1) NOT NULL , AppCliAccessUniqueByUser NUMERIC(1) NOT NULL , AppCliAutoRegAnomymousUser NUMERIC(1) NOT NULL , AppCliAllowRemoteAuth NUMERIC(1) , AppCliAllowGetUserRoles NUMERIC(1) , AppCliAllowGetUserAdditionalDa NUMERIC(1) , AppCliLocalLoginURL NVARCHAR2(2000) , PRIMARY KEY(RepId, AppId))
+CREATE UNIQUE INDEX UAPPLICATIONGUID ON Application (RepId ,AppGUID )
+CREATE UNIQUE INDEX UAPPLICATIONCLIID ON Application (RepId ,AppCliId )
+CREATE INDEX IAPPLICATIONPAR ON Application (RepId ,AppParAppId )
+CREATE INDEX IAPPLICATIONBASE ON Application (RepId ,AppBaseAppId )
+CREATE INDEX IAPPLICATIONTYPE ON Application (RepId ,AppTypeId )
+CREATE INDEX UAPPLICATIONNAME ON Application (RepId ,AppName )
+CREATE INDEX IAPPLICATIONENV ON Application (RepId ,AppId ,AppCurEnvId )
+
+CREATE TABLE AppMenu (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppMnuId NUMERIC(12) NOT NULL , AppMnuGUID NCHAR(40) NOT NULL , AppMnuName NCHAR(254) , AppMnuSerOpt NUMERIC(12) NOT NULL , AppMnuCreDate DATE NOT NULL , AppMnuCreUser NVARCHAR2(250) NOT NULL , AppMnuUpdDate DATE NOT NULL , AppMnuUpdUser NVARCHAR2(250) NOT NULL , AppMnuDsc NCHAR(254) , AppMnuToken NCHAR(40) NOT NULL , PRIMARY KEY(RepId, AppId, AppMnuId))
+CREATE UNIQUE INDEX UAPPMENUGUID ON AppMenu (RepId ,AppId ,AppMnuGUID )
+CREATE UNIQUE INDEX UAPPMENUTOKEN ON AppMenu (RepId ,AppId ,AppMnuToken )
+
+CREATE TABLE ApplicationLng (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppLngId NCHAR(3) NOT NULL , AppNameLng NCHAR(254) NOT NULL , AppDscLng NCHAR(254) , PRIMARY KEY(RepId, AppId, AppLngId))
+
+CREATE TABLE Auditory (RepId NUMERIC(9) NOT NULL , AudId NUMERIC(9) NOT NULL , AudSesRepId NUMERIC(9) NOT NULL , AudSesToken NCHAR(120) NOT NULL , AudDate DATE NOT NULL , AudActId NUMERIC(12) NOT NULL , AudPgmName NCHAR(254) NOT NULL , AudActKey1 NUMERIC(12) , AudActKey2 NUMERIC(12) , AudActKey3 NUMERIC(12) , AudActKey4 NUMERIC(12) , AudActPreDet NVARCHAR2(2000) , AudActCurDet NVARCHAR2(2000) , AudActionKeyGUID1 NCHAR(40) , AudActionKeyGUID2 NCHAR(40) , AudActionKeyChar1 NCHAR(254) , PRIMARY KEY(RepId, AudId))
+CREATE INDEX IAUDITORY1 ON Auditory (AudActId )
+
+CREATE TABLE AuditoryAction (AudActId NUMERIC(12) NOT NULL , AudActDsc NCHAR(254) NOT NULL , PRIMARY KEY(AudActId))
+
+CREATE TABLE AppMenuProp (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppMnuId NUMERIC(12) NOT NULL , AppMnuPropId NCHAR(60) NOT NULL , AppMnuPropToken NCHAR(40) NOT NULL , APPMnuPropValue NVARCHAR2(2000) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuPropId, AppMnuPropToken))
+
+CREATE TABLE AppEnvironment (RepId NUMERIC(9) NOT NULL , AppId NUMERIC(12) NOT NULL , AppEnvId NUMERIC(12) NOT NULL , AppEnvGUID NCHAR(40) NOT NULL , AppEnvSrvHost NCHAR(120) NOT NULL , AppEnvSrvPort NUMERIC(5) , AppEnvSrvVirDir NCHAR(120) , AppEnvSrvHttps NUMERIC(1) NOT NULL , AppEnvSrvPgmPac NCHAR(254) , AppEnvSrvPgmExt NCHAR(60) , AppEnvOrder NUMERIC(9) NOT NULL , AppEnvName NCHAR(120) , AppEnvCreDate DATE , AppEnvCreUser NVARCHAR2(250) , AppEnvUpdDate DATE , AppEnvUpdUser NVARCHAR2(250) , PRIMARY KEY(RepId, AppId, AppEnvId))
+
+CREATE TABLE SessionHistoryLogAtt (RepId NUMERIC(9) NOT NULL , SesHisToken NCHAR(120) NOT NULL , SesHisAttUserLog NVARCHAR2(250) NOT NULL , SesHisAttQtyLog NUMERIC(4) NOT NULL , PRIMARY KEY(RepId, SesHisToken, SesHisAttUserLog))
+
+CREATE TABLE SessionHistory (RepId NUMERIC(9) NOT NULL , SesHisToken NCHAR(120) NOT NULL , SesHisLogin NVARCHAR2(250) NOT NULL , SesHisDate DATE NOT NULL , SesHisSts NCHAR(1) NOT NULL , SesHisType NUMERIC(2) NOT NULL , SesHisURL NVARCHAR2(2000) NOT NULL , SesHisIPAdd NCHAR(60) NOT NULL , BrwId NUMERIC(4) , OpeSysId NUMERIC(4) , SesHisLastAcc DATE NOT NULL , SesHisLastURL NVARCHAR2(2000) NOT NULL , SesHisTimeOut NUMERIC(4) NOT NULL , SesHisExtToken NCHAR(120) NOT NULL , SesHisLogAtt NUMERIC(5) NOT NULL , SesHisLogDate DATE NOT NULL , SesHisSharedData NCLOB NOT NULL , SesHisEndDate DATE NOT NULL , UserGUID NCHAR(40) NOT NULL , SesHisExtToken2 NVARCHAR2(1024) , SesHisAppId NUMERIC(12) , SesHisRefreshToken NCHAR(40) , SesHisDeviceId NCHAR(40) , SesHisAppTokenExp DATE , SesHisOauthTokenMaxRenew NUMERIC(4) , SesHisOauthTokenExpires NUMERIC(6) , SesHisOauthScope NVARCHAR2(2000) , SesHisExtToken3 NCLOB , SesHisExtTokenExpires DATE , SesHisExtTokenRefresh NVARCHAR2(2000) , SesHisAutTypeName NCHAR(60) , SesHisJson NCLOB , SesHisIdToken NVARCHAR2(2000) , SesHisEndedByOtherLogin NUMERIC(1) , PRIMARY KEY(RepId, SesHisToken))
+CREATE INDEX ISESHISTORYOS ON SessionHistory (OpeSysId )
+CREATE INDEX ISESHISTORYBRW ON SessionHistory (BrwId )
+CREATE INDEX ISESHISUSER ON SessionHistory (UserGUID ,RepId )
+
+CREATE TABLE OperatingSystem (OpeSysId NUMERIC(4) NOT NULL , OpeSysDsc NCHAR(60) NOT NULL , OpeSysVer NCHAR(60) NOT NULL , OpeSysCreDate DATE , OpeSysCreUser NVARCHAR2(250) , OpeSysUpdDate DATE , OpeSysUpdUser NVARCHAR2(250) , PRIMARY KEY(OpeSysId))
+
+CREATE TABLE RoleAppTypePrmProp (RepId NUMERIC(9) NOT NULL , RoleId NUMERIC(12) NOT NULL , AppTypeId NUMERIC(12) NOT NULL , AppTypePrmId NUMERIC(12) NOT NULL , RoleAppTypePrmPropId NCHAR(60) NOT NULL , RoleAppTypePrmPropValue NVARCHAR2(2000) NOT NULL , RoleAppTypePrmPropCreDate DATE NOT NULL , RoleAppTypePrmPropCreUser NVARCHAR2(250) NOT NULL , RoleAppTypePrmPropUpdDate DATE NOT NULL , RoleAppTypePrmPropUpdUser NVARCHAR2(250) NOT NULL , PRIMARY KEY(RepId, RoleId, AppTypeId, AppTypePrmId, RoleAppTypePrmPropId))
+
+CREATE TABLE AppRole (RepId NUMERIC(9) NOT NULL , AppRoleAppId NUMERIC(12) NOT NULL , AppRoleRoleId NUMERIC(12) NOT NULL , AppRoleCreDate DATE , AppRoleCreUser NVARCHAR2(250) , AppRoleUpdDate DATE , AppRoleUpdUser NVARCHAR2(250) , AppRoleTokenTypeGUID NCHAR(40) , PRIMARY KEY(RepId, AppRoleAppId, AppRoleRoleId))
+CREATE INDEX IAPPROLEROLE ON AppRole (RepId ,AppRoleRoleId )
+CREATE INDEX IAPPROLE1 ON AppRole (RepId ,AppRoleAppId ,AppRoleTokenTypeGUID )
+
+CREATE TABLE AppTypePrmMemPrm (RepId NUMERIC(9) NOT NULL , AppTypeId NUMERIC(12) NOT NULL , AppTypePrmMemPrmParId NUMERIC(12) NOT NULL , AppTypePrmMemPrmChiId NUMERIC(12) NOT NULL , AppTypePrmMemPrmCreDate DATE , AppTypePrmMemPrmCreUser NVARCHAR2(250) , AppTypePrmMemPrmUpdDate DATE , AppTypePrmMemPrmUpdUser NVARCHAR2(250) , PRIMARY KEY(RepId, AppTypeId, AppTypePrmMemPrmParId, AppTypePrmMemPrmChiId))
+
+CREATE TABLE AppTypePermission (RepId NUMERIC(9) NOT NULL , AppTypeId NUMERIC(12) NOT NULL , AppTypePrmId NUMERIC(12) NOT NULL , AppTypePrmGUID NCHAR(40) NOT NULL , AppTypeResId NUMERIC(12) NOT NULL , AppTypeActId NUMERIC(12) NOT NULL , AppTypePrmIsParent NUMERIC(1) NOT NULL , AppTypePrmCreDate DATE , AppTypePrmCreUser NVARCHAR2(250) , AppTypePrmUpdDate DATE , AppTypePrmUpdUser NVARCHAR2(250) , PRIMARY KEY(RepId, AppTypeId, AppTypePrmId))
+CREATE INDEX IAPPTYPEPERMISSION1 ON AppTypePermission (RepId ,AppTypeId ,AppTypeActId )
+CREATE INDEX IAPPTYPEPERMISSION2 ON AppTypePermission (RepId ,AppTypeId ,AppTypeResId )
+
+CREATE TABLE SecurityPolicy (RepId NUMERIC(9) NOT NULL , SecPolId NUMERIC(9) NOT NULL , SecPolPerChgPwd NUMERIC(4) NOT NULL , SecPolSesTimeOut NUMERIC(8) NOT NULL , SecPolMinLenPwd NUMERIC(2) NOT NULL , SecPolAmoCharNumericPwd NUMERIC(2) NOT NULL , SecPolAmoHisPwd NUMERIC(4) NOT NULL , SecPolName NCHAR(254) , SecPolGUID NCHAR(40) NOT NULL , SecPolCreDate DATE , SecPolCreUser NVARCHAR2(250) , SecPolUpdDate DATE , SecPolUpdUser NVARCHAR2(250) , SecPolDsc NCHAR(254) , SecPolOauthTokenExpire NUMERIC(8) NOT NULL , SecPolAmoCharUpperCasePwd NUMERIC(2) NOT NULL , SecPolAmoCharSpecialPwd NUMERIC(2) NOT NULL , SecPolOauthGrantExpire NUMERIC(6) NOT NULL , SecPolActSesPerUser NUMERIC(1) NOT NULL , SecPolOauthTokenMaxRenew NUMERIC(4) NOT NULL , SecPolFrecMinChangePwd NUMERIC(8) NOT NULL , PRIMARY KEY(RepId, SecPolId))
+
+CREATE TABLE RepositoryNum (RepId NUMERIC(9) NOT NULL , RepNumId NCHAR(30) NOT NULL , RepNumLast NUMERIC(12) NOT NULL , RepNumDate DATE NOT NULL , PRIMARY KEY(RepId, RepNumId))
+
+CREATE TABLE AuthenticationType (RepId NUMERIC(9) NOT NULL , AutTypeName NCHAR(60) NOT NULL , AutTypeType NCHAR(30) NOT NULL , AutTypeFunc NCHAR(30) NOT NULL , AutTypeIsEna NUMERIC(1) NOT NULL , AutTypeDsc NCHAR(120) , AutTypeCreDate DATE NOT NULL , AutTypeCreUser NVARCHAR2(250) NOT NULL , AutTypeUpdDate DATE NOT NULL , AutTypeUpdUser NVARCHAR2(250) NOT NULL , PRIMARY KEY(RepId, AutTypeName))
+CREATE INDEX UAUTTYPEDSC ON AuthenticationType (RepId ,AutTypeDsc )
+
+CREATE TABLE AppTypeAction (RepId NUMERIC(9) NOT NULL , AppTypeId NUMERIC(12) NOT NULL , AppTypeActId NUMERIC(12) NOT NULL , AppTypeActGUID NCHAR(40) NOT NULL , AppTypeActName NCHAR(254) NOT NULL , AppTypeActDsc NCHAR(254) , AppTypeActCreDate DATE , AppTypeActCreUser NVARCHAR2(250) , AppTypeActUpdDate DATE , AppTypeActUpdUser NVARCHAR2(250) , PRIMARY KEY(RepId, AppTypeId, AppTypeActId))
+CREATE UNIQUE INDEX UAPPTYPEACTGUID ON AppTypeAction (RepId ,AppTypeActGUID )
+
+CREATE TABLE AppTypeResource (RepId NUMERIC(9) NOT NULL , AppTypeId NUMERIC(12) NOT NULL , AppTypeResId NUMERIC(12) NOT NULL , AppTypeResGUID NCHAR(40) NOT NULL , AppTypeResName NCHAR(254) NOT NULL , AppTypeResDsc NCHAR(254) , AppTypeResCreDate DATE , AppTypeResCreUser NVARCHAR2(250) , AppTypeResUpdDate DATE , AppTypeResUpdUser NVARCHAR2(250) , PRIMARY KEY(RepId, AppTypeId, AppTypeResId))
+CREATE UNIQUE INDEX UAPPTYPERESGUID ON AppTypeResource (RepId ,AppTypeResGUID )
+
+CREATE TABLE RoleAppTypePrm (RepId NUMERIC(9) NOT NULL , RoleId NUMERIC(12) NOT NULL , AppTypeId NUMERIC(12) NOT NULL , AppTypePrmId NUMERIC(12) NOT NULL , RoleAppTypePrmType NCHAR(1) NOT NULL , RoleAppTypePrmInh NUMERIC(1) NOT NULL , RoleAppTypePrmAllItems NUMERIC(1) NOT NULL , RoleAppTypePrmCreDate DATE , RoleAppTypePrmCreUser NVARCHAR2(250) , RoleAppTypePrmUpdDate DATE , RoleAppTypePrmUpdUser NVARCHAR2(250) , PRIMARY KEY(RepId, RoleId, AppTypeId, AppTypePrmId))
+CREATE INDEX IROLEAPPPRM14 ON RoleAppTypePrm (RepId ,AppTypeId ,AppTypePrmId )
+
+CREATE TABLE SessionLogAtt (RepId NUMERIC(9) NOT NULL , SesToken NCHAR(120) NOT NULL , SesAttUserLog NVARCHAR2(250) NOT NULL , SesAttQtyLog NUMERIC(4) NOT NULL , PRIMARY KEY(RepId, SesToken, SesAttUserLog))
+
+CREATE TABLE "Session" (RepId NUMERIC(9) NOT NULL , SesToken NCHAR(120) NOT NULL , SesDate DATE NOT NULL , SesSts NCHAR(1) NOT NULL , SesType NUMERIC(2) NOT NULL , SesURL NVARCHAR2(2000) NOT NULL , SesIPAdd NCHAR(60) NOT NULL , OpeSysId NUMERIC(4) , SesLastAcc DATE NOT NULL , SesTimeOut NUMERIC(4) NOT NULL , SesLogAtt NUMERIC(5) NOT NULL , SesLogDate DATE NOT NULL , SesSharedData NCLOB NOT NULL , SesEndDate DATE NOT NULL , SesReload NUMERIC(1) NOT NULL , BrwId NUMERIC(4) , SesLastURL NVARCHAR2(2000) NOT NULL , SesLogin NVARCHAR2(250) NOT NULL , SesExtToken NCHAR(120) NOT NULL , UserGUID NCHAR(40) , SesAppTokenExp DATE , SesRefreshToken NCHAR(40) , SesAppId NUMERIC(12) , SesDeviceId NCHAR(40) , SesExtToken2 NVARCHAR2(1024) , SesAutTypeName NCHAR(60) , SesOauthTokenMaxRenew NUMERIC(4) , SesOauthTokenExpires NUMERIC(6) , SesOauthScope NVARCHAR2(2000) , SesExtToken3 NCLOB , SesExtTokenExpires DATE , SesExtTokenRefresh NVARCHAR2(2000) , SesJson NCLOB , SesIdToken NVARCHAR2(2000) , SesOTP NVARCHAR2(250) , SesOTPExpire DATE , SesEndedByOtherLogin NUMERIC(1) , PRIMARY KEY(RepId, SesToken))
+CREATE INDEX ISESBRW ON "Session" (BrwId )
+CREATE INDEX ISESOPESYS ON "Session" (OpeSysId )
+CREATE INDEX ISESUSER ON "Session" (UserGUID ,RepId )
+CREATE INDEX USESTOKEN ON "Session" (SesToken )
+CREATE INDEX USESREPPARENTTOKENUSERSTS ON "Session" (RepId ,SesExtToken ,UserGUID ,SesSts )
+CREATE INDEX USESREFRESHTOKEN ON "Session" (RepId ,SesType ,SesSts ,SesAppId ,SesRefreshToken )
+CREATE INDEX USESUSERAPPPARENT ON "Session" (UserGUID ,SesAppId ,SesExtToken )
+CREATE INDEX USESPARENTTOKENUSERSTS ON "Session" (SesExtToken ,UserGUID ,SesSts )
+CREATE INDEX USESSIONUSEROTPCODE ON "Session" (RepId ,SesAppId ,SesAutTypeName ,UserGUID ,SesSts ,SesOTP ,SesDate DESC)
+
+CREATE TABLE Repository (RepId NUMERIC(9) NOT NULL , RepVer NCHAR(60) NOT NULL , RepUpg NCHAR(60) NOT NULL , RepDefAutTypeName NCHAR(60) , RepUserActType NCHAR(1) NOT NULL , RepUserActTimeOut NUMERIC(8) NOT NULL , RepDefSecPolId NUMERIC(9) , RepGenAud NCHAR(20) NOT NULL , RepUserRemMeTimeOut NUMERIC(4) NOT NULL , RepGenSesSta NCHAR(20) NOT NULL , RepUserChrMinLog NUMERIC(2) NOT NULL , RepGUID NCHAR(40) NOT NULL , RepCanRegUser NUMERIC(1) NOT NULL , RepUserRemMeType NCHAR(6) NOT NULL , RepGiveAnoSes NUMERIC(1) NOT NULL , RepAnoUserGUID NCHAR(40) , RepDefRoleId NUMERIC(12) , RepCreDate DATE NOT NULL , RepCreUser NVARCHAR2(250) NOT NULL , RepUpdDate DATE NOT NULL , RepUpdUser NVARCHAR2(250) NOT NULL , RepNameSpace NCHAR(60) NOT NULL , RepUserRecPwdKeyTimeOut NUMERIC(8) NOT NULL , RepUserReqPwd NUMERIC(1) NOT NULL , RepUserReqEmail NUMERIC(1) NOT NULL , RepUserReqFirstName NUMERIC(1) NOT NULL , RepUserReqLastName NUMERIC(1) NOT NULL , RepUserReqBir NUMERIC(1) NOT NULL , RepUserReqGen NUMERIC(1) NOT NULL , RepUserReqPhone NUMERIC(1) NOT NULL , RepUserReqAddress NUMERIC(1) NOT NULL , RepUserReqCity NUMERIC(1) NOT NULL , RepUserReqState NUMERIC(1) NOT NULL , RepUserReqCountry NUMERIC(1) NOT NULL , RepUserReqPostCode NUMERIC(1) NOT NULL , RepUserReqLng NUMERIC(1) NOT NULL , RepUserReqTimeZone NUMERIC(1) NOT NULL , RepUserReqPhoto NUMERIC(1) NOT NULL , RepUserAttLogLockUser NUMERIC(2) NOT NULL , RepUserAttLogLockSession NUMERIC(2) NOT NULL , RepDsc NCHAR(254) , RepUserEmailSecAdm NCHAR(254) , RepUserTimeToUnblock NUMERIC(8) NOT NULL , RepName NCHAR(60) NOT NULL , RepUserEmailUnique NUMERIC(1) NOT NULL , RepAllowOauthAccess NUMERIC(1) NOT NULL , RepUserIdentification NCHAR(6) NOT NULL , RepKeepSesOnlyOriIP NUMERIC(1) NOT NULL , RepUserSessionCacheTimeout NUMERIC(8) NOT NULL , RepAnoUserSDRoleId NUMERIC(12) , PRIMARY KEY(RepId))
+CREATE UNIQUE INDEX UREPGIUD ON Repository (RepGUID )
+CREATE INDEX IREPOSITORYROLE ON Repository (RepId ,RepDefRoleId )
+CREATE INDEX IREPOSITORYATYPE ON Repository (RepId ,RepDefAutTypeName )
+CREATE INDEX IREPOSITORYSECPOL ON Repository (RepId ,RepDefSecPolId )
+CREATE INDEX IREPOSITORY ON Repository (RepId ,RepAnoUserSDRoleId )
+
+CREATE TABLE Browser (BrwId NUMERIC(4) NOT NULL , BrwDsc NCHAR(60) , BrwVer NCHAR(60) , PRIMARY KEY(BrwId))
+
+CREATE TABLE SysPar (SysParId NCHAR(30) NOT NULL , SysParVal NCHAR(254) NOT NULL , PRIMARY KEY(SysParId))
+
+CREATE TABLE RoleMemRole (RepId NUMERIC(9) NOT NULL , RoleMemRoleParent NUMERIC(12) NOT NULL , RoleMemRoleChild NUMERIC(12) NOT NULL , RoleMemRoleCreDate DATE , RoleMemRoleCreUser NVARCHAR2(250) , RoleMemRoleUpdDate DATE , RoleMemRoleUpdUser NVARCHAR2(250) , PRIMARY KEY(RepId, RoleMemRoleParent, RoleMemRoleChild))
+CREATE INDEX IROLEMEMROLE2 ON RoleMemRole (RepId ,RoleMemRoleChild )
+
+CREATE TABLE Role (RepId NUMERIC(9) NOT NULL , RoleId NUMERIC(12) NOT NULL , RoleExtId NVARCHAR2(100) , RoleSecPolId NUMERIC(9) , RoleGUID NCHAR(40) NOT NULL , RoleName NCHAR(254) , RoleDsc NCHAR(254) , RoleCreDate DATE , RoleCreUser NVARCHAR2(250) , RoleUpdDate DATE , RoleUpdUser NVARCHAR2(250) , PRIMARY KEY(RepId, RoleId))
+CREATE UNIQUE INDEX UROLEGUID ON Role (RepId ,RoleGUID )
+CREATE INDEX UROLEEXTID ON Role (RepId ,RoleExtId )
+CREATE INDEX IROLESECPOL ON Role (RepId ,RoleSecPolId )
+

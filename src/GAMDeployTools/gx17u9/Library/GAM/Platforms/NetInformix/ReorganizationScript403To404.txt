@@ -1,0 +1,7 @@
+ALTER TABLE gam.Session ADD (SesJson  TEXT , SesExtTokenRefresh  lvarchar(2000) , SesExtTokenExpires  DateTime Year to Second , SesExtToken3  TEXT )
+
+ALTER TABLE gam.SessionHistory ADD (SesHisJson  TEXT , SesHisAutTypeName  CHAR(60) , SesHisExtTokenRefresh  lvarchar(2000) , SesHisExtTokenExpires  DateTime Year to Second , SesHisExtToken3  TEXT )
+
+CREATE TABLE gam.SessionHistoryLog (RepId  INT NOT NULL , SesHisToken  CHAR(120) NOT NULL , SesHisLogGuid  CHAR(40) NOT NULL , SesHisLogDateTime  DateTime Year to Second NOT NULL , SesHisLogType  CHAR(30) NOT NULL , SesHisLogDetail  TEXT , PRIMARY KEY(RepId, SesHisToken, SesHisLogGuid))
+
+UPDATE gam.SysPar SET SysParVal='4.0.4' WHERE SysParId='GAMVersion'

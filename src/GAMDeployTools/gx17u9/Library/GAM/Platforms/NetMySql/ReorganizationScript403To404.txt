@@ -1,0 +1,7 @@
+ALTER TABLE `Session` ADD (`SesJson`  TEXT CHARACTER SET utf8 , `SesExtTokenRefresh`  national varchar(2000) , `SesExtTokenExpires`  datetime , `SesExtToken3`  TEXT CHARACTER SET utf8 )
+
+ALTER TABLE `SessionHistory` ADD (`SesHisJson`  TEXT CHARACTER SET utf8 , `SesHisAutTypeName`  national char(60) , `SesHisExtTokenRefresh`  national varchar(2000) , `SesHisExtTokenExpires`  datetime , `SesHisExtToken3`  TEXT CHARACTER SET utf8 )
+
+CREATE TABLE `SessionHistoryLog` (`RepId`  int NOT NULL , `SesHisToken`  national char(120) NOT NULL , `SesHisLogGuid`  national char(40) NOT NULL , `SesHisLogDateTime`  datetime NOT NULL , `SesHisLogType`  national char(30) NOT NULL , `SesHisLogDetail`  TEXT CHARACTER SET utf8 , PRIMARY KEY(`RepId`, `SesHisToken`, `SesHisLogGuid`))  ENGINE=InnoDB
+
+UPDATE SysPar SET SysParVal=`4.0.4` WHERE SysParId=`GAMVersion`

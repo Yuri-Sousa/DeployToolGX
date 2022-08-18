@@ -1,0 +1,15 @@
+ALTER TABLE gam.[AppMenuOption] ADD [AppMnuOptResource]  nvarchar(2048) NULL
+ALTER TABLE gam.[AppMenuOption] ALTER COLUMN [AppMnuOptRelPrmPar]  nvarchar(2048) NULL
+
+ALTER TABLE gam.[UserAtt] ADD [UserAttToken]  nchar(40) NULL
+
+CREATE TABLE gam.[UserRepositoryProp] ([UserGUID]  nchar(40) NOT NULL , [RepId]  int NOT NULL , [UserRepPropId]  nchar(60) NOT NULL , [UserRepPropToken]  nchar(40) NOT NULL , [UserRepPropValue]  nvarchar(400) NULL , PRIMARY KEY([UserGUID], [RepId], [UserRepPropId], [UserRepPropToken]))
+
+CREATE TABLE gam.[SessionLog] ([RepId]  int NOT NULL , [SesToken]  nchar(120) NOT NULL , [SesLogGuid]  nchar(40) NOT NULL , [SesLogDateTime]  datetime NOT NULL , [SesLogType]  nchar(30) NOT NULL , [SesLogDetail]  NVARCHAR(MAX) NULL , PRIMARY KEY([RepId], [SesToken], [SesLogGuid]))
+
+CREATE TABLE gam.[LoginTmp] ([LoginTmpTokenState]  nchar(60) NOT NULL , [LoginTmpDateTime]  datetime NOT NULL , [LoginTmpData]  nvarchar(4000) NOT NULL , PRIMARY KEY([LoginTmpTokenState]))
+
+CREATE NONCLUSTERED INDEX [UEMAIL] ON gam.[User] ([UserEMail] )
+CREATE NONCLUSTERED INDEX [UACTIVATIONKEY] ON gam.[User] ([UserActKey] )
+
+UPDATE gam.[SysPar] SET [SysParVal]='4.0.3' WHERE [SysParId]='GAMVersion'

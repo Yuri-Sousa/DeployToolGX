@@ -1,0 +1,35 @@
+ALTER TABLE `Session` MODIFY COLUMN `SesOauthScope`  national varchar(2048)
+ALTER TABLE `Session` MODIFY COLUMN `SesLastURL`  national varchar(2048) NOT NULL
+ALTER TABLE `Session` MODIFY COLUMN `SesURL`  national varchar(2048) NOT NULL
+
+ALTER TABLE `SessionHistory` MODIFY COLUMN `SesHisOauthScope`  national varchar(2048)
+ALTER TABLE `SessionHistory` MODIFY COLUMN `SesHisLastURL`  national varchar(2048) NOT NULL
+ALTER TABLE `SessionHistory` MODIFY COLUMN `SesHisURL`  national varchar(2048) NOT NULL
+
+CREATE TABLE `GXA0110` (`RepId`  int NOT NULL , `AudId`  int NOT NULL , `AudSesRepId`  int NOT NULL , `AudSesToken`  national char(120) NOT NULL , `AudDate`  datetime NOT NULL , `AudActId`  bigint NOT NULL , `AudPgmName`  national char(254) NOT NULL , `AudActKey1`  bigint , `AudActKey2`  bigint , `AudActKey3`  bigint , `AudActKey4`  bigint , `AudActPreDet`  national varchar(2048) , `AudActCurDet`  national varchar(2048) , `AudActionKeyGUID1`  national char(40) , `AudActionKeyGUID2`  national char(40) , `AudActionKeyChar1`  national char(254) , PRIMARY KEY(`RepId`, `AudId`))  ENGINE=InnoDB
+Run conversion program for table Auditory
+DROP TABLE `Auditory`
+RENAME TABLE `GXA0110` TO `Auditory`
+CREATE INDEX `IAUDITORY1` ON `Auditory` (`AudActId` )
+
+ALTER TABLE `Application` MODIFY COLUMN `AppCliLocalLoginURL`  national varchar(2048)
+ALTER TABLE `Application` MODIFY COLUMN `AppCliSiteDomain`  national varchar(2048)
+ALTER TABLE `Application` MODIFY COLUMN `AppCliSiteURL`  national varchar(2048)
+ALTER TABLE `Application` MODIFY COLUMN `AppCliImageURL`  national varchar(2048)
+
+CREATE TABLE `GXA0142` (`UserGUID`  national char(40) NOT NULL , `UserNameSpace`  national char(60) NOT NULL , `UserAutTypeName`  national char(60) NOT NULL , `UserName`  national varchar(100) NOT NULL , `UserEMail`  national varchar(100) NOT NULL , `UserExtId`  national varchar(100) , `UserPwd`  national char(254) NOT NULL , `UserFirstName`  national char(60) , `UserLastName`  national char(60) , `UserBirthday`  date , `UserGender`  national char(1) NOT NULL , `UserPhone`  national char(254) , `UserAddress`  national char(254) , `UserAddress2`  national char(254) , `UserCity`  national char(254) , `UserState`  national char(254) , `CountryId`  national char(9) , `UserPostCode`  national char(60) , `UserLng`  national char(3) , `UserTimeZone`  national char(60) , `UserPhoto`  LONGBLOB , `UserPhoto_GXI`  varchar(2048) , `UserNotRcvInf`  BOOL NOT NULL , `UserIsBlk`  BOOL NOT NULL , `UserBlkLastDate`  datetime , `UserIsAct`  BOOL NOT NULL , `UserActKey`  national char(254) , `UserActDate`  datetime , `UserNotChgPwd`  BOOL NOT NULL , `UserChgPwdNexLog`  BOOL NOT NULL , `UserPwdNevExp`  BOOL NOT NULL , `UserRecPwdKey`  national char(254) , `UserRecPwdKeyExp`  datetime , `UserDateLastChgPwd`  datetime , `UserIsDlt`  BOOL NOT NULL , `UserDateLastAuth`  datetime , `UserCreDate`  datetime , `UserCreUser`  national varchar(250) , `UserUpdDate`  datetime , `UserUpdUser`  national varchar(250) , `UserURLImage`  national varchar(2048) , `UserURLProf`  national varchar(2048) , `UserDataReqComplete`  BOOL NOT NULL , `UserDataReqCompleteKey`  national char(254) , `UserIsDevice`  BOOL NOT NULL , `UserPwdEncryption`  national char(3) , PRIMARY KEY(`UserGUID`))  ENGINE=InnoDB
+Run conversion program for table User
+DROP TABLE `User`
+RENAME TABLE `GXA0142` TO `User`
+CREATE INDEX `UUSERLOGIN` ON `User` (`UserNameSpace` ,`UserAutTypeName` ,`UserName` ,`UserIsDlt` )
+CREATE INDEX `IUSERCOUNTRY` ON `User` (`CountryId` )
+CREATE INDEX `UUSEREMAIL` ON `User` (`UserNameSpace` ,`UserAutTypeName` ,`UserEMail` ,`UserIsDlt` )
+CREATE INDEX `UUSEREXTID` ON `User` (`UserNameSpace` ,`UserAutTypeName` ,`UserExtId` ,`UserIsDlt` )
+
+ALTER TABLE `AppAuthReq` MODIFY COLUMN `AppAuthReqRedirURL`  national varchar(2048) NOT NULL
+
+CREATE TABLE `RepositoryEvents` (`RepId`  int NOT NULL , `RepEveEntity`  national char(60) NOT NULL , `RepEveAction`  national char(20) NOT NULL , `RepEveClassName`  national char(60) NOT NULL , `RepEveFileName`  national char(254) NOT NULL , `RepEveMethodName`  national char(60) NOT NULL , PRIMARY KEY(`RepId`, `RepEveEntity`, `RepEveAction`, `RepEveClassName`))  ENGINE=InnoDB
+
+CREATE INDEX `UAPPMENUOPTION` ON `AppMenuOption` (`RepId` ,`AppId` ,`AppMnuId` ,`AppMnuOptOrder` )
+
+UPDATE SysPar SET SysParVal=`4.0.0` WHERE SysParId=`GAMVersion`

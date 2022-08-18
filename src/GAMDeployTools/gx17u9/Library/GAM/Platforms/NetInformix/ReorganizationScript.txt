@@ -1,0 +1,238 @@
+CREATE TABLE gam.UserProp (UserGUID CHAR(40) NOT NULL , UserPropID CHAR(60) NOT NULL , UserPropToken CHAR(40) NOT NULL , UserPropValue lvarchar(2048) , PRIMARY KEY(UserGUID, UserPropID, UserPropToken))
+
+CREATE TABLE gam.SysConnectionConfig (SysConnCfgKey CHAR(40) NOT NULL , SysConnCfgRep CHAR(40) NOT NULL , SysConnCfgName varchar(120) NOT NULL , SysConnCfgUser varchar(100) , SysConnCfgPwd CHAR(254) NOT NULL , SysConnCfgJson TEXT , PRIMARY KEY(SysConnCfgKey, SysConnCfgRep, SysConnCfgName))
+
+CREATE TABLE gam.SessionHistoryLog (RepId INT NOT NULL , SesHisToken CHAR(120) NOT NULL , SesHisLogGuid CHAR(40) NOT NULL , SesHisLogDateTime DateTime Year to Second NOT NULL , SesHisLogType CHAR(30) NOT NULL , SesHisLogDetail TEXT , PRIMARY KEY(RepId, SesHisToken, SesHisLogGuid))
+
+CREATE TABLE gam.UserRepositoryProp (UserGUID CHAR(40) NOT NULL , RepId INT NOT NULL , UserRepPropId CHAR(60) NOT NULL , UserRepPropToken CHAR(40) NOT NULL , UserRepPropValue lvarchar(2048) , PRIMARY KEY(UserGUID, RepId, UserRepPropId, UserRepPropToken))
+
+CREATE TABLE gam.SessionLog (RepId INT NOT NULL , SesToken CHAR(120) NOT NULL , SesLogGuid CHAR(40) NOT NULL , SesLogDateTime DateTime Year to Second NOT NULL , SesLogType CHAR(30) NOT NULL , SesLogDetail TEXT , PRIMARY KEY(RepId, SesToken, SesLogGuid))
+
+CREATE TABLE gam.LoginTmp (LoginTmpTokenState CHAR(60) NOT NULL , LoginTmpDateTime DateTime Year to Second NOT NULL , LoginTmpData lvarchar(5000) NOT NULL , PRIMARY KEY(LoginTmpTokenState))
+
+CREATE TABLE gam.EventSuscriptionProp (RepId INT NOT NULL , EveSusId CHAR(40) NOT NULL , EveSusPropId CHAR(60) NOT NULL , EveSusPropToken CHAR(40) NOT NULL , EveSusPropValue lvarchar(2048) , PRIMARY KEY(RepId, EveSusId, EveSusPropId, EveSusPropToken))
+
+CREATE TABLE gam.EventSuscription (RepId INT NOT NULL , EveSusId CHAR(40) NOT NULL , EveSusDsc CHAR(254) NOT NULL , EveSusStatus CHAR(1) NOT NULL , EveSusEntity CHAR(60) NOT NULL , EveSusAction CHAR(20) NOT NULL , EveSusClassName CHAR(60) NOT NULL , EveSusCreDate DateTime Year to Second , EveSusCreUser varchar(250,60) , EveSusUpdDate DateTime Year to Second , EveSusUpdUser varchar(250,60) , EveSusFileName CHAR(254) NOT NULL , EveSusMethodName CHAR(60) NOT NULL , PRIMARY KEY(RepId, EveSusId))
+CREATE INDEX gam.UEVENTSUSCRIPTION ON gam.EventSuscription (RepId ,EveSusEntity ,EveSusStatus ,EveSusDsc )
+
+CREATE TABLE gam.UserMemRoleProp (UserGUID CHAR(40) NOT NULL , RepId INT NOT NULL , UserMemRoleRoleId DECIMAL( 12) NOT NULL , UserMemRolePropId CHAR(60) NOT NULL , UserMemRolePropToken CHAR(40) NOT NULL , UserMemRolePropValue lvarchar(2048) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemRoleRoleId, UserMemRolePropId, UserMemRolePropToken))
+
+CREATE TABLE gam.UserMemAppRoleProp (UserGUID CHAR(40) NOT NULL , RepId INT NOT NULL , UserMemAppRoleAppId DECIMAL( 12) NOT NULL , UserMemAppRoleRoleId DECIMAL( 12) NOT NULL , UserMemAppRolePropId CHAR(60) NOT NULL , UserMemAppRolePropToken CHAR(40) NOT NULL , UserMemAppRolePropValue lvarchar(2048) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemAppRoleAppId, UserMemAppRoleRoleId, UserMemAppRolePropId, UserMemAppRolePropToken))
+
+CREATE TABLE gam.SecurityPolicyProp (RepId INT NOT NULL , SecPolId INT NOT NULL , SecPolPropId CHAR(60) NOT NULL , SecPolPropToken CHAR(40) NOT NULL , SecPolPropValue lvarchar(2048) NOT NULL , PRIMARY KEY(RepId, SecPolId, SecPolPropId, SecPolPropToken))
+
+CREATE TABLE gam.RepositoryConnAdd (RepId INT NOT NULL , RepConName CHAR(120) NOT NULL , RepConSrvCon CHAR(60) NOT NULL , PRIMARY KEY(RepId, RepConName, RepConSrvCon))
+
+CREATE TABLE gam.RepositoryConnection (RepId INT NOT NULL , RepConName CHAR(120) NOT NULL , RepConUser CHAR(100) NOT NULL , RepConPwd CHAR(254) NOT NULL , RepConLng CHAR(3) NOT NULL , RepConType CHAR(30) NOT NULL , RepConKey CHAR(32) NOT NULL , RepConChaExpire INT NOT NULL , RepConSrvSpecify BOOLEAN NOT NULL , RepConChaSrv CHAR(60) , RepConChaDate DateTime Year to Second , RepConCha CHAR(254) , RepConCreDate DateTime Year to Second NOT NULL , RepConCreUser varchar(250,60) NOT NULL , RepConUpdDate DateTime Year to Second NOT NULL , RepConUpdUser varchar(250,60) NOT NULL , PRIMARY KEY(RepId, RepConName))
+CREATE UNIQUE INDEX gam.UREPOSITORYCONNUSER ON gam.RepositoryConnection (RepId ,RepConUser )
+
+CREATE TABLE gam.UserAppPrmProp (RepId INT NOT NULL , UserGUID CHAR(40) NOT NULL , AppId DECIMAL( 12) NOT NULL , AppPrmGUID CHAR(40) NOT NULL , UserAppPrmToken CHAR(254) NOT NULL , UserAppPrmPropId CHAR(60) NOT NULL , UserAppPrmPropToken CHAR(40) NOT NULL , UserAppPrmPropValue lvarchar(2048) , UserAppPrmPropCreDate DateTime Year to Second , UserAppPrmPropCreUser varchar(250,60) , UserAppPrmPropUpdDate DateTime Year to Second , UserAppPrmPropUpdUser varchar(250,60) , PRIMARY KEY(RepId, UserGUID, AppId, AppPrmGUID, UserAppPrmToken, UserAppPrmPropId, UserAppPrmPropToken))
+
+CREATE TABLE gam.UserAppPrm (RepId INT NOT NULL , UserGUID CHAR(40) NOT NULL , AppId DECIMAL( 12) NOT NULL , AppPrmGUID CHAR(40) NOT NULL , UserAppPrmToken CHAR(254) NOT NULL , UserAppPrmType CHAR(1) NOT NULL , UserAppPrmInh BOOLEAN NOT NULL , UserAppPrmCreDate DateTime Year to Second , UserAppPrmCreUser varchar(250,60) , UserAppPrmUpdDate DateTime Year to Second , UserAppPrmUpdUser varchar(250,60) , AppPrmName CHAR(254) NOT NULL , PRIMARY KEY(RepId, UserGUID, AppId, AppPrmGUID, UserAppPrmToken))
+CREATE INDEX gam.IUSERAPPPRM1 ON gam.UserAppPrm (RepId ,AppId ,AppPrmGUID )
+CREATE INDEX gam.IUSERAPPPRM2 ON gam.UserAppPrm (UserGUID ,RepId )
+
+CREATE TABLE gam.UserMemAppRoleRest (UserGUID CHAR(40) NOT NULL , RepId INT NOT NULL , UserMemAppRoleAppId DECIMAL( 12) NOT NULL , UserMemAppRoleRoleId DECIMAL( 12) NOT NULL , UserMemAppRoleRestToken CHAR(40) NOT NULL , PRIMARY KEY(UserGUID, RepId, UserMemAppRoleAppId, UserMemAppRoleRoleId, UserMemAppRoleRestToken))
+
+CREATE TABLE gam.AppRoleRest (RepId INT NOT NULL , AppRoleAppId DECIMAL( 12) NOT NULL , AppRoleRoleId DECIMAL( 12) NOT NULL , AppRoleRestToken CHAR(40) NOT NULL , PRIMARY KEY(RepId, AppRoleAppId, AppRoleRoleId, AppRoleRestToken))
+
+CREATE TABLE gam.OauthGrantUserApp (RepId INT NOT NULL , OGUserAppCode CHAR(120) NOT NULL , AppId DECIMAL( 12) NOT NULL , UserGUID CHAR(40) NOT NULL , OGUserAppSesToken CHAR(120) , OGUserAppRefreshToken CHAR(40) , OGUserAppGrantDate DateTime Year to Second , OGUserAppRevokedDate DateTime Year to Second , OGUserAppCreDate DateTime Year to Second , OGUserAppCreUser varchar(250,60) , OGUserAppUpdDate DateTime Year to Second , OGUserAppUpdUser varchar(250,60) , AppPrmGUID CHAR(40) NOT NULL , OGUserAppExpire DateTime Year to Second , OGUserAppStatus CHAR(1) NOT NULL , PRIMARY KEY(RepId, OGUserAppCode))
+CREATE INDEX gam.IOAUTHGRANTUSERAPP1 ON gam.OauthGrantUserApp (UserGUID ,RepId )
+CREATE INDEX gam.IOAUTHGRANTUSERAPP2 ON gam.OauthGrantUserApp (RepId ,AppId ,AppPrmGUID )
+CREATE INDEX gam.UOAUTHGRANTUSERAPPTOKEN ON gam.OauthGrantUserApp (RepId ,OGUserAppSesToken )
+CREATE INDEX gam.UOAUTHGRANTUSERAPP ON gam.OauthGrantUserApp (RepId ,UserGUID ,AppId ,OGUserAppStatus )
+
+CREATE TABLE gam.RoleAppPrmProp (RepId INT NOT NULL , RoleId DECIMAL( 12) NOT NULL , AppId DECIMAL( 12) NOT NULL , AppPrmGUID CHAR(40) NOT NULL , RoleAppPrmToken CHAR(254) NOT NULL , RoleAppPrmPropId CHAR(60) NOT NULL , RoleAppPrmPropToken CHAR(40) NOT NULL , RoleAppPrmPropValue lvarchar(2048) NOT NULL , RoleAppPrmPropCreDate DateTime Year to Second NOT NULL , RoleAppPrmPropCreUser varchar(250,60) NOT NULL , RoleAppPrmPropUpdDate DateTime Year to Second NOT NULL , RoleAppPrmPropUpdUser varchar(250,60) NOT NULL , PRIMARY KEY(RepId, RoleId, AppId, AppPrmGUID, RoleAppPrmToken, RoleAppPrmPropId, RoleAppPrmPropToken))
+
+CREATE TABLE gam.AppAuthReq (RepId INT NOT NULL , AppAuthReqId CHAR(254) NOT NULL , AppAuthReqRedirURL lvarchar(2048) NOT NULL , AppAuthReqResponseType CHAR(5) NOT NULL , AppAuthReqAuthorized DateTime Year to Second , AppAuthReqRevoked DateTime Year to Second , AppId DECIMAL( 12) NOT NULL , AppPrmGUID CHAR(40) NOT NULL , AppAuthReqCreated DateTime Year to Second NOT NULL , AppAuthReqUserAppPrmCode CHAR(80) , AppAuthReqSesToken CHAR(120) , PRIMARY KEY(RepId, AppAuthReqId))
+CREATE INDEX gam.IAPPAUTHREQ1 ON gam.AppAuthReq (RepId ,AppId ,AppPrmGUID )
+
+CREATE TABLE gam.AppPermissionProp (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppPrmGUID CHAR(40) NOT NULL , AppPrmPropId CHAR(60) NOT NULL , AppPrmPropToken CHAR(40) NOT NULL , AppPrmPropValue lvarchar(2048) NOT NULL , AppPrmPropCreDate DateTime Year to Second , AppPrmPropCreUser varchar(250,60) , AppPrmPropUpdDate DateTime Year to Second , AppPrmPropUpdUser varchar(250,60) , PRIMARY KEY(RepId, AppId, AppPrmGUID, AppPrmPropId, AppPrmPropToken))
+
+CREATE TABLE gam.AppPrmTokenTypeEle (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppPrmTokenTypeGUID CHAR(40) NOT NULL , AppPrmTokenEleName CHAR(60) NOT NULL , AppPrmTokenEleDsc CHAR(254) NOT NULL , AppPrmTokenEleWSHost CHAR(254) NOT NULL , AppPrmTokenELWSName CHAR(254) NOT NULL , AppPrmTokenEleOrder INT NOT NULL , PRIMARY KEY(RepId, AppId, AppPrmTokenTypeGUID, AppPrmTokenEleName))
+CREATE INDEX gam.UAPPPRMTOKENTYPEELE ON gam.AppPrmTokenTypeEle (RepId ,AppId ,AppPrmTokenTypeGUID ,AppPrmTokenEleOrder )
+
+CREATE TABLE gam.RoleAppPrm (RepId INT NOT NULL , RoleId DECIMAL( 12) NOT NULL , AppId DECIMAL( 12) NOT NULL , AppPrmGUID CHAR(40) NOT NULL , RoleAppPrmToken CHAR(254) NOT NULL , RoleAppPrmType CHAR(1) NOT NULL , RoleAppPrmInh BOOLEAN NOT NULL , RoleAppPrmCreDate DateTime Year to Second , RoleAppPrmCreUser varchar(250,60) , RoleAppPrmUpdDate DateTime Year to Second , RoleAppPrmUpdUser varchar(250,60) , AppPrmName CHAR(254) NOT NULL , PRIMARY KEY(RepId, RoleId, AppId, AppPrmGUID, RoleAppPrmToken))
+CREATE INDEX gam.IROLEAPPPRM3 ON gam.RoleAppPrm (RepId ,AppId ,AppPrmGUID )
+
+CREATE TABLE gam.AppPermissionLng (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppPrmGUID CHAR(40) NOT NULL , AppPrmLngId CHAR(3) NOT NULL , AppPrmDscLng CHAR(254) NOT NULL , AppPrmNameLng CHAR(254) NOT NULL , PRIMARY KEY(RepId, AppId, AppPrmGUID, AppPrmLngId))
+
+CREATE TABLE gam.AppPermission (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppPrmGUID CHAR(40) NOT NULL , AppPrmName CHAR(254) NOT NULL , AppPrmDsc CHAR(254) , AppPrmPgmName CHAR(254) , AppPrmDefType CHAR(1) NOT NULL , AppPrmTokenTypeGUID CHAR(40) , AppPrmCreDate DateTime Year to Second , AppPrmCreUser varchar(250,60) , AppPrmUpdDate DateTime Year to Second , AppPrmUpdUser varchar(250,60) , AppPrmCurEnvId DECIMAL( 12) , AppPrmPgmPar CHAR(254) , AppPrmIsGXAuto BOOLEAN NOT NULL , PRIMARY KEY(RepId, AppId, AppPrmGUID))
+CREATE UNIQUE INDEX gam.UAPPPERMISSIONNAME ON gam.AppPermission (RepId ,AppId ,AppPrmName )
+CREATE INDEX gam.IAPPPERMISSION1 ON gam.AppPermission (RepId ,AppId ,AppPrmTokenTypeGUID )
+CREATE INDEX gam.IAPPPERMISSION2 ON gam.AppPermission (RepId ,AppId ,AppPrmCurEnvId )
+
+CREATE TABLE gam.AppPrmTokenTypeLng (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppPrmTokenTypeGUID CHAR(40) NOT NULL , AppPrmTokenTypeLngId CHAR(3) NOT NULL , AppPrmTokenTypeNameLng CHAR(254) NOT NULL , AppPrmTokenTypeDscLng CHAR(254) , PRIMARY KEY(RepId, AppId, AppPrmTokenTypeGUID, AppPrmTokenTypeLngId))
+
+CREATE TABLE gam.AppPrmTokenType (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppPrmTokenTypeGUID CHAR(40) NOT NULL , AppPrmTokenTypeName CHAR(254) NOT NULL , AppPrmTokenTypeDsc CHAR(254) , AppPrmTokenTypeCreDate DateTime Year to Second , AppPrmTokenTypeCreUser varchar(250,60) , AppPrmTokenTypeUpdDate DateTime Year to Second , AppPrmTokenTypeUpdUser varchar(250,60) , PRIMARY KEY(RepId, AppId, AppPrmTokenTypeGUID))
+
+CREATE TABLE gam.RepositoryCountry (RepId INT NOT NULL , CountryId CHAR(9) NOT NULL , RepCountryCreDate DateTime Year to Second , RepCountryCreUser varchar(250,60) , RepCountryUpdDate DateTime Year to Second , RepCountryUpdUser varchar(250,60) , PRIMARY KEY(RepId, CountryId))
+CREATE INDEX gam.IREPOSITORYCOUNTRY1 ON gam.RepositoryCountry (CountryId )
+
+CREATE TABLE gam.RepQuestionUserLng (RepId INT NOT NULL , QstUserId INT NOT NULL , QstUserLngId CHAR(3) NOT NULL , QstUserNameLng CHAR(254) , QstUserDscLng CHAR(254) , PRIMARY KEY(RepId, QstUserId, QstUserLngId))
+
+CREATE TABLE gam.RepQuestionUser (RepId INT NOT NULL , QstUserId INT NOT NULL , QstUserName CHAR(254) , QstUserDsc CHAR(254) , QstUserCreDate DateTime Year to Second NOT NULL , QstUserCreUser varchar(250,60) NOT NULL , QstUserUpdDate DateTime Year to Second NOT NULL , QstUserUpdUser varchar(250,60) NOT NULL , QstUserGUID CHAR(40) NOT NULL , PRIMARY KEY(RepId, QstUserId))
+CREATE UNIQUE INDEX gam.UREPQSTUSERGUID ON gam.RepQuestionUser (RepId ,QstUserGUID )
+
+CREATE TABLE gam.AuthenticationTypeProp (RepId INT NOT NULL , AutTypeName CHAR(60) NOT NULL , AutTypePropId CHAR(60) NOT NULL , AutTypePropToken CHAR(40) NOT NULL , AutTypePropValue lvarchar(2048) , PRIMARY KEY(RepId, AutTypeName, AutTypePropId, AutTypePropToken))
+
+CREATE TABLE gam.AuthenticationTypeLng (RepId INT NOT NULL , AutTypeName CHAR(60) NOT NULL , AutTypeLngId CHAR(3) NOT NULL , AutTypeNameLng CHAR(254) , AutTypeDscLng CHAR(254) , PRIMARY KEY(RepId, AutTypeName, AutTypeLngId))
+
+CREATE TABLE gam.CountryLng (CountryId CHAR(9) NOT NULL , CountryLngId CHAR(3) NOT NULL , CountryNameLng CHAR(120) NOT NULL , PRIMARY KEY(CountryId, CountryLngId))
+
+CREATE TABLE gam.Country (CountryId CHAR(9) NOT NULL , CountryName CHAR(120) NOT NULL , Country_iso_3 CHAR(3) NOT NULL , CountryCreDate DateTime Year to Second , CountryCreUser varchar(250,60) , CountryUpdDate DateTime Year to Second , CountryUpdUser varchar(250,60) , PRIMARY KEY(CountryId))
+
+CREATE TABLE gam.UserMemRole (UserGUID CHAR(40) NOT NULL , RepId INT NOT NULL , UserMemRoleRoleId DECIMAL( 12) NOT NULL , UserMemRoleCreDate DateTime Year to Second , UserMemRoleCreUser varchar(250,60) , UserMemRoleUpdDate DateTime Year to Second , UserMemRoleUpdUser varchar(250,60) , PRIMARY KEY(UserGUID, RepId, UserMemRoleRoleId))
+CREATE INDEX gam.IUSERMEMROLEROLE ON gam.UserMemRole (RepId ,UserMemRoleRoleId )
+
+CREATE TABLE gam.UserMemAppRole (UserGUID CHAR(40) NOT NULL , RepId INT NOT NULL , UserMemAppRoleAppId DECIMAL( 12) NOT NULL , UserMemAppRoleRoleId DECIMAL( 12) NOT NULL , UserMemAppRoleCreDate DateTime Year to Second , UserMemAppRoleCreUser varchar(250,60) , UserMemAppRoleUpdDate DateTime Year to Second , UserMemAppRoleUpdUser varchar(250,60) , PRIMARY KEY(UserGUID, RepId, UserMemAppRoleAppId, UserMemAppRoleRoleId))
+CREATE INDEX gam.IUSERMEMAPPROLEAPP ON gam.UserMemAppRole (RepId ,UserMemAppRoleAppId )
+CREATE INDEX gam.IUSERMEMAPPROLEROLE ON gam.UserMemAppRole (RepId ,UserMemAppRoleRoleId )
+
+CREATE TABLE gam.UserAttMultiValue (UserGUID CHAR(40) NOT NULL , UserAttId CHAR(60) NOT NULL , UserAttMVId CHAR(60) NOT NULL , UserAttMVVal lvarchar(2048) , PRIMARY KEY(UserGUID, UserAttId, UserAttMVId))
+
+CREATE TABLE gam.UserAtt (UserGUID CHAR(40) NOT NULL , UserAttId CHAR(60) NOT NULL , UserAttIsMV BOOLEAN NOT NULL , UserAttVal lvarchar(2048) , UserAttToken CHAR(40) , PRIMARY KEY(UserGUID, UserAttId))
+
+CREATE TABLE gam.UserRepository (UserGUID CHAR(40) NOT NULL , RepId INT NOT NULL , UserRepSecPolId INT , UserRepMainRoleId DECIMAL( 12) , UserRepCreDate DateTime Year to Second , UserRepCreUser varchar(250,60) , UserRepUpdDate DateTime Year to Second , UserRepUpdUser varchar(250,60) , UserRepRecPwdAns CHAR(254) , UserRepQstUserId INT , PRIMARY KEY(UserGUID, RepId))
+CREATE INDEX gam.IUSERREPOSITORY1 ON gam.UserRepository (RepId ,UserRepSecPolId )
+CREATE INDEX gam.IUSERREPOSITORY2 ON gam.UserRepository (RepId ,UserRepMainRoleId )
+CREATE INDEX gam.IUSERREPOSITORY ON gam.UserRepository (RepId ,UserRepQstUserId )
+
+CREATE TABLE gam.UserHisPwd (UserGUID CHAR(40) NOT NULL , UserHisPwdDate DateTime Year to Second NOT NULL , UserHisPwdPwd CHAR(254) NOT NULL , PRIMARY KEY(UserGUID, UserHisPwdDate))
+CREATE INDEX gam.UUSERHISPWD ON gam.UserHisPwd (UserGUID ,UserHisPwdDate DESC)
+
+CREATE TABLE gam.User (UserGUID CHAR(40) NOT NULL , UserNameSpace CHAR(60) NOT NULL , UserAutTypeName CHAR(60) NOT NULL , UserName varchar(100,60) NOT NULL , UserEMail varchar(100) NOT NULL , UserExtId varchar(100,60) , UserPwd CHAR(254) NOT NULL , UserFirstName CHAR(60) , UserLastName CHAR(60) , UserBirthday DateTime Year to Day , UserGender CHAR(1) NOT NULL , UserPhone CHAR(254) , UserAddress CHAR(254) , UserAddress2 CHAR(254) , UserCity CHAR(254) , UserState CHAR(254) , CountryId CHAR(9) , UserPostCode CHAR(60) , UserLng CHAR(3) , UserTimeZone CHAR(60) , UserPhoto BYTE , UserPhoto_GXI lvarchar(2048) , UserNotRcvInf BOOLEAN NOT NULL , UserIsBlk BOOLEAN NOT NULL , UserBlkLastDate DateTime Year to Second , UserIsAct BOOLEAN NOT NULL , UserActKey CHAR(254) , UserActDate DateTime Year to Second , UserNotChgPwd BOOLEAN NOT NULL , UserChgPwdNexLog BOOLEAN NOT NULL , UserPwdNevExp BOOLEAN NOT NULL , UserRecPwdKey CHAR(254) , UserRecPwdKeyExp DateTime Year to Second , UserDateLastChgPwd DateTime Year to Second , UserIsDlt BOOLEAN NOT NULL , UserDateLastAuth DateTime Year to Second , UserCreDate DateTime Year to Second , UserCreUser varchar(250,60) , UserUpdDate DateTime Year to Second , UserUpdUser varchar(250,60) , UserURLImage lvarchar(2048) , UserURLProf lvarchar(2048) , UserDataReqComplete BOOLEAN NOT NULL , UserDataReqCompleteKey CHAR(254) , UserIsDevice BOOLEAN NOT NULL , UserPwdEncryption CHAR(3) , UserEnableTwoFactorAuth BOOLEAN , UserOTPNumberLocked SMALLINT , UserOTPLastLockedDate DateTime Year to Second , UserOTPDailyNumberCodes SMALLINT , UserOTPLastDateRequestCode DateTime Year to Day , UserOTPFailedAttempts SMALLINT , UserFailedLoginAttempts SMALLINT , UserLastFailedLoginAttempt DateTime Year to Second , UserRecPwdKeyDailyNumber SMALLINT , UserRecPwdKeyMonthNumber SMALLINT , UserRecPwdKeyLastDate DateTime Year to Day , UserTOTPEnable BOOLEAN , UserTOTPSecretKey varchar(120) , PRIMARY KEY(UserGUID))
+CREATE INDEX gam.UUSERLOGIN ON gam.User (UserNameSpace ,UserAutTypeName ,UserName ,UserIsDlt )
+CREATE INDEX gam.IUSERCOUNTRY ON gam.User (CountryId )
+CREATE INDEX gam.UUSEREMAIL ON gam.User (UserNameSpace ,UserAutTypeName ,UserEMail ,UserIsDlt )
+CREATE INDEX gam.UUSEREXTID ON gam.User (UserNameSpace ,UserAutTypeName ,UserExtId ,UserIsDlt )
+CREATE INDEX gam.UEMAIL ON gam.User (UserEMail )
+CREATE INDEX gam.UACTIVATIONKEY ON gam.User (UserActKey )
+
+CREATE TABLE gam.AppEnvironmentLng (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppEnvId DECIMAL( 12) NOT NULL , AppEnvLngId CHAR(3) NOT NULL , AppEnvNameLng CHAR(120) , AppEnvDscLng CHAR(254) , PRIMARY KEY(RepId, AppId, AppEnvId, AppEnvLngId))
+
+CREATE TABLE gam.RepositoryProp (RepId INT NOT NULL , RepPropId CHAR(60) NOT NULL , RepPropToken CHAR(40) NOT NULL , RepPropVal lvarchar(2048) , PRIMARY KEY(RepId, RepPropId, RepPropToken))
+
+CREATE TABLE gam.ApplicationProp (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppPropId CHAR(60) NOT NULL , AppPropToken CHAR(40) NOT NULL , AppPropValue lvarchar(2048) , PRIMARY KEY(RepId, AppId, AppPropId, AppPropToken))
+
+CREATE TABLE gam.RoleProp (RepId INT NOT NULL , RoleId DECIMAL( 12) NOT NULL , RolePropId CHAR(60) NOT NULL , RolePropToken CHAR(40) NOT NULL , RolePropValue lvarchar(2048) , PRIMARY KEY(RepId, RoleId, RolePropId, RolePropToken))
+
+CREATE TABLE gam.AppMenuOptionProp (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppMnuId DECIMAL( 12) NOT NULL , AppMnuOptId DECIMAL( 12) NOT NULL , AppMnuOptPropId CHAR(60) NOT NULL , AppMnuOptPropToken CHAR(40) NOT NULL , AppMnuOptPropValue lvarchar(2048) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuOptId, AppMnuOptPropId, AppMnuOptPropToken))
+
+CREATE TABLE gam.AppMenuOptionLng (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppMnuId DECIMAL( 12) NOT NULL , AppMnuOptId DECIMAL( 12) NOT NULL , AppMnuOptLngId CHAR(3) NOT NULL , AppMnuOptNameLng CHAR(254) , AppMnuOptDscLng CHAR(254) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuOptId, AppMnuOptLngId))
+
+CREATE TABLE gam.AppMenuOption (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppMnuId DECIMAL( 12) NOT NULL , AppMnuOptId DECIMAL( 12) NOT NULL , AppMnuOptGUID CHAR(40) NOT NULL , AppMnuOptName CHAR(254) , AppMnuOptDsc CHAR(254) , AppMnuOptCreDate DateTime Year to Second , AppMnuOptCreUser varchar(250,60) , AppMnuOptUpdDate DateTime Year to Second , AppMnuOptUpdUser varchar(250,60) , AppMnuOptOrder INT NOT NULL , AppMnuOptType CHAR(1) NOT NULL , AppMnuOptRelAppId DECIMAL( 12) , AppMnuOptRelPrmPar lvarchar(2048) , AppMnuOptRelMnuId DECIMAL( 12) , AppMnuOptRelPrmGUID CHAR(40) , AppMnuOptResource lvarchar(2048) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuOptId))
+CREATE INDEX gam.IAPPMENUOPTION2 ON gam.AppMenuOption (RepId ,AppMnuOptRelAppId ,AppMnuOptRelMnuId )
+CREATE INDEX gam.IAPPMENUOPTION3 ON gam.AppMenuOption (RepId ,AppMnuOptRelAppId ,AppMnuOptRelPrmGUID )
+CREATE INDEX gam.UAPPMENUOPTION ON gam.AppMenuOption (RepId ,AppId ,AppMnuId ,AppMnuOptOrder )
+
+CREATE TABLE gam.AuditoryActionLng (AudActId DECIMAL( 12) NOT NULL , AudActLngId CHAR(3) NOT NULL , AudActDscLng CHAR(254) NOT NULL , PRIMARY KEY(AudActId, AudActLngId))
+
+CREATE TABLE gam.AppMenuLng (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppMnuId DECIMAL( 12) NOT NULL , AppMnuLngId CHAR(3) NOT NULL , AppMnuNameLng CHAR(254) , AppMnuDscLng CHAR(254) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuLngId))
+
+CREATE TABLE gam.SecurityPolicyLng (RepId INT NOT NULL , SecPolId INT NOT NULL , SecPolLngId CHAR(3) NOT NULL , SecPolNameLng CHAR(254) NOT NULL , SecPolDscLng CHAR(254) , PRIMARY KEY(RepId, SecPolId, SecPolLngId))
+
+CREATE TABLE gam.RoleLng (RepId INT NOT NULL , RoleId DECIMAL( 12) NOT NULL , RoleLngId CHAR(3) NOT NULL , RoleNameLng CHAR(254) , RoleDscLng CHAR(254) , PRIMARY KEY(RepId, RoleId, RoleLngId))
+
+CREATE TABLE gam.RepositoryLng (RepId INT NOT NULL , RepLngId CHAR(3) NOT NULL , RepNameLng CHAR(254) , RepDscLng CHAR(254) , PRIMARY KEY(RepId, RepLngId))
+
+CREATE TABLE gam.ApplicationNum (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppNumId CHAR(30) NOT NULL , AppNumLast DECIMAL( 12) NOT NULL , AppNumDate DateTime Year to Day NOT NULL , PRIMARY KEY(RepId, AppId, AppNumId))
+
+CREATE TABLE gam.AppPrmMemPrm (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppPrmMemPrmParent CHAR(40) NOT NULL , AppPrmMemPrmChild CHAR(40) NOT NULL , AppPrmMemPrmCreDate DateTime Year to Second , AppPrmMemPrmCreUser varchar(250,60) , AppPrmMemPrmUpdDate DateTime Year to Second , AppPrmMemPrmUpdUser varchar(250,60) , PRIMARY KEY(RepId, AppId, AppPrmMemPrmParent, AppPrmMemPrmChild))
+CREATE INDEX gam.IAPPPRMMEMPRM2 ON gam.AppPrmMemPrm (RepId ,AppId ,AppPrmMemPrmChild )
+
+CREATE TABLE gam.AppType (RepId INT NOT NULL , AppTypeId DECIMAL( 12) NOT NULL , AppTypeGUID CHAR(40) NOT NULL , AppTypeName CHAR(254) NOT NULL , AppTypeDsc CHAR(254) NOT NULL , AppTypeCreDate DateTime Year to Second , AppTypeCreUser varchar(250,60) , AppTypeUpdDate DateTime Year to Second , AppTypeUpdUser varchar(250,60) , PRIMARY KEY(RepId, AppTypeId))
+
+CREATE TABLE gam.Application (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppName CHAR(254) , AppGUID CHAR(40) NOT NULL , AppVer CHAR(60) NOT NULL , AppComName CHAR(254) , AppTypeId DECIMAL( 12) , AppParAppId DECIMAL( 12) , AppDsc CHAR(254) , AppCopyright CHAR(254) , AppOrder INT NOT NULL , AppRetMnuOptWithoutPrm BOOLEAN NOT NULL , AppCurEnvId DECIMAL( 12) , AppBaseAppId DECIMAL( 12) , AppCreDate DateTime Year to Second , AppCreUser varchar(250,60) , AppUpdDate DateTime Year to Second , AppUpdUser varchar(250,60) , AppIsBaseApplication BOOLEAN NOT NULL , AppCliId CHAR(40) , AppCliSecret CHAR(120) , AppCliUserGUID CHAR(40) , AppCliImageURL lvarchar(2048) , AppCliSiteURL lvarchar(2048) , AppCliSiteDomain lvarchar(2048) , AppCliRevoked DateTime Year to Second , AppType SMALLINT NOT NULL , AppCliEncKey CHAR(32) NOT NULL , AppCliDefPrmGUID CHAR(40) , AppAccessReqPrm BOOLEAN NOT NULL , AppCliAccessUniqueByUser BOOLEAN NOT NULL , AppCliAutoRegAnomymousUser BOOLEAN NOT NULL , AppCliAllowRemoteAuth BOOLEAN , AppCliAllowGetUserRoles BOOLEAN , AppCliAllowGetUserAdditionalDa BOOLEAN , AppCliLocalLoginURL lvarchar(2048) , PRIMARY KEY(RepId, AppId))
+CREATE UNIQUE INDEX gam.UAPPLICATIONGUID ON gam.Application (RepId ,AppGUID )
+CREATE UNIQUE INDEX gam.UAPPLICATIONCLIID ON gam.Application (RepId ,AppCliId )
+CREATE INDEX gam.IAPPLICATIONPAR ON gam.Application (RepId ,AppParAppId )
+CREATE INDEX gam.IAPPLICATIONBASE ON gam.Application (RepId ,AppBaseAppId )
+CREATE INDEX gam.IAPPLICATIONTYPE ON gam.Application (RepId ,AppTypeId )
+CREATE INDEX gam.UAPPLICATIONNAME ON gam.Application (RepId ,AppName )
+CREATE INDEX gam.IAPPLICATIONENV ON gam.Application (RepId ,AppId ,AppCurEnvId )
+
+CREATE TABLE gam.AppMenu (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppMnuId DECIMAL( 12) NOT NULL , AppMnuGUID CHAR(40) NOT NULL , AppMnuName CHAR(254) , AppMnuSerOpt DECIMAL( 12) NOT NULL , AppMnuCreDate DateTime Year to Second NOT NULL , AppMnuCreUser varchar(250,60) NOT NULL , AppMnuUpdDate DateTime Year to Second NOT NULL , AppMnuUpdUser varchar(250,60) NOT NULL , AppMnuDsc CHAR(254) , AppMnuToken CHAR(40) NOT NULL , PRIMARY KEY(RepId, AppId, AppMnuId))
+CREATE UNIQUE INDEX gam.UAPPMENUGUID ON gam.AppMenu (RepId ,AppId ,AppMnuGUID )
+CREATE UNIQUE INDEX gam.UAPPMENUTOKEN ON gam.AppMenu (RepId ,AppId ,AppMnuToken )
+
+CREATE TABLE gam.ApplicationLng (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppLngId CHAR(3) NOT NULL , AppNameLng CHAR(254) NOT NULL , AppDscLng CHAR(254) , PRIMARY KEY(RepId, AppId, AppLngId))
+
+CREATE TABLE gam.Auditory (RepId INT NOT NULL , AudId INT NOT NULL , AudSesRepId INT NOT NULL , AudSesToken CHAR(120) NOT NULL , AudDate DateTime Year to Second NOT NULL , AudActId DECIMAL( 12) NOT NULL , AudPgmName CHAR(254) NOT NULL , AudActKey1 DECIMAL( 12) , AudActKey2 DECIMAL( 12) , AudActKey3 DECIMAL( 12) , AudActKey4 DECIMAL( 12) , AudActPreDet lvarchar(2048) , AudActCurDet lvarchar(2048) , AudActionKeyGUID1 CHAR(40) , AudActionKeyGUID2 CHAR(40) , AudActionKeyChar1 CHAR(254) , PRIMARY KEY(RepId, AudId))
+CREATE INDEX gam.IAUDITORY1 ON gam.Auditory (AudActId )
+
+CREATE TABLE gam.AuditoryAction (AudActId DECIMAL( 12) NOT NULL , AudActDsc CHAR(254) NOT NULL , PRIMARY KEY(AudActId))
+
+CREATE TABLE gam.AppMenuProp (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppMnuId DECIMAL( 12) NOT NULL , AppMnuPropId CHAR(60) NOT NULL , AppMnuPropToken CHAR(40) NOT NULL , APPMnuPropValue lvarchar(2048) , PRIMARY KEY(RepId, AppId, AppMnuId, AppMnuPropId, AppMnuPropToken))
+
+CREATE TABLE gam.AppEnvironment (RepId INT NOT NULL , AppId DECIMAL( 12) NOT NULL , AppEnvId DECIMAL( 12) NOT NULL , AppEnvGUID CHAR(40) NOT NULL , AppEnvSrvHost CHAR(120) NOT NULL , AppEnvSrvPort INT , AppEnvSrvVirDir CHAR(120) , AppEnvSrvHttps BOOLEAN NOT NULL , AppEnvSrvPgmPac CHAR(254) , AppEnvSrvPgmExt CHAR(60) , AppEnvOrder INT NOT NULL , AppEnvName CHAR(120) , AppEnvCreDate DateTime Year to Second , AppEnvCreUser varchar(250,60) , AppEnvUpdDate DateTime Year to Second , AppEnvUpdUser varchar(250,60) , PRIMARY KEY(RepId, AppId, AppEnvId))
+
+CREATE TABLE gam.SessionHistoryLogAtt (RepId INT NOT NULL , SesHisToken CHAR(120) NOT NULL , SesHisAttUserLog varchar(250,60) NOT NULL , SesHisAttQtyLog SMALLINT NOT NULL , PRIMARY KEY(RepId, SesHisToken, SesHisAttUserLog))
+
+CREATE TABLE gam.SessionHistory (RepId INT NOT NULL , SesHisToken CHAR(120) NOT NULL , SesHisLogin varchar(250,60) NOT NULL , SesHisDate DateTime Year to Second NOT NULL , SesHisSts CHAR(1) NOT NULL , SesHisType SMALLINT NOT NULL , SesHisURL lvarchar(2048) NOT NULL , SesHisIPAdd CHAR(60) NOT NULL , BrwId SMALLINT , OpeSysId SMALLINT , SesHisLastAcc DateTime Year to Second NOT NULL , SesHisLastURL lvarchar(2048) NOT NULL , SesHisTimeOut SMALLINT NOT NULL , SesHisExtToken CHAR(120) NOT NULL , SesHisLogAtt INT NOT NULL , SesHisLogDate DateTime Year to Second NOT NULL , SesHisSharedData TEXT NOT NULL , SesHisEndDate DateTime Year to Second NOT NULL , UserGUID CHAR(40) NOT NULL , SesHisExtToken2 lvarchar(1024) , SesHisAppId DECIMAL( 12) , SesHisRefreshToken CHAR(40) , SesHisDeviceId CHAR(40) , SesHisAppTokenExp DateTime Year to Second , SesHisOauthTokenMaxRenew SMALLINT , SesHisOauthTokenExpires INT , SesHisOauthScope lvarchar(2048) , SesHisExtToken3 TEXT , SesHisExtTokenExpires DateTime Year to Second , SesHisExtTokenRefresh lvarchar(2000) , SesHisAutTypeName CHAR(60) , SesHisJson TEXT , SesHisIdToken lvarchar(4096) , SesHisEndedByOtherLogin BOOLEAN , PRIMARY KEY(RepId, SesHisToken))
+CREATE INDEX gam.ISESHISTORYOS ON gam.SessionHistory (OpeSysId )
+CREATE INDEX gam.ISESHISTORYBRW ON gam.SessionHistory (BrwId )
+CREATE INDEX gam.ISESHISUSER ON gam.SessionHistory (UserGUID ,RepId )
+
+CREATE TABLE gam.OperatingSystem (OpeSysId SMALLINT NOT NULL , OpeSysDsc CHAR(60) NOT NULL , OpeSysVer CHAR(60) NOT NULL , OpeSysCreDate DateTime Year to Second , OpeSysCreUser varchar(250,60) , OpeSysUpdDate DateTime Year to Second , OpeSysUpdUser varchar(250,60) , PRIMARY KEY(OpeSysId))
+
+CREATE TABLE gam.RoleAppTypePrmProp (RepId INT NOT NULL , RoleId DECIMAL( 12) NOT NULL , AppTypeId DECIMAL( 12) NOT NULL , AppTypePrmId DECIMAL( 12) NOT NULL , RoleAppTypePrmPropId CHAR(60) NOT NULL , RoleAppTypePrmPropValue lvarchar(2048) NOT NULL , RoleAppTypePrmPropCreDate DateTime Year to Second NOT NULL , RoleAppTypePrmPropCreUser varchar(250,60) NOT NULL , RoleAppTypePrmPropUpdDate DateTime Year to Second NOT NULL , RoleAppTypePrmPropUpdUser varchar(250,60) NOT NULL , PRIMARY KEY(RepId, RoleId, AppTypeId, AppTypePrmId, RoleAppTypePrmPropId))
+
+CREATE TABLE gam.AppRole (RepId INT NOT NULL , AppRoleAppId DECIMAL( 12) NOT NULL , AppRoleRoleId DECIMAL( 12) NOT NULL , AppRoleCreDate DateTime Year to Second , AppRoleCreUser varchar(250,60) , AppRoleUpdDate DateTime Year to Second , AppRoleUpdUser varchar(250,60) , AppRoleTokenTypeGUID CHAR(40) , PRIMARY KEY(RepId, AppRoleAppId, AppRoleRoleId))
+CREATE INDEX gam.IAPPROLEROLE ON gam.AppRole (RepId ,AppRoleRoleId )
+CREATE INDEX gam.IAPPROLE1 ON gam.AppRole (RepId ,AppRoleAppId ,AppRoleTokenTypeGUID )
+
+CREATE TABLE gam.AppTypePrmMemPrm (RepId INT NOT NULL , AppTypeId DECIMAL( 12) NOT NULL , AppTypePrmMemPrmParId DECIMAL( 12) NOT NULL , AppTypePrmMemPrmChiId DECIMAL( 12) NOT NULL , AppTypePrmMemPrmCreDate DateTime Year to Second , AppTypePrmMemPrmCreUser varchar(250,60) , AppTypePrmMemPrmUpdDate DateTime Year to Second , AppTypePrmMemPrmUpdUser varchar(250,60) , PRIMARY KEY(RepId, AppTypeId, AppTypePrmMemPrmParId, AppTypePrmMemPrmChiId))
+
+CREATE TABLE gam.AppTypePermission (RepId INT NOT NULL , AppTypeId DECIMAL( 12) NOT NULL , AppTypePrmId DECIMAL( 12) NOT NULL , AppTypePrmGUID CHAR(40) NOT NULL , AppTypeResId DECIMAL( 12) NOT NULL , AppTypeActId DECIMAL( 12) NOT NULL , AppTypePrmIsParent BOOLEAN NOT NULL , AppTypePrmCreDate DateTime Year to Second , AppTypePrmCreUser varchar(250,60) , AppTypePrmUpdDate DateTime Year to Second , AppTypePrmUpdUser varchar(250,60) , PRIMARY KEY(RepId, AppTypeId, AppTypePrmId))
+CREATE INDEX gam.IAPPTYPEPERMISSION1 ON gam.AppTypePermission (RepId ,AppTypeId ,AppTypeActId )
+CREATE INDEX gam.IAPPTYPEPERMISSION2 ON gam.AppTypePermission (RepId ,AppTypeId ,AppTypeResId )
+
+CREATE TABLE gam.SecurityPolicy (RepId INT NOT NULL , SecPolId INT NOT NULL , SecPolPerChgPwd SMALLINT NOT NULL , SecPolSesTimeOut INT NOT NULL , SecPolMinLenPwd SMALLINT NOT NULL , SecPolAmoCharNumericPwd SMALLINT NOT NULL , SecPolAmoHisPwd SMALLINT NOT NULL , SecPolName CHAR(254) , SecPolGUID CHAR(40) NOT NULL , SecPolCreDate DateTime Year to Second , SecPolCreUser varchar(250,60) , SecPolUpdDate DateTime Year to Second , SecPolUpdUser varchar(250,60) , SecPolDsc CHAR(254) , SecPolOauthTokenExpire INT NOT NULL , SecPolAmoCharUpperCasePwd SMALLINT NOT NULL , SecPolAmoCharSpecialPwd SMALLINT NOT NULL , SecPolOauthGrantExpire INT NOT NULL , SecPolActSesPerUser SMALLINT NOT NULL , SecPolOauthTokenMaxRenew SMALLINT NOT NULL , SecPolFrecMinChangePwd INT NOT NULL , PRIMARY KEY(RepId, SecPolId))
+
+CREATE TABLE gam.RepositoryNum (RepId INT NOT NULL , RepNumId CHAR(30) NOT NULL , RepNumLast DECIMAL( 12) NOT NULL , RepNumDate DateTime Year to Second NOT NULL , PRIMARY KEY(RepId, RepNumId))
+
+CREATE TABLE gam.AuthenticationType (RepId INT NOT NULL , AutTypeName CHAR(60) NOT NULL , AutTypeType CHAR(30) NOT NULL , AutTypeFunc CHAR(30) NOT NULL , AutTypeIsEna BOOLEAN NOT NULL , AutTypeDsc CHAR(120) , AutTypeCreDate DateTime Year to Second NOT NULL , AutTypeCreUser varchar(250,60) NOT NULL , AutTypeUpdDate DateTime Year to Second NOT NULL , AutTypeUpdUser varchar(250,60) NOT NULL , PRIMARY KEY(RepId, AutTypeName))
+CREATE INDEX gam.UAUTTYPEDSC ON gam.AuthenticationType (RepId ,AutTypeDsc )
+
+CREATE TABLE gam.AppTypeAction (RepId INT NOT NULL , AppTypeId DECIMAL( 12) NOT NULL , AppTypeActId DECIMAL( 12) NOT NULL , AppTypeActGUID CHAR(40) NOT NULL , AppTypeActName CHAR(254) NOT NULL , AppTypeActDsc CHAR(254) , AppTypeActCreDate DateTime Year to Second , AppTypeActCreUser varchar(250,60) , AppTypeActUpdDate DateTime Year to Second , AppTypeActUpdUser varchar(250,60) , PRIMARY KEY(RepId, AppTypeId, AppTypeActId))
+CREATE UNIQUE INDEX gam.UAPPTYPEACTGUID ON gam.AppTypeAction (RepId ,AppTypeActGUID )
+
+CREATE TABLE gam.AppTypeResource (RepId INT NOT NULL , AppTypeId DECIMAL( 12) NOT NULL , AppTypeResId DECIMAL( 12) NOT NULL , AppTypeResGUID CHAR(40) NOT NULL , AppTypeResName CHAR(254) NOT NULL , AppTypeResDsc CHAR(254) , AppTypeResCreDate DateTime Year to Second , AppTypeResCreUser varchar(250,60) , AppTypeResUpdDate DateTime Year to Second , AppTypeResUpdUser varchar(250,60) , PRIMARY KEY(RepId, AppTypeId, AppTypeResId))
+CREATE UNIQUE INDEX gam.UAPPTYPERESGUID ON gam.AppTypeResource (RepId ,AppTypeResGUID )
+
+CREATE TABLE gam.RoleAppTypePrm (RepId INT NOT NULL , RoleId DECIMAL( 12) NOT NULL , AppTypeId DECIMAL( 12) NOT NULL , AppTypePrmId DECIMAL( 12) NOT NULL , RoleAppTypePrmType CHAR(1) NOT NULL , RoleAppTypePrmInh BOOLEAN NOT NULL , RoleAppTypePrmAllItems BOOLEAN NOT NULL , RoleAppTypePrmCreDate DateTime Year to Second , RoleAppTypePrmCreUser varchar(250,60) , RoleAppTypePrmUpdDate DateTime Year to Second , RoleAppTypePrmUpdUser varchar(250,60) , PRIMARY KEY(RepId, RoleId, AppTypeId, AppTypePrmId))
+CREATE INDEX gam.IROLEAPPPRM14 ON gam.RoleAppTypePrm (RepId ,AppTypeId ,AppTypePrmId )
+
+CREATE TABLE gam.SessionLogAtt (RepId INT NOT NULL , SesToken CHAR(120) NOT NULL , SesAttUserLog varchar(250,60) NOT NULL , SesAttQtyLog SMALLINT NOT NULL , PRIMARY KEY(RepId, SesToken, SesAttUserLog))
+
+CREATE TABLE gam.Session (RepId INT NOT NULL , SesToken CHAR(120) NOT NULL , SesDate DateTime Year to Second NOT NULL , SesSts CHAR(1) NOT NULL , SesType SMALLINT NOT NULL , SesURL lvarchar(2048) NOT NULL , SesIPAdd CHAR(60) NOT NULL , OpeSysId SMALLINT , SesLastAcc DateTime Year to Second NOT NULL , SesTimeOut SMALLINT NOT NULL , SesLogAtt INT NOT NULL , SesLogDate DateTime Year to Second NOT NULL , SesSharedData TEXT NOT NULL , SesEndDate DateTime Year to Second NOT NULL , SesReload BOOLEAN NOT NULL , BrwId SMALLINT , SesLastURL lvarchar(2048) NOT NULL , SesLogin varchar(250,60) NOT NULL , SesExtToken CHAR(120) NOT NULL , UserGUID CHAR(40) , SesAppTokenExp DateTime Year to Second , SesRefreshToken CHAR(40) , SesAppId DECIMAL( 12) , SesDeviceId CHAR(40) , SesExtToken2 lvarchar(1024) , SesAutTypeName CHAR(60) , SesOauthTokenMaxRenew SMALLINT , SesOauthTokenExpires INT , SesOauthScope lvarchar(2048) , SesExtToken3 TEXT , SesExtTokenExpires DateTime Year to Second , SesExtTokenRefresh lvarchar(2000) , SesJson TEXT , SesIdToken lvarchar(4096) , SesOTP varchar(250) , SesOTPExpire DateTime Year to Second , SesEndedByOtherLogin BOOLEAN , PRIMARY KEY(RepId, SesToken))
+CREATE INDEX gam.ISESBRW ON gam.Session (BrwId )
+CREATE INDEX gam.ISESOPESYS ON gam.Session (OpeSysId )
+CREATE INDEX gam.ISESUSER ON gam.Session (UserGUID ,RepId )
+CREATE INDEX gam.USESTOKEN ON gam.Session (SesToken )
+CREATE INDEX gam.USESREPPARENTTOKENUSERSTS ON gam.Session (RepId ,SesExtToken ,UserGUID ,SesSts )
+CREATE INDEX gam.USESREFRESHTOKEN ON gam.Session (RepId ,SesType ,SesSts ,SesAppId ,SesRefreshToken )
+CREATE INDEX gam.USESUSERAPPPARENT ON gam.Session (UserGUID ,SesAppId ,SesExtToken )
+CREATE INDEX gam.USESPARENTTOKENUSERSTS ON gam.Session (SesExtToken ,UserGUID ,SesSts )
+CREATE INDEX gam.USESSIONUSEROTPCODE ON gam.Session (RepId ,SesAppId ,SesAutTypeName ,UserGUID ,SesSts ,SesOTP ,SesDate DESC)
+
+CREATE TABLE gam.Repository (RepId INT NOT NULL , RepVer CHAR(60) NOT NULL , RepUpg CHAR(60) NOT NULL , RepDefAutTypeName CHAR(60) , RepUserActType CHAR(1) NOT NULL , RepUserActTimeOut INT NOT NULL , RepDefSecPolId INT , RepGenAud CHAR(20) NOT NULL , RepUserRemMeTimeOut SMALLINT NOT NULL , RepGenSesSta CHAR(20) NOT NULL , RepUserChrMinLog SMALLINT NOT NULL , RepGUID CHAR(40) NOT NULL , RepCanRegUser BOOLEAN NOT NULL , RepUserRemMeType CHAR(6) NOT NULL , RepGiveAnoSes BOOLEAN NOT NULL , RepAnoUserGUID CHAR(40) , RepDefRoleId DECIMAL( 12) , RepCreDate DateTime Year to Second NOT NULL , RepCreUser varchar(250,60) NOT NULL , RepUpdDate DateTime Year to Second NOT NULL , RepUpdUser varchar(250,60) NOT NULL , RepNameSpace CHAR(60) NOT NULL , RepUserRecPwdKeyTimeOut INT NOT NULL , RepUserReqPwd BOOLEAN NOT NULL , RepUserReqEmail BOOLEAN NOT NULL , RepUserReqFirstName BOOLEAN NOT NULL , RepUserReqLastName BOOLEAN NOT NULL , RepUserReqBir BOOLEAN NOT NULL , RepUserReqGen BOOLEAN NOT NULL , RepUserReqPhone BOOLEAN NOT NULL , RepUserReqAddress BOOLEAN NOT NULL , RepUserReqCity BOOLEAN NOT NULL , RepUserReqState BOOLEAN NOT NULL , RepUserReqCountry BOOLEAN NOT NULL , RepUserReqPostCode BOOLEAN NOT NULL , RepUserReqLng BOOLEAN NOT NULL , RepUserReqTimeZone BOOLEAN NOT NULL , RepUserReqPhoto BOOLEAN NOT NULL , RepUserAttLogLockUser SMALLINT NOT NULL , RepUserAttLogLockSession SMALLINT NOT NULL , RepDsc CHAR(254) , RepUserEmailSecAdm CHAR(254) , RepUserTimeToUnblock INT NOT NULL , RepName CHAR(60) NOT NULL , RepUserEmailUnique BOOLEAN NOT NULL , RepAllowOauthAccess BOOLEAN NOT NULL , RepUserIdentification CHAR(6) NOT NULL , RepKeepSesOnlyOriIP BOOLEAN NOT NULL , RepUserSessionCacheTimeout INT NOT NULL , RepAnoUserSDRoleId DECIMAL( 12) , PRIMARY KEY(RepId))
+CREATE UNIQUE INDEX gam.UREPGIUD ON gam.Repository (RepGUID )
+CREATE INDEX gam.IREPOSITORYROLE ON gam.Repository (RepId ,RepDefRoleId )
+CREATE INDEX gam.IREPOSITORYATYPE ON gam.Repository (RepId ,RepDefAutTypeName )
+CREATE INDEX gam.IREPOSITORYSECPOL ON gam.Repository (RepId ,RepDefSecPolId )
+CREATE INDEX gam.IREPOSITORY ON gam.Repository (RepId ,RepAnoUserSDRoleId )
+
+CREATE TABLE gam.Browser (BrwId SMALLINT NOT NULL , BrwDsc CHAR(60) , BrwVer CHAR(60) , PRIMARY KEY(BrwId))
+
+CREATE TABLE gam.SysPar (SysParId CHAR(30) NOT NULL , SysParVal CHAR(254) NOT NULL , PRIMARY KEY(SysParId))
+
+CREATE TABLE gam.RoleMemRole (RepId INT NOT NULL , RoleMemRoleParent DECIMAL( 12) NOT NULL , RoleMemRoleChild DECIMAL( 12) NOT NULL , RoleMemRoleCreDate DateTime Year to Second , RoleMemRoleCreUser varchar(250,60) , RoleMemRoleUpdDate DateTime Year to Second , RoleMemRoleUpdUser varchar(250,60) , PRIMARY KEY(RepId, RoleMemRoleParent, RoleMemRoleChild))
+CREATE INDEX gam.IROLEMEMROLE2 ON gam.RoleMemRole (RepId ,RoleMemRoleChild )
+
+CREATE TABLE gam.Role (RepId INT NOT NULL , RoleId DECIMAL( 12) NOT NULL , RoleExtId varchar(100,60) , RoleSecPolId INT , RoleGUID CHAR(40) NOT NULL , RoleName CHAR(254) , RoleDsc CHAR(254) , RoleCreDate DateTime Year to Second , RoleCreUser varchar(250,60) , RoleUpdDate DateTime Year to Second , RoleUpdUser varchar(250,60) , PRIMARY KEY(RepId, RoleId))
+CREATE UNIQUE INDEX gam.UROLEGUID ON gam.Role (RepId ,RoleGUID )
+CREATE INDEX gam.UROLEEXTID ON gam.Role (RepId ,RoleExtId )
+CREATE INDEX gam.IROLESECPOL ON gam.Role (RepId ,RoleSecPolId )
+
