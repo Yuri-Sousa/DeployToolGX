@@ -1,0 +1,29 @@
+<GamDeployTool>
+<GeneralSettings>
+  <ProcessType>ExportSettings</ProcessType>
+  <GamAdminName>admin</GamAdminName>
+  <GamAdminPass>admin123</GamAdminPass>
+  <Verbose>false</Verbose>
+</GeneralSettings>
+<DbmsSettings>
+  <DbmsCode>12</DbmsCode>
+  <ServerHost>DWITH-SERVER03\LOCALHOST</ServerHost>
+  <ServerPort>1433</ServerPort>
+  <UseWindowsNT>false</UseWindowsNT>
+  <DbmsUser>sa</DbmsUser>
+  <DbmsPass>root</DbmsPass>
+  <DbName>KBTeste_GAM</DbName>
+  <AdditionalStrings></AdditionalStrings>
+  <InformixInstance></InformixInstance>
+</DbmsSettings>
+<ExportSettings>
+    <PackageFilePath>C:\temp</PackageFilePath>
+    <ExportRepositorySettings>true</ExportRepositorySettings>
+    <ExportRoles>true</ExportRoles>
+    <ExportType>custom</ExportType>
+    <RepositoryGuid>f9e1c106-6c31-460d-807c-f525b5b7f411</RepositoryGuid>
+    <Applications>
+        <Application>2</Application>
+    </Applications>
+</ExportSettings>
+</GamDeployTool>
