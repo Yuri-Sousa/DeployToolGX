@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
-    "@quasar/app-webpack": "^3.0.0",
+    "@quasar/app-webpack": "^3.13.4",
     "@vue/devtools": "^6.6.3",
     "electron": "^32.0.1",
     "electron-packager": "^15.5.1",
