@@ -1,6 +1,6 @@
 # Deploy Tool (deploytool)
 
-Deploy Tool Genexus
+Deploy Tool Genexus 18
 
 ## Install the dependencies
 ```bash
